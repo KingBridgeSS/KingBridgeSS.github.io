@@ -157,7 +157,7 @@
 
     <div class="post-content">
         <p>
-            <p>jdk7u21、jdk7u80两条原生反序列化链确实太酷了，确实学到了很多东西。</p>
+            <p>jdk7u21、jdk7u80两条原生反序列化链确实太酷了，看下来学到了很多东西。</p>
 <h2 id="分析">分析</h2>
 <p>当用AnnotationInvocationHandler代理的对象调用equals方法时会调用如下方法</p>
 <p>sun.reflect.annotation.AnnotationInvocationHandler#equalsImpl</p>
@@ -276,7 +276,7 @@ v=templates
 </span></span><span style="display:flex;"><span>max1<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2</span><span style="color:#ff79c6">**</span><span style="color:#bd93f9">32</span>
 </span></span><span style="display:flex;"><span>max2<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2</span><span style="color:#ff79c6">**</span><span style="color:#bd93f9">31</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">int32</span>(x):
-</span></span><span style="display:flex;"><span>    x<span style="color:#ff79c6">=</span>x<span style="color:#ff79c6">%</span><span style="color:#bd93f9">2</span><span style="color:#ff79c6">**</span><span style="color:#bd93f9">32</span>
+</span></span><span style="display:flex;"><span>    x<span style="color:#ff79c6">=</span>x<span style="color:#ff79c6">%</span>max1
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># 其实就是补码反求原码</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> x <span style="color:#ff79c6">if</span> x<span style="color:#ff79c6">&lt;=</span>max2<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">-~</span>(x<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>)
 </span></span><span style="display:flex;"><span>
