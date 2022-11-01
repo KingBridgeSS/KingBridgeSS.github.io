@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web on BRIdGE</title>
+    <link>http://127.0.0.1:1313/tags/web/</link>
+    <description>Recent content in Web on BRIdGE</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 31 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://127.0.0.1:1313/tags/web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>jdk7u21反序列化链学习</title>
+      <link>http://127.0.0.1:1313/posts/jdk7u21/</link>
+      <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://127.0.0.1:1313/posts/jdk7u21/</guid>
+      <description>jdk7u21、jdk7u80两条原生反序列化链确实太酷了，确实学到了很多东西。
+分析 当用AnnotationInvocationHandler代理的对象调用equals方法时会调用如下方法
+sun.reflect.annotation.AnnotationInvocationHandler#equalsImpl
+private Boolean equalsImpl(Object var1) { if (var1 == this) { return true; } else if (!this.type.isInstance(var1)) { return false; } else { Method[] var2 = this.getMemberMethods(); int var3 = var2.length; for(int var4 = 0; var4 &amp;lt; var3; ++var4) { Method var5 = var2[var4]; String var6 = var5.getName(); Object var7 = this.memberValues.get(var6); Object var8 = null; AnnotationInvocationHandler var9 = this.asOneOfUs(var1); if (var9 != null) { var8 = var9.</description>
+    </item>
+    
+  </channel>
+</rss>
