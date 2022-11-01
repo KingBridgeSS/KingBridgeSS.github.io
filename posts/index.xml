@@ -36,6 +36,33 @@ Filters perform filtering in the doFilter method. Every Filter has access to a F
     </item>
     
     <item>
+      <title>TSCTF-J 2022 词超人 &amp; 你的名字 &amp; ezja official(?) write up</title>
+      <link>https://kingbridgess.github.io/posts/tsctf-j-2022-%E8%AF%8D%E8%B6%85%E4%BA%BA%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97ezja-write-up/</link>
+      <pubDate>Thu, 20 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/tsctf-j-2022-%E8%AF%8D%E8%B6%85%E4%BA%BA%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97ezja-write-up/</guid>
+      <description>词超人 帮助大家美美过四六级（bushi
+一共1000个单词，填对所有单词返回flag
+预期解: 手填1000个单词 人间正道是沧桑 非预期解 好了好了，说正事（
+本题灵感来源于针对刷课/刷题网站的脚本。
+一些不好好学英语的坏孩子提供了一些歪点子：
+浏览器控制台执行js脚本填入所有单词 写python爬虫脚本发包 字符串处理 可以抓包看看前端发过去了什么东西
+是一个id和answer组成的json数组。而仔细观察前端html源码会发现，每一个单词的id和answer都给了
+思路1 观察submit函数的这一部分
+const answerArray=[]; let divArray=document.getElementsByClassName(&amp;#39;chunk&amp;#39;) for(div of divArray){ answerArray.push({id:div.id,answer:div.getElementsByTagName(&amp;#39;input&amp;#39;)[0].value}) } answerArray就是最终发的数据。我们可以改其push的answer字段，让它是需要提交的英文答案。
+answerArray.push({id:div.id,answer:div.getElementsByClassName(&#39;en&#39;) [0].innerHTML})
+这里可能涉及到了利用javascript对dom元素操作的知识。不熟悉的同学可以看看w3的文档
+https://www.w3schools.com/js/js_htmldom_elements.asp
+然后把修改后的submit函数复制到浏览器控制台里
+点击提交
+另外，也可以直接在控制台写脚本把所有词都填上
+getby方法
+const divArray=document.getElementsByClassName(&amp;#39;chunk&amp;#39;) for(div of divArray){ const en=div.getElementsByClassName(&amp;#39;en&amp;#39;)[0].innerHTML div.getElementsByTagName(&amp;#39;input&amp;#39;)[0].value=en } 或者用querySeletor一行搞定
+[...document.querySelectorAll(&amp;#34;.chunk&amp;#34;)].forEach( (c) =&amp;gt; (c.querySelector(&amp;#34;input&amp;#34;).value = c.querySelector(&amp;#34;.en&amp;#34;).innerHTML.trim()) ); 思路2 熟悉正则表达式的同学大可以写一个python爬虫，构造出所有答案正确的json后提交
+import requests import re url=&amp;#39;http://49.232.201.163:46128&amp;#39; text=requests.get(url).text idArray=re.findall(r&amp;#39;&amp;lt;div id=&amp;#34;(.+)&amp;#34; class=&amp;#34;chunk&amp;#34; style=&amp;#34; width: 30%;margin: 25px auto;text-align: left;&amp;#34;&amp;gt;&amp;#39;,text) enArray=re.findall(r&amp;#39;&amp;lt;p class=&amp;#34;en&amp;#34; style=&amp;#34;visibility:hidden;display: inline&amp;#34;&amp;gt;(.</description>
+    </item>
+    
+    <item>
       <title>夜彳亍京城</title>
       <link>https://kingbridgess.github.io/posts/%E5%A4%9C%E5%BD%B3%E4%BA%8D%E4%BA%AC%E5%9F%8E/</link>
       <pubDate>Sun, 02 Oct 2022 00:00:00 +0000</pubDate>

