@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on BRIdGE</title>
-    <link>http://127.0.0.1:1313/posts/</link>
+    <link>https://kingbridgess.github.io/posts/</link>
     <description>Recent content in Posts on BRIdGE</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 31 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://127.0.0.1:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 31 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://kingbridgess.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>搭建博客 -- 正说反说折中说</title>
-      <link>http://127.0.0.1:1313/posts/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2--%E6%AD%A3%E8%AF%B4%E5%8F%8D%E8%AF%B4%E6%8A%98%E4%B8%AD%E8%AF%B4/</link>
+      <link>https://kingbridgess.github.io/posts/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2--%E6%AD%A3%E8%AF%B4%E5%8F%8D%E8%AF%B4%E6%8A%98%E4%B8%AD%E8%AF%B4/</link>
       <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://127.0.0.1:1313/posts/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2--%E6%AD%A3%E8%AF%B4%E5%8F%8D%E8%AF%B4%E6%8A%98%E4%B8%AD%E8%AF%B4/</guid>
+      <guid>https://kingbridgess.github.io/posts/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2--%E6%AD%A3%E8%AF%B4%E5%8F%8D%E8%AF%B4%E6%8A%98%E4%B8%AD%E8%AF%B4/</guid>
       <description>搭建一个技术博客估计有一万种方法，个人粗浅概括为以下几类
 自己搭建服务器 优点不言而喻，自由度很高，不仅可以倒腾各种web环境的配置，也非常有成就感。
 但是缺点（对我这个懒狗来说）也非常明显：需要一个长期稳定的域名，而且更换服务器时候的数据迁移也是一件比较折腾的事情。
@@ -22,10 +22,10 @@
     
     <item>
       <title>jdk7u21反序列化链学习</title>
-      <link>http://127.0.0.1:1313/posts/jdk7u21/</link>
+      <link>https://kingbridgess.github.io/posts/jdk7u21/</link>
       <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://127.0.0.1:1313/posts/jdk7u21/</guid>
+      <guid>https://kingbridgess.github.io/posts/jdk7u21/</guid>
       <description>jdk7u21、jdk7u80两条原生反序列化链确实太酷了，确实学到了很多东西。
 分析 当用AnnotationInvocationHandler代理的对象调用equals方法时会调用如下方法
 sun.reflect.annotation.AnnotationInvocationHandler#equalsImpl
