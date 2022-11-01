@@ -268,7 +268,7 @@
 <p>假设memberValues只有一个entry(k,v)，而k.hashCode()返回0，因为任何数异或0等于它本身，所以实际上计算出的hash就等于v.hashCode()。也就是说，让</p>
 <pre tabindex="0"><code>k.hashCode()=0
 v=templates
-</code></pre><p>就能让<code>proxy.hashCode()=0</code></p>
+</code></pre><p>就能让<code>proxy.hashCode()==templates.hashCode()</code></p>
 <p>由于key被写死成了String类，需要爆破一个hash值为0的String。写了一个python脚本</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">from</span> pwnlib.util.iters <span style="color:#ff79c6">import</span> bruteforce
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> string
