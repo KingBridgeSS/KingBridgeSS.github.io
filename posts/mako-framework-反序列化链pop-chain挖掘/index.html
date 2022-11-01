@@ -160,32 +160,6 @@
             <p>Mako Framework官网</p>
 <p><a href="https://makoframework.com/">https://makoframework.com/</a></p>
 <p>如果有可控的数据直接unserialze()，这条链可以做到任意文件写。web目录爆出来的话可以写马RCE。</p>
-<h1 id="挖掘过程">挖掘过程</h1>
-<p>kunlun跑一下，跑不出链子
-<img src="https://img2022.cnblogs.com/blog/2662112/202208/2662112-20220811134601970-1197019046.png" alt="image">
-遂徒手挖链</p>
-<p>全局搜索__destruct魔术方法
-<img src="https://img2022.cnblogs.com/blog/2662112/202208/2662112-20220811134700076-1506854668.png" alt="image"></p>
-<p>只有mako\session\Session这个类稍微有点动态调用的意思</p>
-<p><img src="https://img2022.cnblogs.com/blog/2662112/202208/2662112-20220811134846565-2139000474.png" alt="image"></p>
-<p>跟进
-<img src="https://img2022.cnblogs.com/blog/2662112/202208/2662112-20220811134856549-934929555.png" alt="image"></p>
-<p>可以调用任意类的write方法，参数可控而且很多。</p>
-<p>全局搜一下__call方法，不是很多，而且基本上都是如下类型的</p>
-<p><img src="https://img2022.cnblogs.com/blog/2662112/202208/2662112-20220811135145281-1533604615.png" alt="image"></p>
-<p>$name是不可控的，所以这些__call作用不大</p>
-<p>那就全局搜索write方法，发现基本没有动态函数调用的影子。所以只能一个个方法递归硬看。由于write本身的含义，强烈怀疑可以任意文件写</p>
-<p>一个个翻阅，找到了mako\session\stores\File-&gt;write()</p>
-<p><img src="https://img2022.cnblogs.com/blog/2662112/202208/2662112-20220811135724253-2092541238.png" alt="image"></p>
-<p>可以调用任意类的put方法，参数基本可控（会稍微处理一下）</p>
-<p>查看FileSystem属性的定义
-<img src="https://img2022.cnblogs.com/blog/2662112/202208/2662112-20220811135802675-478546311.png" alt="image">
-按照注释找到了\mako\file\FileSystem</p>
-<p>看看put方法，确实是用来写文件的
-<img src="https://img2022.cnblogs.com/blog/2662112/202208/2662112-20220811135911810-901531126.png" alt="image">
-另外isWritable就是返回指定目录是否可写
-<img src="https://img2022.cnblogs.com/blog/2662112/202208/2662112-20220811135930562-976620286.png" alt="image"></p>
-<p>到这里写文件的链就找到了</p>
 <h1 id="poc">POC</h1>
 <p>注意绕一下File.php里对参数的处理</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
@@ -227,7 +201,6 @@
     <nav id="toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#挖掘过程">挖掘过程</a></li>
     <li><a href="#poc">POC</a></li>
   </ul>
 </nav>

