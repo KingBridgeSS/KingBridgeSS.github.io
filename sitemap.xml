@@ -2,16 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://kingbridgess.github.io/posts/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2--%E6%AD%A3%E8%AF%B4%E5%8F%8D%E8%AF%B4%E6%8A%98%E4%B8%AD%E8%AF%B4/</loc>
-    <lastmod>2022-10-31T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://kingbridgess.github.io/</loc>
     <lastmod>2022-10-31T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://kingbridgess.github.io/posts/jdk7u21/</loc>
-    <lastmod>2022-10-31T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://kingbridgess.github.io/tags/misc/</loc>
     <lastmod>2022-10-31T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://kingbridgess.github.io/posts/</loc>
@@ -22,6 +16,27 @@
   </url><url>
     <loc>https://kingbridgess.github.io/tags/web/</loc>
     <lastmod>2022-10-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2022-09-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://kingbridgess.github.io/posts/pebble%E6%9C%80%E6%96%B0%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5-%E6%96%B0gadgets/</loc>
+    <lastmod>2022-08-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://kingbridgess.github.io/posts/mako-framework-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BEpop-chain%E6%8C%96%E6%8E%98/</loc>
+    <lastmod>2022-08-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://kingbridgess.github.io/posts/%E8%BF%91%E6%9C%9Fjava%E8%B5%9B%E9%A2%98%E5%A4%8D%E7%8E%B0/</loc>
+    <lastmod>2022-05-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://kingbridgess.github.io/posts/hgame-week1-oldfashion_orw%E5%A4%8D%E7%8E%B0/</loc>
+    <lastmod>2022-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://kingbridgess.github.io/tags/pwn/</loc>
+    <lastmod>2022-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://kingbridgess.github.io/posts/redtigers-hackit/</loc>
+    <lastmod>2021-11-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://kingbridgess.github.io/about/</loc>
   </url><url>

