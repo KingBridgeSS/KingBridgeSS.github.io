@@ -80,6 +80,7 @@ main#content > .container {
   bottom: 20px;
   overflow-x: hidden;
   overflow-y: auto;
+  right: 200px;
 }
 
 #toc ul {
@@ -305,6 +306,10 @@ pre {
   font-size: 0.95rem;
   overflow: auto;
   padding: 20px;
+  width: 1000px;
+}
+p {
+  width: 1000px;
 }
 
 code {
