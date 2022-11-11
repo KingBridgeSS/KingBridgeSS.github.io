@@ -764,78 +764,7 @@ select c
 <p><a href="https://github.com/longofo/PaddingOracleAttack-Shiro-721">https://github.com/longofo/PaddingOracleAttack-Shiro-721</a></p>
 <h2 id="cve-2022-40664">CVE-2022-40664</h2>
 <p>Apache Shiro before 1.10.0, Authentication Bypass Vulnerability in Shiro when forwarding or including via RequestDispatcher.</p>
-<p><a href="https://blog.csdn.net/xyjy11/article/details/127324055">https://blog.csdn.net/xyjy11/article/details/127324055</a></p>
-<h3 id="复现-1">复现</h3>
-<p>当未鉴权的路由用 forward 方法把请求转发给需要鉴权的路由时会引发漏洞</p>
-<p>例如</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> com.example.spring_demo.controller<span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.example.spring_demo.Service.UserServiceImpl<span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.example.spring_demo.domain.MyUser<span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.beans.factory.annotation.Autowired<span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.stereotype.Controller<span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.web.bind.annotation.*<span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>@Controller
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">HelloController</span> <span style="color:#ff79c6">{</span>
-</span></span><span style="display:flex;"><span>    @Autowired
-</span></span><span style="display:flex;"><span>    UserServiceImpl userService<span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span>    MyUser user<span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    @GetMapping <span style="color:#ff79c6">(</span>value<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/index&#34;</span><span style="color:#ff79c6">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">index</span><span style="color:#ff79c6">(){</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;forward:/secret&#34;</span><span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">//        return &#34;hello, guest!&#34;;
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">}</span>
-</span></span><span style="display:flex;"><span>    @GetMapping<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/secret&#34;</span><span style="color:#ff79c6">)</span>
-</span></span><span style="display:flex;"><span>    @ResponseBody
-</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">secret</span><span style="color:#ff79c6">(){</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;This is my secret.&#34;</span><span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
-</span></span><span style="display:flex;"><span>    @PostMapping<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;/login&#34;</span><span style="color:#ff79c6">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">admin</span><span style="color:#ff79c6">(</span>@RequestBody MyUser user<span style="color:#ff79c6">){</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">try</span> <span style="color:#ff79c6">{</span>
-</span></span><span style="display:flex;"><span>            userService<span style="color:#ff79c6">.</span><span style="color:#50fa7b">checkLogin</span><span style="color:#ff79c6">(</span>user<span style="color:#ff79c6">.</span><span style="color:#50fa7b">username</span><span style="color:#ff79c6">,</span>user<span style="color:#ff79c6">.</span><span style="color:#50fa7b">password</span><span style="color:#ff79c6">);</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;Login success!&#34;</span><span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span> <span style="color:#ff79c6">catch</span> <span style="color:#ff79c6">(</span>Exception e<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
-</span></span><span style="display:flex;"><span>            e<span style="color:#ff79c6">.</span><span style="color:#50fa7b">printStackTrace</span><span style="color:#ff79c6">();</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;error&#34;</span><span style="color:#ff79c6">;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">}</span>
-</span></span></code></pre></div><p>secret需要权限，index不需要权限</p>
-<p><img src="https://s2.loli.net/2022/10/22/KwsEn7b815lYPvN.png" alt="image-20221019104234723"></p>
-<p>实际测试发现shiro-spring最新版本1.10.0依然可以绕过</p>
-<h3 id="分析-1">分析</h3>
-<p>利用github的功能查看版本的区别</p>
-<p><a href="https://github.com/apache/shiro/compare/shiro-root-1.9.1...shiro-root-1.10.0">https://github.com/apache/shiro/compare/shiro-root-1.9.1...shiro-root-1.10.0</a></p>
-<p>发现<code>org.apache.shiro.web.servlet.OncePerRequestFilter#doFilter</code>有大变动</p>
-<p><img src="https://s2.loli.net/2022/10/22/PUEYOvXN5dwpaCD.png" alt="image-20221019121501504"></p>
-<p>先分析一下springboot中路由forward请求都做了些什么</p>
-<p><code>org.apache.catalina.core.ApplicationDispatcher#doForward</code></p>
-<p><img src="https://s2.loli.net/2022/10/22/YIVBmlQxgFkAXUo.png" alt="image-20221019115617662"></p>
-<p><img src="https://s2.loli.net/2022/10/22/tr6CzcgVL8WHGAw.png" alt="image-20221019115632459"></p>
-<p>在这里创建filterChain</p>
-<p><img src="https://s2.loli.net/2022/10/22/835VbYykLjic2ue.png" alt="image-20221019115703649"></p>
-<p><img src="https://s2.loli.net/2022/10/22/VDhLuzYZkq8JHsc.png" alt="image-20221019115752342"></p>
-<p><img src="https://s2.loli.net/2022/10/22/5vXq4nagD7HL8C6.png" alt="image-20221019115815817"></p>
-<p>于是乎就会去寻找注册的filter里能请求forward的filter</p>
-<p>而按正常方法注册的shiroFilterFactoryBean并不能处理Forward。接下来先看看springboot里是怎么把filter注册进去的</p>
-<p><img src="https://s2.loli.net/2022/10/22/zZLeBNbaqKCTvDH.png" alt="image-20221019120401474"></p>
-<p><img src="https://s2.loli.net/2022/10/22/Ul28JQqu6TXYcM4.png" alt="image-20221019120446172"></p>
-<p><img src="https://s2.loli.net/2022/10/22/wZShgfxyLs9Q1XH.png" alt="image-20221019120517079"></p>
-<p><img src="https://s2.loli.net/2022/10/22/bGHFTUmRo1zN9Oc.png" alt="image-20221019120536825"></p>
-<p><img src="https://s2.loli.net/2022/10/22/QN4a3kO8XzGvDBF.png" alt="image-20221019120627089"></p>
-<p><img src="https://s2.loli.net/2022/10/22/Yjstea3wy2VxcBp.png" alt="image-20221019120739690"></p>
-<p>而上述demo引入filter的方法正是filterRegistrationBean</p>
-<p><img src="https://s2.loli.net/2022/10/22/lT8hdfZjsQaLB3o.png" alt="image-20221019120834068"></p>
-<p>接下来看看FilterRegistrationBean的执行流程</p>
-<p>首先会去调用父类方法</p>
-<p><code>org.springframework.boot.web.servlet.RegistrationBean#onStartup</code></p>
-<p><img src="https://s2.loli.net/2022/10/22/WAaMmKuzlRYE8p6.png" alt="image-20221019121020767"></p>
-<p><img src="https://s2.loli.net/2022/10/22/HSL2Bla41cf5TZO.png" alt="image-20221019121054582"></p>
-<p><img src="https://s2.loli.net/2022/10/22/2vpG9mPC1ad8yVS.png" alt="image-20221019121127873"></p>
-<p>问题就出在这里，如果filter的父类不是<code>org.springframework.web.filter.OncePerRequestFilter</code>，那么<code>dispatcherTypes</code>就仅仅是<code>DispatcherType.REQUEST</code>，这就导致forward请求可以绕过shiro的鉴权。</p>
+<p>比较低能的一个洞，OncePerRequestFilter会缓存request，复现略</p>
 <h2 id="参考文章">参考文章</h2>
 <p><a href="https://su18.org/post/shiro-5/">https://su18.org/post/shiro-5/</a></p>
 <p><a href="https://tttang.com/archive/1645/#toc__10">https://tttang.com/archive/1645/#toc__10</a></p>
@@ -885,12 +814,7 @@ select c
             <li><a href="#利用脚本">利用脚本</a></li>
           </ul>
         </li>
-        <li><a href="#cve-2022-40664">CVE-2022-40664</a>
-          <ul>
-            <li><a href="#复现-1">复现</a></li>
-            <li><a href="#分析-1">分析</a></li>
-          </ul>
-        </li>
+        <li><a href="#cve-2022-40664">CVE-2022-40664</a></li>
         <li><a href="#参考文章">参考文章</a></li>
       </ul>
     </li>
