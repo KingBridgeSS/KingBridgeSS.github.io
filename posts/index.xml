@@ -6,7 +6,30 @@
     <description>Recent content in Posts on BRIdGE</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 31 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://kingbridgess.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://kingbridgess.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MPS-2022-60494 YApi 1.11.0 远程代码执行漏洞</title>
+      <link>https://kingbridgess.github.io/posts/mps-2022-60494-yapi-1.11.0-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/</link>
+      <pubDate>Wed, 16 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/mps-2022-60494-yapi-1.11.0-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/</guid>
+      <description>漏洞参考信息 情报
+修复commit
+分析 YApi github链接
+环境搭建可以参考官方文档
+分析commit 分析最新的commit。发现主要修复的地方有两个：
+第一个是preScript的if语句多加了一个限制
+结合漏洞情报，基本可以猜到是进if后可以触发一个script命令执行，然后这次commit把进入if的条件改得更加苛刻。
+另一个修复是加了一个判断token的类型是否为string
+熟悉mongoDB注入的同学应该很清楚，如果在查询语句token直接作为一个对象传进去是可以造成注入的。常用解决方法也就是判断其是否为string类型。
+所以其实通过这两个更新可以大胆猜测，可能该漏洞的利用思路就是先注入出token，然后用token去执行script脚本。
+mongoDB注入 直奔注入点。容易发现token是用户可控的，最终会在server/models/token.js进入查询语句
+前端token以json形式发过去即可造成注入。理论上可以利用mongoDB $regex语法盲注出所有token。
+pre_script沙箱逃逸 /api/open/run_auto_test路由服务器可以运行用户自定义的脚本。其中的代码可以在项目-设置-请求配置编写。
+pre_script最终在common/postmanLib.js执行
+function sandboxByNode(sandbox = {}, script) { const vm = require(&amp;#39;vm&amp;#39;); script = new vm.Script(script); const context = new vm.createContext(sandbox); script.runInContext(context, { timeout: 10000 }); return sandbox; } async function sandbox(context = {}, script) { if (isNode) { try { context.context = context; context.console = console; context.Promise = Promise; context.setTimeout = setTimeout; context = sandboxByNode(context, script); } catch (err) { // .</description>
+    </item>
+    
     <item>
       <title>觑觎 JDK7u21、8u20 反序列化链</title>
       <link>https://kingbridgess.github.io/posts/jdk7u21-8u20/</link>

