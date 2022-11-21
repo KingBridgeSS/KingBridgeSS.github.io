@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>shopxo&lt;=2.3.1任意图片下载和phar反序列化漏洞挖掘和探索</title>
+    <meta name="description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta name="keywords" content='Web'>
+
+    <meta property="og:url" content="https://kingbridgess.github.io/posts/shopxo-2.3.1%E4%BB%BB%E6%84%8F%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%92%8Cphar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E5%92%8C%E6%8E%A2%E7%B4%A2/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="shopxo&lt;=2.3.1任意图片下载和phar反序列化漏洞挖掘和探索">
+    <meta property="og:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="og:image" content="/images/avatar.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="shopxo&lt;=2.3.1任意图片下载和phar反序列化漏洞挖掘和探索">
+    <meta name="twitter:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta property="twitter:domain" content="https://kingbridgess.github.io/posts/shopxo-2.3.1%E4%BB%BB%E6%84%8F%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%92%8Cphar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E5%92%8C%E6%8E%A2%E7%B4%A2/">
+    <meta property="twitter:url" content="https://kingbridgess.github.io/posts/shopxo-2.3.1%E4%BB%BB%E6%84%8F%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%92%8Cphar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E5%92%8C%E6%8E%A2%E7%B4%A2/">
+    <meta name="twitter:image" content="/images/avatar.jpg">
+
+    
+    <link rel="canonical" href="https://kingbridgess.github.io/posts/shopxo-2.3.1%E4%BB%BB%E6%84%8F%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%92%8Cphar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E5%92%8C%E6%8E%A2%E7%B4%A2/" />
+
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://kingbridgess.github.io/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://kingbridgess.github.io/css/dark.css">
+
+    <script src="https://kingbridgess.github.io/js/svg-injector.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/feather-icons.min.js"></script>
+    <script src="https://kingbridgess.github.io/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://kingbridgess.github.io">
+                <img src="https://kingbridgess.github.io/images/avatar.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://kingbridgess.github.io">BRIdGE</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/about"> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/posts/"> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/tags/"> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/about"> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://kingbridgess.github.io/contact/"> Contact </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/kingbridgess"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>shopxo&lt;=2.3.1任意图片下载和phar反序列化漏洞挖掘和探索</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 21, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://kingbridgess.github.io/tags/web">Web</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>帮填一下logiris同学留下的某个坑hh</p>
+<h2 id="历史漏洞">历史漏洞</h2>
+<p>CNVD-2021-15822：通过前台路由<code>qrcode</code>可以任意文件下载。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">public</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">Download</span>(<span style="color:#8be9fd;font-style:italic">$params</span> <span style="color:#ff79c6">=</span> [])
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 图片地址
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$url</span> <span style="color:#ff79c6">=</span> base64_decode(urldecode(<span style="color:#8be9fd;font-style:italic">$params</span>[<span style="color:#f1fa8c">&#39;url&#39;</span>]));
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 随机文件名
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$filename</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">empty</span>(<span style="color:#8be9fd;font-style:italic">$params</span>[<span style="color:#f1fa8c">&#39;filename&#39;</span>]) <span style="color:#ff79c6">?</span>
+</span></span><span style="display:flex;"><span>    date(<span style="color:#f1fa8c">&#39;YmdHis&#39;</span>)<span style="color:#ff79c6">.</span>GetNumberCode()<span style="color:#ff79c6">.</span><span style="color:#f1fa8c">&#39;.png&#39;</span> <span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">$params</span>[<span style="color:#f1fa8c">&#39;filename&#39;</span>]<span style="color:#ff79c6">.</span><span style="color:#f1fa8c">&#39;.png&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 设置头信息
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    header(<span style="color:#f1fa8c">&#39;Pragma: public&#39;</span>);
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Expires: 0&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">......</span>
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Connection: close&#39;</span>);
+</span></span><span style="display:flex;"><span>    readfile(<span style="color:#8be9fd;font-style:italic">$url</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>而配合另一个前台路由<code>Ueditor</code>可以任意图片上传。在qrcode下载的时候会调用<code>readfile</code>方法，可以配合<code>phar</code>伪协议打thinkphp5的链从而实现RCE。可以参考</p>
+<p><a href="https://mp.weixin.qq.com/s/hoLSpfoBcLAtQG277qZVEg">记一次从任意文件读取到无条件RCE的漏洞挖掘</a></p>
+<h2 id="shopxo最新版本231的修复和绕过">shopxo最新版本(&lt;=2.3.1)的修复和绕过</h2>
+<p>shopxo换成了thinkphp6大版本，小版本和composer的源有关。</p>
+<h3 id="任意图片下载">任意图片下载</h3>
+<p>首先<code>Ueditor.php</code>没有改动，依然可以前台上传图片。</p>
+<p>再看看qrcode下载服务。具体代码在<code>extend/base/Qrcode.php#Download</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f1fa8c">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">     * 二维码下载
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">     * @author   Devil
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">     * @blog     http://gong.gg/
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">     * @version  1.0.0
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">     * @datetime 2019-04-16T21:23:01+0800
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">     * @param    [array]       $params [输入参数]
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">     */</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">public</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">Download</span>(<span style="color:#8be9fd;font-style:italic">$params</span> <span style="color:#ff79c6">=</span> [])
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 图片地址
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$url</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">empty</span>(<span style="color:#8be9fd;font-style:italic">$params</span>[<span style="color:#f1fa8c">&#39;url&#39;</span>]) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#39;&#39;</span> <span style="color:#ff79c6">:</span> base64_decode(urldecode(<span style="color:#8be9fd;font-style:italic">$params</span>[<span style="color:#f1fa8c">&#39;url&#39;</span>]));
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">empty</span>(<span style="color:#8be9fd;font-style:italic">$url</span>))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> DataReturn(<span style="color:#f1fa8c">&#39;url地址有误&#39;</span>, <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 验证下载地址域名
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$domain_arr</span> <span style="color:#ff79c6">=</span> [
+</span></span><span style="display:flex;"><span>        GetUrlHost(SystemBaseService<span style="color:#ff79c6">::</span><span style="color:#50fa7b">AttachmentHost</span>()),
+</span></span><span style="display:flex;"><span>        GetUrlHost(__MY_HOST__),
+</span></span><span style="display:flex;"><span>    ];
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>in_array(GetUrlHost(<span style="color:#8be9fd;font-style:italic">$url</span>), <span style="color:#8be9fd;font-style:italic">$domain_arr</span>))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> DataReturn(<span style="color:#f1fa8c">&#39;url地址非法&#39;</span>, <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 是否存在问号、存在问号则将数据转为整数，希望下载静态文件
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$arr</span> <span style="color:#ff79c6">=</span> explode(<span style="color:#f1fa8c">&#39;?&#39;</span>, <span style="color:#8be9fd;font-style:italic">$url</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(isset(<span style="color:#8be9fd;font-style:italic">$arr</span>[<span style="color:#bd93f9">1</span>]))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$url</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$arr</span>[<span style="color:#bd93f9">0</span>]<span style="color:#ff79c6">.</span><span style="color:#f1fa8c">&#39;?&#39;</span><span style="color:#ff79c6">.</span>intval(<span style="color:#8be9fd;font-style:italic">$arr</span>[<span style="color:#bd93f9">1</span>]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 格式校验，希望仅下载图片文件
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$len</span> <span style="color:#ff79c6">=</span> strripos(<span style="color:#8be9fd;font-style:italic">$arr</span>[<span style="color:#bd93f9">0</span>], <span style="color:#f1fa8c">&#39;.&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(<span style="color:#8be9fd;font-style:italic">$len</span> <span style="color:#ff79c6">===</span> <span style="color:#ff79c6">false</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> DataReturn(<span style="color:#f1fa8c">&#39;url地址无效&#39;</span>, <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 防止存在锚点
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$ext_arr</span> <span style="color:#ff79c6">=</span> MyConfig(<span style="color:#f1fa8c">&#39;ueditor.imageManagerAllowFiles&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$ext</span> <span style="color:#ff79c6">=</span> mb_substr(<span style="color:#8be9fd;font-style:italic">$arr</span>[<span style="color:#bd93f9">0</span>], <span style="color:#8be9fd;font-style:italic">$len</span>, <span style="color:#ff79c6">null</span>, <span style="color:#f1fa8c">&#39;utf-8&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$temp_ext</span> <span style="color:#ff79c6">=</span> explode(<span style="color:#f1fa8c">&#39;#&#39;</span>, <span style="color:#8be9fd;font-style:italic">$ext</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>in_array(<span style="color:#8be9fd;font-style:italic">$temp_ext</span>[<span style="color:#bd93f9">0</span>], <span style="color:#8be9fd;font-style:italic">$ext_arr</span>))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> DataReturn(<span style="color:#f1fa8c">&#39;无效图片地址&#39;</span>, <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 随机文件名
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$filename</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">empty</span>(<span style="color:#8be9fd;font-style:italic">$params</span>[<span style="color:#f1fa8c">&#39;filename&#39;</span>]) <span style="color:#ff79c6">?</span> date(<span style="color:#f1fa8c">&#39;YmdHis&#39;</span>)<span style="color:#ff79c6">.</span>GetNumberCode()<span style="color:#ff79c6">.</span><span style="color:#f1fa8c">&#39;.png&#39;</span> <span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">$params</span>[<span style="color:#f1fa8c">&#39;filename&#39;</span>]<span style="color:#ff79c6">.</span><span style="color:#f1fa8c">&#39;.png&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 设置头信息
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    header(<span style="color:#f1fa8c">&#39;Pragma: public&#39;</span>);
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Expires: 0&#39;</span>);
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Cache-Control: must-revalidate, post-check=0, pre-check=0&#39;</span>);
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Cache-Control: private&#39;</span>,<span style="color:#ff79c6">false</span>);
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Content-Type: application/octet-stream;charset=utf-8&#39;</span>);
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Content-Type: application/download&#39;</span>);
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Content-Type: application/force-download&#39;</span>);
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Content-Disposition: attachment; filename=&#34;&#39;</span><span style="color:#ff79c6">.</span><span style="color:#8be9fd;font-style:italic">$filename</span><span style="color:#ff79c6">.</span><span style="color:#f1fa8c">&#39;&#34;&#39;</span>);
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Content-Transfer-Encoding: binary&#39;</span>);
+</span></span><span style="display:flex;"><span>    header(<span style="color:#f1fa8c">&#39;Connection: close&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">echo</span> RequestGet(<span style="color:#8be9fd;font-style:italic">$url</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>RequestGet函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">function</span> <span style="color:#50fa7b">RequestGet</span>(<span style="color:#8be9fd;font-style:italic">$value</span>, <span style="color:#8be9fd;font-style:italic">$timeout</span> <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">10</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 远程
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">if</span>(substr(<span style="color:#8be9fd;font-style:italic">$value</span>, <span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;http&#39;</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// 是否有curl模块
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">if</span>(function_exists(<span style="color:#f1fa8c">&#39;curl_init&#39;</span>))
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> CurlGet(<span style="color:#8be9fd;font-style:italic">$value</span>, <span style="color:#8be9fd;font-style:italic">$timeout</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> file_get_contents(<span style="color:#8be9fd;font-style:italic">$value</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 本地文件
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">return</span> file_exists(<span style="color:#8be9fd;font-style:italic">$value</span>) <span style="color:#ff79c6">?</span> file_get_contents(<span style="color:#8be9fd;font-style:italic">$value</span>) <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Download函数更新了两个重要的点：</p>
+<p>第一个是验证下载地址域名。其会通过比对可控的$url变量的urlhost，和本机的urlhost来确定是否合法。<code>GetUrlHost</code>函数如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">function</span> <span style="color:#50fa7b">GetUrlHost</span>(<span style="color:#8be9fd;font-style:italic">$url</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 地址解析
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$arr</span> <span style="color:#ff79c6">=</span> parse_url(strtolower(<span style="color:#8be9fd;font-style:italic">$url</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$host</span> <span style="color:#ff79c6">=</span> (count(<span style="color:#8be9fd;font-style:italic">$arr</span>) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>) <span style="color:#ff79c6">?</span> <span style="color:#8be9fd;font-style:italic">$arr</span>[<span style="color:#f1fa8c">&#39;path&#39;</span>] <span style="color:#ff79c6">:</span> (<span style="color:#ff79c6">empty</span>(<span style="color:#8be9fd;font-style:italic">$arr</span>[<span style="color:#f1fa8c">&#39;host&#39;</span>]) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#39;&#39;</span> <span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">$arr</span>[<span style="color:#f1fa8c">&#39;host&#39;</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">empty</span>(<span style="color:#8be9fd;font-style:italic">$host</span>))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">$url</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 是否存在斜杠
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">if</span>(stripos(<span style="color:#8be9fd;font-style:italic">$host</span>, <span style="color:#f1fa8c">&#39;/&#39;</span>) <span style="color:#ff79c6">!==</span> <span style="color:#ff79c6">false</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$slash</span> <span style="color:#ff79c6">=</span> explode(<span style="color:#f1fa8c">&#39;/&#39;</span>, <span style="color:#8be9fd;font-style:italic">$host</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$host</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$slash</span>[<span style="color:#bd93f9">0</span>];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 查看是几级域名
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$data</span> <span style="color:#ff79c6">=</span> explode(<span style="color:#f1fa8c">&#39;.&#39;</span>, <span style="color:#8be9fd;font-style:italic">$host</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$n</span> <span style="color:#ff79c6">=</span> count(<span style="color:#8be9fd;font-style:italic">$data</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(count(<span style="color:#8be9fd;font-style:italic">$data</span>) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">$host</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 判断是否是双后缀
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$preg</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz)$/&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>((<span style="color:#8be9fd;font-style:italic">$n</span> <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">2</span>) <span style="color:#ff79c6">&amp;&amp;</span> preg_match(<span style="color:#8be9fd;font-style:italic">$preg</span>, <span style="color:#8be9fd;font-style:italic">$host</span>))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// 双后缀取后3位
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$host</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$data</span>[<span style="color:#8be9fd;font-style:italic">$n</span><span style="color:#ff79c6">-</span><span style="color:#bd93f9">3</span>]<span style="color:#ff79c6">.</span><span style="color:#f1fa8c">&#39;.&#39;</span><span style="color:#ff79c6">.</span><span style="color:#8be9fd;font-style:italic">$data</span>[<span style="color:#8be9fd;font-style:italic">$n</span><span style="color:#ff79c6">-</span><span style="color:#bd93f9">2</span>]<span style="color:#ff79c6">.</span><span style="color:#f1fa8c">&#39;.&#39;</span><span style="color:#ff79c6">.</span><span style="color:#8be9fd;font-style:italic">$data</span>[<span style="color:#8be9fd;font-style:italic">$n</span><span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>];
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// 非双后缀取后两位
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$host</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$data</span>[<span style="color:#8be9fd;font-style:italic">$n</span><span style="color:#ff79c6">-</span><span style="color:#bd93f9">2</span>]<span style="color:#ff79c6">.</span><span style="color:#f1fa8c">&#39;.&#39;</span><span style="color:#ff79c6">.</span><span style="color:#8be9fd;font-style:italic">$data</span>[<span style="color:#8be9fd;font-style:italic">$n</span><span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">$host</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>首先url会经过<code>parse_url</code>处理。但是这个函数是有可能导致报错的。</p>
+<p>官方文档：</p>
+<blockquote>
+<p>Description<a href="https://www.php.net/manual/en/function.parse-url.php#refsect1-function.parse-url-description"> ¶</a></p>
+<p>parse_url(string <code>$url</code>, int <code>$component</code> = -1): int|string|array|null|false</p>
+<p>This function parses a URL and returns an associative array containing any of the various components of the URL that are present. The values of the array elements are <em>not</em> URL decoded.</p>
+<p>This function is <em>not</em> meant to validate the given URL, it only breaks it up into the parts listed below. Partial and invalid URLs are also accepted, <strong>parse_url()</strong> tries its best to parse them correctly.</p>
+</blockquote>
+<p>由于parse_url是native方法，我没有仔细阅读php的C语言源码。简单测试了一下发现这样的结果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$url</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;/etc/passwd&#39;</span>;<span style="color:#6272a4">// 无协议+绝对路径
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>var_dump(parse_url(<span style="color:#8be9fd;font-style:italic">$url</span>));
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">array(1) {
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">  &#39;path&#39; =&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">  string(11) &#34;/etc/passwd&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">}
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$url</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;etc/passwd&#39;</span>;<span style="color:#6272a4">// 无协议+相对路径
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>var_dump(parse_url(<span style="color:#8be9fd;font-style:italic">$url</span>));
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">array(1) {
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">  &#39;path&#39; =&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">  string(10) &#34;etc/passwd&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">}
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$url</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;phar:///etc/passwd&#39;</span>;<span style="color:#6272a4">// 有协议+绝对路径
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>var_dump(parse_url(<span style="color:#8be9fd;font-style:italic">$url</span>));
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">bool(false)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$url</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;phar://etc/passwd&#39;</span>;<span style="color:#6272a4">// 有协议+相对路径
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>var_dump(parse_url(<span style="color:#8be9fd;font-style:italic">$url</span>));
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">array(3) {
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">  &#39;scheme&#39; =&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">  string(4) &#34;phar&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">  &#39;host&#39; =&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">  string(3) &#34;etc&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">  &#39;path&#39; =&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">  string(7) &#34;/passwd&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">}
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">*/</span>
+</span></span></code></pre></div><p>随后host会被取第一个<code>/</code>之前的部分，然后根据是否为双后缀的正则判断取后2位或3位。</p>
+<p>我在本地测试的时候由于本地domain是<code>127.0.0.1</code>,其<code>GetUrlHost</code>返回的值是<code>0.1</code>。所以构造出的$url也需要返回<code>0.1</code>。</p>
+<p><img src="https://s2.loli.net/2022/11/22/wlNDkm682ystrI3.png" alt="image-20221121231425955"></p>
+<p>结合上面的测试，需要构造一个相对路径。动调发现上下文的当前目录是public</p>
+<p><img src="https://s2.loli.net/2022/11/22/ZWpANsi7LQ1w5ke.png" alt="image-20221121231617950"></p>
+<p>所以构造出$url：</p>
+<p><code>http://127.0.0.1/index.php?s=/qrcode/download/url/MC4xLy4uL3N0YXRpYy91cGxvYWQvZmlsZS9vdGhlci8yMDIyLzExLzIwLzE2Njg5NTA4NTQ0MjYxMzAucG5n</code></p>
+<p>其中后面那一串是base64编码过的url</p>
+<p><code>0.1/../static/upload/file/other/2022/11/20/1668950854426130.png</code></p>
+<p>这样一来url经过GetUrlHost后返回的是<code>0.1</code>，符合要求。而后面在读文件的时候由于<code>0.1</code>是不存在的文件夹，所以后面需要<code>../</code>跳出文件夹。</p>
+<p>其次另一个新增的过滤会判断后缀名</p>
+<p><img src="https://s2.loli.net/2022/11/22/zLPi5VHNvawUAZ6.png" alt="image-20221121232638307"></p>
+<p>目前似乎没想到什么绕过方法 emmm。所以也算是一个任意图片下载吧hh</p>
+<h3 id="phar反序列化">phar反序列化</h3>
+<p>同理，构造url</p>
+<p><code>phar://0.1/../static/upload/file/other/2022/11/20/1668950854426130.png</code></p>
+<p>可以触发phar反序列化。接下来就是找链子。</p>
+<p>前面提到过，thinkphp版本和搭建网站时候的composer源有关。我本地composer起起来的shopxo2.3.1使用的版本为<code>v6.0.13LTS</code>。我只找到了<code>CVE-2022-38352</code>这条链</p>
+<p><a href="https://github.com/top-think/framework/issues/2749">https://github.com/top-think/framework/issues/2749</a></p>
+<p>但是并不能打通 = = .. 仔细一看<code>Psr6Cache</code>发现根本就没有<code>__destruct</code>方法。</p>
+<p>原因是这个类属于<code>flysystem</code>，并不属于thinkphp</p>
+<p><a href="https://github.com/top-think/framework/issues/2762">https://github.com/top-think/framework/issues/2762</a></p>
+<p>看看thinkphp6.0.13的composer.json</p>
+<p><a href="https://github.com/top-think/framework/blob/v6.0.13/composer.json">https://github.com/top-think/framework/blob/v6.0.13/composer.json</a></p>
+<p><img src="https://s2.loli.net/2022/11/22/pF7nHlOYwBXGI8i.png" alt="image-20221121233846462"></p>
+<p>发现<code>flysystem</code>匹配的是大版本依赖。在高版本中<code>flysystem</code>已经把<code>Psr6Cache</code>修改。</p>
+<p>但总之，thinkphp版本和搭建网站时候的composer源有关。低版本thinkphp6和flysystem是存在可以RCE的链的。</p>
+<h3 id="总结">总结</h3>
+<p>比较鸡肋的一个历史漏洞绕过。phar反序列化RCE的利用条件包括但可能不限于：</p>
+<ol>
+<li><code>$url</code>必须通过域名匹配的过滤。如果中间有CDN反代之类的奇怪处理可能会寄。</li>
+<li>php的版本和配置必须能够触发phar反序列化。</li>
+<li>搭建网站时用到的composer源要包含可利用的链子。</li>
+</ol>
+
+        </p>
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#历史漏洞">历史漏洞</a></li>
+        <li><a href="#shopxo最新版本231的修复和绕过">shopxo最新版本(&lt;=2.3.1)的修复和绕过</a>
+          <ul>
+            <li><a href="#任意图片下载">任意图片下载</a></li>
+            <li><a href="#phar反序列化">phar反序列化</a></li>
+            <li><a href="#总结">总结</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 </span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

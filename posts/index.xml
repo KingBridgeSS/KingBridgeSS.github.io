@@ -6,7 +6,23 @@
     <description>Recent content in Posts on BRIdGE</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://kingbridgess.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://kingbridgess.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>shopxo&lt;=2.3.1任意图片下载和phar反序列化漏洞挖掘和探索</title>
+      <link>https://kingbridgess.github.io/posts/shopxo-2.3.1%E4%BB%BB%E6%84%8F%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%92%8Cphar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E5%92%8C%E6%8E%A2%E7%B4%A2/</link>
+      <pubDate>Mon, 21 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://kingbridgess.github.io/posts/shopxo-2.3.1%E4%BB%BB%E6%84%8F%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD%E5%92%8Cphar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E5%92%8C%E6%8E%A2%E7%B4%A2/</guid>
+      <description>帮填一下logiris同学留下的某个坑hh
+历史漏洞 CNVD-2021-15822：通过前台路由qrcode可以任意文件下载。
+public function Download($params = []) { // 图片地址 $url = base64_decode(urldecode($params[&amp;#39;url&amp;#39;])); // 随机文件名 $filename = empty($params[&amp;#39;filename&amp;#39;]) ? date(&amp;#39;YmdHis&amp;#39;).GetNumberCode().&amp;#39;.png&amp;#39; : $params[&amp;#39;filename&amp;#39;].&amp;#39;.png&amp;#39;; // 设置头信息 header(&amp;#39;Pragma: public&amp;#39;); header(&amp;#39;Expires: 0&amp;#39;); ...... header(&amp;#39;Connection: close&amp;#39;); readfile($url); } 而配合另一个前台路由Ueditor可以任意图片上传。在qrcode下载的时候会调用readfile方法，可以配合phar伪协议打thinkphp5的链从而实现RCE。可以参考
+记一次从任意文件读取到无条件RCE的漏洞挖掘
+shopxo最新版本(&amp;lt;=2.3.1)的修复和绕过 shopxo换成了thinkphp6大版本，小版本和composer的源有关。
+任意图片下载 首先Ueditor.php没有改动，依然可以前台上传图片。
+再看看qrcode下载服务。具体代码在extend/base/Qrcode.php#Download
+/** * 二维码下载 * @author Devil * @blog http://gong.gg/ * @version 1.0.0 * @datetime 2019-04-16T21:23:01+0800 * @param [array] $params [输入参数] */ public function Download($params = []) { // 图片地址 $url = empty($params[&amp;#39;url&amp;#39;]) ?</description>
+    </item>
+    
     <item>
       <title>MPS-2022-60494 YApi 1.11.0 远程代码执行漏洞</title>
       <link>https://kingbridgess.github.io/posts/mps-2022-60494-yapi-1.11.0-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/</link>
