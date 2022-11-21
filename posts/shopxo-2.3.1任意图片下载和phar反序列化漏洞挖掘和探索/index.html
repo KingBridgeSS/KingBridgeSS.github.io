@@ -363,7 +363,7 @@
 <p>同理，构造url</p>
 <p><code>phar://0.1/../static/upload/file/other/2022/11/20/1668950854426130.png</code></p>
 <p>可以触发phar反序列化。接下来就是找链子。</p>
-<p>前面提到过，thinkphp版本和搭建网站时候的composer源有关。我本地composer起起来的shopxo2.3.1使用的版本为<code>v6.0.13LTS</code>。我只找到了<code>CVE-2022-38352</code>这条链</p>
+<p>前面提到过，thinkphp版本和搭建网站时候的composer源有关。我本地是直接git clone下来的，这里shopxo2.3.1使用的版本为<code>v6.0.13LTS</code>。我只找到了<code>CVE-2022-38352</code>这条链</p>
 <p><a href="https://github.com/top-think/framework/issues/2749">https://github.com/top-think/framework/issues/2749</a></p>
 <p>但是并不能打通 = = .. 仔细一看<code>Psr6Cache</code>发现根本就没有<code>__destruct</code>方法。</p>
 <p>原因是这个类属于<code>flysystem</code>，并不属于thinkphp</p>
