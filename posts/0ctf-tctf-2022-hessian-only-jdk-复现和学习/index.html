@@ -18,21 +18,21 @@
 
     
     <title>0ctf Tctf 2022 Hessian Only Jdk 复现和学习</title>
-    <meta name="description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta name="description" content="">
     <meta name="keywords" content='Web'>
 
     <meta property="og:url" content="https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="0ctf Tctf 2022 Hessian Only Jdk 复现和学习">
-    <meta property="og:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
-    <meta property="og:image" content="/images/avatar.jpg">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="0ctf Tctf 2022 Hessian Only Jdk 复现和学习">
-    <meta name="twitter:description" content="Fortunate enough to get a glimpse of the feast of techiques.">
+    <meta name="twitter:description" content="">
     <meta property="twitter:domain" content="https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/">
     <meta property="twitter:url" content="https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/">
-    <meta name="twitter:image" content="/images/avatar.jpg">
+    <meta name="twitter:image" content="">
 
     
     <link rel="canonical" href="https://kingbridgess.github.io/posts/0ctf-tctf-2022-hessian-only-jdk-%E5%A4%8D%E7%8E%B0%E5%92%8C%E5%AD%A6%E4%B9%A0/" />
@@ -55,12 +55,6 @@
         </script><header class="header">
     <nav class="header-nav">
 
-        
-        <div class="avatar">
-            <a href="https://kingbridgess.github.io">
-                <img src="https://kingbridgess.github.io/images/avatar.jpg" alt="avatar" />
-            </a>
-        </div>
         
 
         <div class="nav-title">
@@ -764,7 +758,11 @@ System.setProperty + jdk.jfr.internal.Utils.writeGeneratedAsm @StrawHat</p>
         <li><a href="#正解">正解</a>
           <ul>
             <li><a href="#改造-swinglazyvalue-链">改造 SwingLazyValue 链</a></li>
-            <li><a href="#可控类可控方法可控参数">可控类.可控方法(可控参数)</a></li>
+            <li><a href="#可控类可控方法可控参数">可控类.可控方法(可控参数)</a>
+              <ul>
+                <li><a href="#systemsetproperty--initalcontextdolookup">System.setProperty + InitalContext.doLookup</a></li>
+              </ul>
+            </li>
             <li><a href="#其他方法待更新">其他方法待更新</a></li>
           </ul>
         </li>
